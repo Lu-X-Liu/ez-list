@@ -1,0 +1,445 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+:root {
+    --clr-header-bg: #94BD5F;
+    --clr-text-dark: #314B30;
+    --clr-border-dark: #055303;
+    --clr-text-light: #87A187;
+    --clr-text-bright: #ffffff;
+    --clr-list-title-bg: #23530F;
+    --clr-menu-hover-bg: #427C29;
+    --clr-item-bg: #F3FFE4;
+    --clr-body-bg: #cbdfb4;
+    --clr-category-menu: #A9F846;
+    --clr-add-new-item: #33A900;
+    --clr-menu-bg-intense: #92dd73;
+    --clr-menu-bg-brignt: rgb(211, 255, 154);
+}
+
+html,
+body{
+    height: 100%;
+    width: 100%;
+    background: var(--clr-body-bg);
+    color: var(--clr-text-dark)
+}
+
+html {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+}
+
+.nav svg,
+.initial svg {
+    width:24px;
+    height:24px;
+    fill: var(--clr-text-dark);
+    transition: all 150ms ease-in-out;
+}
+
+button {
+    cursor: pointer;
+}
+
+:focus {
+    outline: none;
+}
+
+
+/*header*/
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 11;
+}
+
+header .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--clr-header-bg);
+    padding: 0.9rem 7%;
+}
+
+h1 {
+    font-size: 1.5rem;
+    color: var(--clr-text-dark);
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    height: 24px;
+    width: 24px;
+    padding: 0;
+}
+
+.nav-btn svg:hover {
+    fill: var(--clr-text-bright);
+}
+
+/* main*/
+
+.main {
+    position: relative;
+    top: 4rem;
+    height: calc(100% - 4rem);
+}
+    /* nav dropdown */
+
+.nav-dropdown-menu {
+    position: relative;
+    top: -0.5rem;
+    height: calc(100% + 0.5rem);
+    background: rgba(196,196,196,0.55);
+    z-index: 10;
+    display: none;
+}
+
+.menu-content {
+    position: absolute;
+    background: var(--clr-item-bg);
+    right: 0;
+    top: 3rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    width: 80%;
+    height: calc(100% - 3rem);
+    overflow: scroll;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.menu-content div {
+    margin-top: -1px;
+    position: relative;
+}
+
+.menu-list:last-child {
+    margin-bottom: 1rem;
+}
+
+.dropdown-menu div.spacer {
+    padding: 1rem;
+    font-size: 1rem;
+    position: fixed;
+    width: 80%;
+    background-color: var(--clr-list-title-bg);
+    z-index: 50;
+    color: var(--clr-text-bright);
+    right: 0;
+}
+
+.active-list button {
+    color: var(--clr-add-new-item);
+    padding-left: 3.5rem;
+}
+
+.active-list button::before {
+    content: '>';
+    font-size: 1.3rem;
+    position: absolute;
+    height: 0.5rem;
+    width: 0.5rem;
+    left: 1.5rem;
+    top: 0.75rem;
+    color: currentColor;
+}
+
+.menu-content .menu-list::after {
+    content: "";
+    position: absolute;
+    right: 1rem;
+    left: 1rem;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    z-index: 12;
+}
+
+.menu-list_btn {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    height:100%;
+    display: flex;
+    align-items: center;
+    padding: 0.9rem 2rem;
+}
+
+.menu-nav-list-btn:focus {
+    outline: none;
+}
+
+.menu-nav-list-btn:hover,
+.menu-nav-list-btn:focus,
+.menu-nav-list-btn::selection {
+    color: var(--clr-text-bright);
+    background-color: var(--clr-menu-hover-bg);
+}
+
+
+/* main content wrapper (initial UI) */
+
+.main-content-wrapper {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.initial {
+    margin-top: 10vh;
+    display: none;
+}
+
+.initial h3 {
+    text-align: center;
+}
+
+.dash-box {
+    margin: 2rem auto;
+    width: 75%;
+    padding: 2rem;
+    display: grid;
+    place-items: center;
+    border: 2px dashed var(--clr-text-dark);
+}
+
+/* current list*/
+
+.current-list-wrapper {
+    height: calc(100vh - 6.4rem);
+    overflow: scroll;
+    position: absolute;
+    top: -0.5rem;
+    width: 100%;
+    padding: 0 7%;
+}
+
+.current-list {
+    max-width: 500px;
+    background: var(--clr-item-bg);
+    padding-bottom: 1px;
+}
+
+.current-list h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-right: 1.5rem;
+}
+
+.list-title {
+    padding: 1rem 1.5rem ;
+    background: var(--clr-list-title-bg);
+    color: var(--clr-text-bright);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-title span {
+    font-size: 0.8rem;
+}
+
+.list-title span > span {
+    font-size: 1rem;
+}
+
+/* list-content */
+
+.list-content ul {
+    list-style: none;
+    margin-left: -2.5rem;
+}
+
+li.item {
+    font-size: 1.25rem;
+    font-weight: 400;
+    padding: 0.7rem 1.5rem;
+    position: relative;
+    z-index: 6;
+}
+
+li.item:last-child {
+    margin-bottom: 1rem;
+}
+
+form {
+    display: flex;
+}
+
+.item label {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    z-index: 7;
+}
+
+li.item::after {
+    content: "";
+    position: absolute;
+    right: 1.5rem;
+    left: 1.5rem;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+}
+
+.new-item-btn {
+    background: transparent;
+    border: none;
+    height: calc(24px + 1.4rem);
+    width: 24px;
+    margin-left: 1.2rem;
+    padding: 0;
+}
+
+.plus-new-item {
+    width: 24px;
+    height: 24px;
+    fill: var(--clr-add-new-item);
+    transform: translateY(-0.2rem);
+}
+
+input.new-item {
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    padding: 0.4rem 1.5rem 0.7rem 1rem;
+    margin-bottom: 1rem;
+    outline: none;
+    order: 2;
+    border-bottom: 2px solid var(--clr-border-dark);
+    transition: 150ms ease-in-out;
+    width: calc(100% - 4.2rem);
+    color: var(--clr-text-dark);
+}
+
+input.new-item:focus {
+    border-bottom: 3px solid var(--clr-border-dark);
+}
+
+input.new-item::placeholder {
+    color: var(--clr-text-light);
+}
+
+input.new-item:focus::placeholder {
+    opacity: 0.3;
+}
+
+.close-add-new-item {
+    order: 3;
+    background: transparent;
+    border: 0;
+    height: 14px;
+    width: 14px;
+    padding:0;
+    margin-top: 0.7rem;
+    transform: translateX(-0.8rem);
+}
+
+.close-circle {
+    fill: var(--clr-text-light);
+}
+
+[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+}
+
+.custom-checkbox {
+    display: inline-block;
+    width: 0.75em;
+    height: 0.75em;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    margin-right: 0.8rem;
+    transform: scale(1);
+    transition: transform 200ms ease-in-out;
+}
+
+.item:hover .custom-checkbox,
+[type="checkbox"]:focus + label .custom-checkbox {
+    transform: scale(1.2);
+    color: var(--clr-category-title-bg);
+}
+
+[type="checkbox"]:checked + label .custom-checkbox {
+    background: var(--clr-category-title-bg);
+    border-color: var(--clr-category-title-bg);
+    box-shadow: inset 0 0 0 2px var(--clr-body-bg);
+}
+
+[type="checkbox"]:checked + label {
+    opacity: 0.5;
+}
+
+.item label::after {
+    content:"";
+    position: absolute;
+    left: 1.2rem;
+    right: -0.5rem;
+    height: 2px;
+    background: var(--clr-text-dark);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 150ms ease-in-out;
+}
+
+[type="checkbox"]:checked + label::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* mobil bottom tab for edit */
+
+.edit-tab {
+    position: fixed;
+    bottom: -10px;
+    z-index: 8;
+    width: 100%;
+    background-color: var(--clr-list-title-bg);
+    border-radius: 5px;    
+}
+
+.arrow-container{
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 3.5rem;
+}
+
+.edit-tab svg {
+    transform: rotate(-90deg) translateX(5px);
+    fill: var(--clr-category-menu);
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+
+.edit-btns-wrapper {
+    width: 100%;
+    padding:0 7% 2rem;
+    display: none;
+}
+
+.edit-btn {
+    padding: 0.7rem 2rem;
+    color: var(--clr-category-menu);
+    background: transparent;
+    border: 2px solid var(--clr-category-menu);
+    font-size: 1rem;
+    margin: 0.5rem auto 0.9rem;
+    display: block;
+    width: 15rem;
+}
