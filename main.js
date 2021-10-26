@@ -37,4 +37,15 @@ const headerEditDropDown = document.querySelector('.edit-dropdown-menu');
 headerEditIcon.menu = headerEditDropDown;
 headerEditIcon.addEventListener('click', toggleOpenClose);
 
-/* add new item */
+/* my lists */
+const listsContainer = document.querySelector('[data-lists]');
+
+let lists = [];
+
+function render(){
+    clearElement (listsContainer);
+}
+
+function clearElement(element) {
+
+}

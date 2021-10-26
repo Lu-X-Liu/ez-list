@@ -83,7 +83,7 @@ h1 {
 }
 
 .nav-btn svg:hover {
-    fill: var(--clr-text-bright);
+    fill: #556854;
 }
 
 /* main*/
@@ -112,6 +112,7 @@ h1 {
     font-size: 1.1rem;
     font-weight: 700;
     width: 80%;
+    max-width: 300px;
     height: calc(100% - 3rem);
     overflow: scroll;
     padding-top: 1px;
@@ -132,6 +133,7 @@ h1 {
     font-size: 1rem;
     position: fixed;
     width: 80%;
+    max-width: 300px;
     background-color: var(--clr-list-title-bg);
     z-index: 50;
     color: var(--clr-text-bright);
@@ -189,6 +191,12 @@ h1 {
 .menu-nav-list_btn::selection {
     color: var(--clr-text-bright);
     background-color: var(--clr-menu-hover-bg);
+}
+
+@media (min-width: 1024px) {
+    .nav-dropdown-menu {
+        display: none;
+    }
 }
 
 /* edit drop down */
@@ -325,18 +333,19 @@ h1 {
         position: relative;
     }
 
-    .my-lists-title::after {
+    .new-list-creator::before {
         content: '';
         position: absolute;
-        height: 2px;
-        bottom: 0;
-        left: -1.5rem;
-        right: 5rem;
+        top: -1.5rem;
+        left: 2.5rem;
+        right: 1.5rem;
+        height: 1px;
         background-color: var(--clr-border-dark);
     }
 
-    .my-lists-content {
-        margin-top: 1rem;
+    .new-list-creator {
+        margin-top: 2.5rem;
+        transform: translateX(-2rem);
     }
 
     .current-list {
@@ -344,20 +353,37 @@ h1 {
         margin: 7vh 0;
     }
 
-    .desktop-menu-list_btn {
+    .new-list-creater form {
+        width: 90%;
+    }
+
+    .desktop-menu-list {
         padding: 0.3rem 2rem;
+        height: 100%;
+        width: 100%;
+    }
+
+    .desktop-menu-list_btn {
+        padding: unset;
+        width: unset;
+        cursor: pointer;
+    }
+
+    .desktop-menu-list_btn:hover {
+        color: var(--clr-add-new-item);
+        border-bottom: 2px solid currentColor;
     }
 
     .desktop-active-list button{
         font-weight: 700;
-        padding-left: 3.5rem;
+        padding-left: 1.5rem;
         color: var(--clr-add-new-item);
     }
 
     .desktop-active-list button::before { 
         content: '>';
         position: absolute;
-        transform: translateX(-2rem);
+        transform: translateX(-2.1rem);
         color: currentColor;
     }
 }
@@ -403,7 +429,8 @@ li.item::after {
     background: currentColor;
 }
 
-.new-item-btn {
+
+.new-btn {
     background: transparent;
     border: none;
     height: calc(24px + 1.4rem);
@@ -412,14 +439,14 @@ li.item::after {
     padding: 0;
 }
 
-.plus-new-item {
+.plus-new {
     width: 24px;
     height: 24px;
     fill: var(--clr-add-new-item);
     transform: translateY(-0.2rem);
 }
 
-input.new-item {
+input.add-new {
     background: transparent;
     border: none;
     font-size: 1.25rem;
@@ -433,15 +460,15 @@ input.new-item {
     color: var(--clr-text-dark);
 }
 
-input.new-item:focus {
+input.add-new:focus {
     border-bottom: 3px solid var(--clr-border-dark);
 }
 
-input.new-item::placeholder {
+input.add-new::placeholder {
     color: var(--clr-text-light);
 }
 
-input.new-item:focus::placeholder {
+input.add-new:focus::placeholder {
     opacity: 0.3;
 }
 
@@ -542,4 +569,19 @@ input.new-item:focus::placeholder {
     .edit-tab {
         display: none;
     }
+}
+
+.menu-edit-list_btn:hover,
+.edit-btn::selection {
+    background-color: var(--clr-category-menu);
+    font-weight: 700;
+    color: var(--clr-border-dark);
+}
+
+.menu-edit-list_btn:focus,
+.edit-btn:focus {
+    outline: none;
+    background-color: var(--clr-category-menu);
+    font-weight: 700;
+    color: var(--clr-border-dark);
 }

@@ -78,8 +78,8 @@
             </div>
             <div class="list-wrapper">
                 <div class="my-lists">
-                    <div class="my-lists-title"> My Lists :</div>
-                    <div class="my-lists-content">   
+                    <div class="my-lists-title"> My Lists :</div>                     
+                    <div class="my-lists-content" data-lists>   
                         <div class='desktop-menu-list desktop-active-list'>
                             <button class="desktop-menu-list_btn menu-list_btn">
                                 Grocery HEB
@@ -96,6 +96,17 @@
                             </button>    
                         </div>
                     </div>
+                    <div class="new-creator new-list-creator">
+                        <form action="">
+                            <input type="text"
+                                class="add-new new-list"
+                                placeholder="enter new list"
+                                aria-label="enter new list">
+                            <button class="new-btn new-list-button" aria-label="create new list">
+                                <svg class="plus-new plus-new-list"><use href="#plus-icon"></use></svg>
+                            </button>
+                        </form>
+                    </div> 
                 </div>
                 <div class="current-list">
                     <div class="list-title">
@@ -125,18 +136,18 @@
                                     broccoli
                                 </label>                                
                             </li>
-                        </ul> 
-                        <div class="new-item-creator">
+                        </ul>
+                        <div class="new-creator new-item-creator">
                             <form action="">
                                 <input type="text"
-                                    class="new new-item"
+                                    class="add-new new-item"
                                     placeholder="enter new item"
                                     aria-label="enter new item">
-                                <button class="new-item-btn" aria-label="create new item">
-                                    <svg class="plus-new-item"><use href="#plus-icon"></use></svg>
+                                <button class="new-btn new-item-btn" aria-label="create new item">
+                                    <svg class="plus-new plus-new-item"><use href="#plus-icon"></use></svg>
                                 </button>
                             </form>
-                        </div>                                               
+                        </div>                                              
                     </div>
                 </div>                
             </div>
