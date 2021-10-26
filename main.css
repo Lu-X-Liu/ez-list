@@ -117,14 +117,16 @@ h1 {
     overflow: scroll;
     padding-top: 1px;
     padding-bottom: 1px;
+    padding: 0;
+    list-style: none;
 }
 
-.menu-content div {
-    margin-top: -1px;
+.menu-content div,
+.menu-content li {
     position: relative;
 }
 
-.menu-list:last-child {
+.menu-nav-list:last-child {
     margin-bottom: 1rem;
 }
 
@@ -140,13 +142,45 @@ h1 {
     right: 0;
 }
 
-.active-list button {
+.menu-nav-list::after {
+    content: "";
+    position: absolute;
+    right: 1rem;
+    left: 1rem;
+    bottom: -1px;
+    height: 1px;
+    background: currentColor;
+    z-index: 12;
+}
+
+.menu-nav-list {
+    background-color: transparent;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0.9rem 2rem;
+    font-weight: 500;
+    z-index: 13;
+}
+
+.menu-nav-list:focus {
+    outline: none;
+}
+
+.menu-nav-list:hover,
+.menu-nav-list:focus,
+.menu-nav-list::selection {
+    color: var(--clr-text-bright);
+    background-color: var(--clr-menu-hover-bg);
+}
+
+.active-list {
     padding-left: 3.5rem;
     font-weight: 700;
     color: var(--clr-add-new-item);
 }
 
-.active-list button::before {
+.active-list::before {
     content: '>';
     font-size: 1.3rem;
     position: absolute;
@@ -155,42 +189,6 @@ h1 {
     left: 1.5rem;
     top: 0.75rem;
     color: currentColor;
-}
-
-.menu-nav .menu-list::after {
-    content: "";
-    position: absolute;
-    right: 1rem;
-    left: 1rem;
-    bottom: 0;
-    height: 1px;
-    background: currentColor;
-    z-index: 12;
-}
-
-.menu-list_btn {
-    color: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    background-color: transparent;
-    border: none;
-    width: 100%;
-    height:100%;
-    display: flex;
-    align-items: center;
-    padding: 0.9rem 2rem;
-    font-weight: 500;
-}
-
-.menu-nav-list_btn:focus {
-    outline: none;
-}
-
-.menu-nav-list_btn:hover,
-.menu-nav-list_btn:focus,
-.menu-nav-list_btn::selection {
-    color: var(--clr-text-bright);
-    background-color: var(--clr-menu-hover-bg);
 }
 
 @media (min-width: 1024px) {
@@ -333,6 +331,11 @@ h1 {
         position: relative;
     }
 
+    .my-lists-content {
+        list-style: none;
+        padding: 0 3rem;
+    }
+
     .new-list-creator::before {
         content: '';
         position: absolute;
@@ -358,32 +361,26 @@ h1 {
     }
 
     .desktop-menu-list {
-        padding: 0.3rem 2rem;
-        height: 100%;
-        width: 100%;
-    }
-
-    .desktop-menu-list_btn {
-        padding: unset;
-        width: unset;
+        padding: 0.3rem 0;
         cursor: pointer;
     }
 
-    .desktop-menu-list_btn:hover {
+    .desktop-menu-list:not(.desktop-active-list):hover {
         color: var(--clr-add-new-item);
-        border-bottom: 2px solid currentColor;
+        text-decoration: underline;
     }
 
-    .desktop-active-list button{
+    .desktop-active-list{
         font-weight: 700;
-        padding-left: 1.5rem;
+        padding-left: 1rem;
         color: var(--clr-add-new-item);
+        cursor: unset;
     }
 
-    .desktop-active-list button::before { 
+    .desktop-active-list::before { 
         content: '>';
         position: absolute;
-        transform: translateX(-2.1rem);
+        transform: translateX(-1.5rem);
         color: currentColor;
     }
 }
