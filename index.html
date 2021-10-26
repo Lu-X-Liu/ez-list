@@ -15,7 +15,8 @@
         <div class="wrapper">
             <h1 class="logo">EZ List</h1>
             <nav class="nav">
-                   <button class="nav-btn" aria-label="navigation menu icon"><svg><use href="#menu-header"></use></svg></button>      
+                    <button class="nav-btn pencil-btn" aria-label="edit list icon"><svg><use href="#pencil-icon"></use></svg></button>
+                    <button class="nav-btn menu-btn" aria-label="navigation menu icon"><svg><use href="#menu-header"></use></svg></button>      
             </nav>
         </div>       
     </header>
@@ -24,22 +25,42 @@
             <div class="spacer header-menu-title"> My Lists :</div>
             <div class="menu-nav menu-content">   
                 <div class='menu-nav-list menu-list active-list'>
-                    <button class="menu-nav-list-btn menu-list_btn">
+                    <button class="menu-nav-list_btn menu-list_btn">
                         Grocery HEB
                     </button>
                 </div>
                 <div class='menu-nav-list menu-list'>
-                    <button class="menu-nav-list-btn menu-list_btn">
+                    <button class="menu-nav-list_btn menu-list_btn">
                         Learning to code
                     </button>
                 </div>
                 <div class='menu-nav-list menu-list'>
-                    <button class="menu-nav-list-btn menu-list_btn">
+                    <button class="menu-nav-list_btn menu-list_btn">
                         Other errands
                     </button>    
                 </div>
             </div>
-        </div>       
+        </div>
+        <div class="edit-dropdown-menu dropdown-menu">
+            <div class="spacer"></div>
+            <div class="menu-edit menu-content">   
+                <div class='menu-edit-list menu-list'>
+                    <button class="menu-edit-list_btn menu-list_btn">
+                        Create new list
+                    </button>
+                </div>
+                <div class='menu-edit-list menu-list'>
+                    <button class="menu-edit-list_btn menu-list_btn">
+                        Delete current list
+                    </button>
+                </div>
+                <div class='menu-edit-list menu-list'>
+                    <button class="menu-edit-list_btn menu-list_btn">
+                        Clear completed items
+                    </button>    
+                </div>
+            </div>
+        </div>         
         <div class="main-content-wrapper">
             <div class="initial">
                 <div class="create-new-list">
@@ -55,7 +76,27 @@
                     </div>
                 </div>
             </div>
-            <div class="current-list-wrapper">
+            <div class="list-wrapper">
+                <div class="my-lists">
+                    <div class="my-lists-title"> My Lists :</div>
+                    <div class="my-lists-content">   
+                        <div class='desktop-menu-list desktop-active-list'>
+                            <button class="desktop-menu-list_btn menu-list_btn">
+                                Grocery HEB
+                            </button>
+                        </div>
+                        <div class='desktop-menu-list'>
+                            <button class="desktop-menu-list_btn menu-list_btn">
+                                Learning to code
+                            </button>
+                        </div>
+                        <div class='desktop-menu-list'>
+                            <button class="desktop-menu-list_btn menu-list_btn">
+                                Other errands
+                            </button>    
+                        </div>
+                    </div>
+                </div>
                 <div class="current-list">
                     <div class="list-title">
                         <h2>Grocery HEB </h2>
@@ -120,8 +161,8 @@
                 </symbol>
             </svg>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <symbol id="menu-category" class="icons">
-                    <path d="M13 6h-13v-4h13v4zm0 4h-13v4h13v-4zm0 8h-13v4h13v-4zm3-8l4 5.075 4-5.075h-8z"/>
+                <symbol id="pencil-icon" class="icons">
+                    <path d="M1.439 16.873l-1.439 7.127 7.128-1.437 16.873-16.872-5.69-5.69-16.872 16.872zm4.702 3.848l-3.582.724.721-3.584 2.861 2.86zm15.031-15.032l-13.617 13.618-2.86-2.861 10.825-10.826 2.846 2.846 1.414-1.414-2.846-2.846 1.377-1.377 2.861 2.86z"/>
                 </symbol>
             </svg>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -134,21 +175,6 @@
                     <path d="M24 9h-9v-9h-6v9h-9v6h9v9h6v-9h9z"/>
                 </symbol>
             </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <symbol id="close-header-menu" class="icons">
-                <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
-                </symbol>
-            </svg>
     </div>
-    <!--        
-        <div class='menu-nav-list menu-list'>
-            <button class="menu-nav-list-btn menu-list_btn">
-                Go to list 
-                <svg class="go-to-arrow icons-d-menu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/>
-                </svg>
-            </button>
-        </div>
-    -->
 </body>
 </html>

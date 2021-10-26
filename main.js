@@ -26,10 +26,15 @@ function rotateBtn(evt) {
 }
 
 /* open / close nav menu */
-const headerMenuIcon = document.querySelector('.nav-btn svg');
+const headerMenuIcon = document.querySelector('.menu-btn svg');
 const headerMenuDropDown = document.querySelector('.nav-dropdown-menu');
 headerMenuIcon.menu = headerMenuDropDown;
 headerMenuIcon.addEventListener('click', toggleOpenClose);
 
+/* open / close edit menu */
+const headerEditIcon = document.querySelector('.pencil-btn svg');
+const headerEditDropDown = document.querySelector('.edit-dropdown-menu');
+headerEditIcon.menu = headerEditDropDown;
+headerEditIcon.addEventListener('click', toggleOpenClose);
 
 /* add new item */
