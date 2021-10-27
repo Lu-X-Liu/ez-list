@@ -161,13 +161,14 @@ h1 {
     padding: 0.9rem 2rem;
     font-weight: 500;
     z-index: 13;
+    cursor: pointer;
 }
 
 .menu-nav-list:focus {
     outline: none;
 }
 
-.menu-nav-list:hover,
+.menu-nav-list:not(.active-list):hover,
 .menu-nav-list:focus,
 .menu-nav-list::selection {
     color: var(--clr-text-bright);
@@ -178,6 +179,7 @@ h1 {
     padding-left: 3.5rem;
     font-weight: 700;
     color: var(--clr-add-new-item);
+    cursor: unset;
 }
 
 .active-list::before {
@@ -223,14 +225,13 @@ h1 {
     height: calc(100% - 2rem);
 }
 
-.menu-edit-list{
+.menu-edit-btn {
+    color: var(--clr-category-menu);
     margin-bottom: 1rem;
-}
-
-.menu-edit-list_btn {
     width: 80%;
-    border: 2px solid var(--clr-category-menu);
-    margin: 0 auto;
+    background-color: transparent;
+    border: 2px solid currentColor;
+    margin: 0 auto 1rem;
     display: flex;
     justify-content: center;
     font-size: 1rem;
@@ -469,8 +470,6 @@ input.add-new:focus::placeholder {
     opacity: 0.3;
 }
 
-
-
 [type="checkbox"] {
     opacity: 0;
     position: absolute;
@@ -568,14 +567,16 @@ input.add-new:focus::placeholder {
     }
 }
 
-.menu-edit-list_btn:hover,
+.menu-edit-btn:hover,
+.menu-edit-btn::selection,
+.edit-btn:hover,
 .edit-btn::selection {
     background-color: var(--clr-category-menu);
     font-weight: 700;
     color: var(--clr-border-dark);
 }
 
-.menu-edit-list_btn:focus,
+.menu-edit-btn:focus,
 .edit-btn:focus {
     outline: none;
     background-color: var(--clr-category-menu);
