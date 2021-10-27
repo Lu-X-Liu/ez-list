@@ -367,7 +367,7 @@ h1 {
 
     .desktop-menu-list:not(.desktop-active-list):hover {
         color: var(--clr-add-new-item);
-        text-decoration: underline;
+        font-weight: 700;
     }
 
     .desktop-active-list{
