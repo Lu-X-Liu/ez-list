@@ -178,7 +178,7 @@ h1 {
 .active-list {
     padding-left: 3.5rem;
     font-weight: 700;
-    color: var(--clr-add-new-item);
+    color: var(--clr-list-title-bg);
     cursor: unset;
 }
 
@@ -302,7 +302,7 @@ h1 {
 }
 
 .list-title span > span {
-    font-size: 1rem;
+    font-size: 1.3rem;
 }
 
 .my-lists {
@@ -367,14 +367,14 @@ h1 {
     }
 
     .desktop-menu-list:not(.desktop-active-list):hover {
-        color: var(--clr-add-new-item);
+        color: var(--clr-list-title-bg);
         font-weight: 700;
     }
 
     .desktop-active-list{
         font-weight: 700;
         padding-left: 1rem;
-        color: var(--clr-add-new-item);
+        color: var(--clr-list-title-bg);
         cursor: unset;
     }
 
@@ -427,6 +427,9 @@ li.item::after {
     background: currentColor;
 }
 
+.new-item-creator form {
+    padding-top: 1rem;
+}
 
 .new-btn {
     background: transparent;
