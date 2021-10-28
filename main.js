@@ -56,9 +56,6 @@ const clearCompletedTasksBtn = document.querySelector('[data-clear-completed-tas
 
 let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
 let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
-console.log(lists);
-console.log(localStorage);
-console.log(selectedListId);
 
 listsContainer.addEventListener('click', e => {
     if(e.target.tagName.toLowerCase() === 'li') {
@@ -81,7 +78,6 @@ clearCompletedTasksBtn.addEventListener('click', e => {
     const selectedList = lists.find(list => list.id === selectedListId);
     selectedList.tasks = selectedList.tasks.filter(task => !task.complete);
     saveAndRender();
-    console.log(localStorage);
     
 })
 
@@ -128,8 +124,6 @@ function saveAndRender() {
 function save() {
     localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(lists));
     localStorage.setItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY, selectedListId);
-    console.log(localStorage);
-    console.log(selectedListId);
 }
 
 function render() {
