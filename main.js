@@ -42,7 +42,7 @@ const listsContainer = document.querySelector('[data-lists]');
 const newListForm = document.querySelector('[data-new-list-form]');
 const newListInput = document.querySelector('[data-new-list-input]');
 const LOCAL_STORAGE_LIST_KEY = 'task.list';
-const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'task.selectedLisId';
+const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'task.selectedListId';
 const deletListBtn = document.querySelector('[data-delete-list-button]');
 /*items*/
 const listDisplayContainer = document.querySelector('[data-list-display-container]');
@@ -56,6 +56,9 @@ const clearCompletedTasksBtn = document.querySelector('[data-clear-completed-tas
 
 let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
 let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
+console.log(lists);
+console.log(localStorage);
+console.log(selectedListId);
 
 listsContainer.addEventListener('click', e => {
     if(e.target.tagName.toLowerCase() === 'li') {
@@ -69,22 +72,22 @@ tasksContainer.addEventListener('click', e => {
         const selectedList = lists.find(list => list.id === selectedListId);
         const selectedTask = selectedList.tasks.find(task => task.id === e.target.id);
         selectedTask.complete = e.target.checked;
-        console.log(selectedTask.id)
         save();
         renderTaskCount(selectedList);
     }
 })
 
 clearCompletedTasksBtn.addEventListener('click', e => {
-    const selectedList = lists.find(list => list.id = selectedListId);
+    const selectedList = lists.find(list => list.id === selectedListId);
     selectedList.tasks = selectedList.tasks.filter(task => !task.complete);
     saveAndRender();
+    console.log(localStorage);
     
 })
 
 deletListBtn.addEventListener('click', e=> {
     lists = lists.filter(list => list.id !== selectedListId);
-    selectedListId = null;
+    selectedListId = "null";
     saveAndRender();
 })
 
@@ -125,14 +128,16 @@ function saveAndRender() {
 function save() {
     localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(lists));
     localStorage.setItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY, selectedListId);
+    console.log(localStorage);
+    console.log(selectedListId);
 }
 
-function render(){
+function render() {
     clearElement(listsContainer);
     renderList();
 
-    const selectedList = lists.find(list => list.id ===selectedListId);
-    if(selectedListId == null) {
+    const selectedList = lists.find(list => list.id === selectedListId);
+    if(selectedListId == 'null') {
         listDisplayContainer.style.display = 'none';
     } else {
         listDisplayContainer.style.display = '';
@@ -159,7 +164,7 @@ function renderTasks(selectedList) {
 function renderTaskCount(selectedList) {
     const incompleteTaskCount = selectedList.tasks.filter(task => !task.complete).length;
     const taskString = incompleteTaskCount === 1 || incompleteTaskCount === 0 ? 'item' : 'items';
-    listCountElement.innerHTML =`<span> ${incompleteTaskCount}</span> ${taskString} left`;
+    listCountElement.innerHTML =`<span>${incompleteTaskCount}</span>  ${taskString} left`;
 }
 
 function renderList() {
@@ -177,10 +182,8 @@ function renderList() {
 
 function clearElement(element) {
     while(element.firstChild) {
-        element.removeChild(element.firstChild)
+        element.removeChild(element.firstChild);
     }
 }
 
-render();
-
-/* render items */
+render()
