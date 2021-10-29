@@ -200,6 +200,7 @@ h1 {
 
 .new-list-dropdown-form {
     position: relative;
+    top: 1rem;
 }
 
 @media (min-width: 1024px) {

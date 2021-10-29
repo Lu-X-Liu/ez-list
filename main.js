@@ -43,7 +43,7 @@ const newListForm = document.querySelector('[data-new-list-form]');
 const newListInput = document.querySelector('[data-new-list-input]');
 const LOCAL_STORAGE_LIST_KEY = 'task.list';
 const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'task.selectedListId';
-const deletListBtn = document.querySelector('[data-delete-list-button]');
+const deletListBtns = document.querySelectorAll('[data-delete-list-button]');
 /*items*/
 const listDisplayContainer = document.querySelector('[data-list-display-container]');
 const listTitleElement = document.querySelector('[data-list-title]');
@@ -52,17 +52,18 @@ const tasksContainer = document.querySelector('[data-tasks]');
 const taskTemplate = document.getElementById('task-template');
 const newTaskForm = document.querySelector('[data-new-task-form]');
 const newTaskInput = document.querySelector('[data-new-task-input]');
-const clearCompletedTasksBtn = document.querySelector('[data-clear-completed-tasks-btn]');
+const clearCompletedTasksBtns = document.querySelectorAll('[data-clear-completed-tasks-btn]');
+
 
 let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
 let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
 
 listsContainer.addEventListener('click', e => {
-    if(e.target.tagName.toLowerCase() === 'li') {
-        selectedListId = e.target.dataset.listId;
-        saveAndRender();
-    }
-})
+        if(e.target.tagName.toLowerCase() === 'li') {
+            selectedListId = e.target.dataset.listId;
+            saveAndRender();
+        }
+});
 
 tasksContainer.addEventListener('click', e => {
     if (e.target.tagName.toLowerCase() === 'input') {
@@ -74,18 +75,25 @@ tasksContainer.addEventListener('click', e => {
     }
 })
 
-clearCompletedTasksBtn.addEventListener('click', e => {
+clearCompletedTasksBtns.forEach(btn => {
+    btn.addEventListener('click', clearCompleted);
+});
+
+function clearCompleted() {
     const selectedList = lists.find(list => list.id === selectedListId);
     selectedList.tasks = selectedList.tasks.filter(task => !task.complete);
     saveAndRender();
-    
-})
+}
 
-deletListBtn.addEventListener('click', e=> {
+deletListBtns.forEach( btn => {
+    btn.addEventListener('click', deletList);
+});
+
+function deletList() {
     lists = lists.filter(list => list.id !== selectedListId);
     selectedListId = "null";
     saveAndRender();
-})
+}
 
 newListForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -126,8 +134,8 @@ function save() {
     localStorage.setItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY, selectedListId);
 }
 
-function render() {
-    clearElement(listsContainer);
+function render() {    
+    clearElement(listsContainer);   
     renderList();
 
     const selectedList = lists.find(list => list.id === selectedListId);
@@ -171,7 +179,7 @@ function renderList() {
             listElement.classList.add('desktop-active-list')
         };
         listsContainer.appendChild(listElement);
-        })
+        });
 }
 
 function clearElement(element) {

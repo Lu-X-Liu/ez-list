@@ -25,7 +25,7 @@
             <div class="spacer header-menu-title"> My Lists :</div>
             <div class="menu-nav-wrapper">
                 <ul class="menu-nav menu-content">   
-                    <li class='menu-nav-list active-list'>
+<!--                     <li class='menu-nav-list active-list'>
                             Grocery HEB
                     </li>
                     <li class='menu-nav-list'>
@@ -36,7 +36,7 @@
                     </li>
                     <li class='menu-nav-list'>
                         Another errands
-                    </li>
+                    </li> -->
                 </ul> 
                 <form action="" class="new-list-dropdown-form">
                     <input type="text"
@@ -124,8 +124,12 @@
                 </svg>                
             </div>
             <div class="edit-btns-wrapper"> 
-                <button class="edit-btn">Delete current list</button>
-                <button class="edit-btn">Clear completed items</button>
+                <button class="edit-btn" data-delete-list-button>
+                    Delete current list
+                </button>
+                <button class="edit-btn" data-clear-completed-tasks-btn>
+                    Clear completed items
+                </button>
             </div>
         </div>
     </main>
