@@ -23,24 +23,35 @@
     <main class="main">
         <div class="nav-dropdown-menu dropdown-menu">
             <div class="spacer header-menu-title"> My Lists :</div>
-            <ul class="menu-nav menu-content">   
-                <li class='menu-nav-list active-list'>
-                        Grocery HEB
-                </li>
-                <li class='menu-nav-list'>
-                        Learning to code
-                </li>
-                <li class='menu-nav-list'>
-                        Other errands
-                </li>
-            </ul>
+            <div class="menu-nav-wrapper">
+                <ul class="menu-nav menu-content">   
+                    <li class='menu-nav-list active-list'>
+                            Grocery HEB
+                    </li>
+                    <li class='menu-nav-list'>
+                            Learning to code
+                    </li>
+                    <li class='menu-nav-list'>
+                            Other errands
+                    </li>
+                    <li class='menu-nav-list'>
+                        Another errands
+                    </li>
+                </ul> 
+                <form action="" class="new-list-dropdown-form">
+                    <input type="text"
+                        class="add-new new-list_dropdown"
+                        placeholder="enter new list"
+                        aria-label="enter new list">
+                    <button class="new-btn new-list-button_dropdown" aria-label="create new list">
+                        <svg class="plus-new plus-new-list_dropdown"><use href="#plus-icon"></use></svg>
+                    </button>
+                </form>                               
+            </div>
         </div>
         <div class="edit-dropdown-menu dropdown-menu">
             <div class="spacer"></div>
             <div class="menu-edit menu-content">   
-                <button class='menu-edit-btn'>                    
-                        Create new list
-                </button>
                 <button class='menu-edit-btn' data-delete-list-button>                    
                         Delete current list
                 </button>
@@ -113,7 +124,6 @@
                 </svg>                
             </div>
             <div class="edit-btns-wrapper"> 
-                <button class="edit-btn">Create new list</button>
                 <button class="edit-btn">Delete current list</button>
                 <button class="edit-btn">Clear completed items</button>
             </div>
