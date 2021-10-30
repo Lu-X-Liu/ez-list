@@ -25,26 +25,26 @@ function rotateBtn(evt) {
     }    
 }
 
-/* open / close nav menu */
+// open / close nav menu 
 const headerMenuIcon = document.querySelector('.menu-btn svg');
 const headerMenuDropDown = document.querySelector('.nav-dropdown-menu');
 headerMenuIcon.menu = headerMenuDropDown;
 headerMenuIcon.addEventListener('click', toggleOpenClose);
 
-/* open / close edit menu */
+// open / close edit menu 
 const headerEditIcon = document.querySelector('.pencil-btn svg');
 const headerEditDropDown = document.querySelector('.edit-dropdown-menu');
 headerEditIcon.menu = headerEditDropDown;
 headerEditIcon.addEventListener('click', toggleOpenClose);
 
-/* my lists */
+// my lists <---| attention |
 const listsContainer = document.querySelector('[data-lists]');
 const newListForm = document.querySelector('[data-new-list-form]');
 const newListInput = document.querySelector('[data-new-list-input]');
 const LOCAL_STORAGE_LIST_KEY = 'task.list';
 const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'task.selectedListId';
 const deletListBtns = document.querySelectorAll('[data-delete-list-button]');
-/*items*/
+//items
 const listDisplayContainer = document.querySelector('[data-list-display-container]');
 const listTitleElement = document.querySelector('[data-list-title]');
 const listCountElement = document.querySelector('[data-list-count]');
@@ -58,18 +58,20 @@ const clearCompletedTasksBtns = document.querySelectorAll('[data-clear-completed
 let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
 let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
 
-listsContainer.addEventListener('click', e => {
+// getting the selectedListId from target li
+listsContainer.addEventListener('click', e => {           
         if(e.target.tagName.toLowerCase() === 'li') {
             selectedListId = e.target.dataset.listId;
             saveAndRender();
         }
 });
 
+//(the 'input' below is the checkbox ) find selected task
 tasksContainer.addEventListener('click', e => {
     if (e.target.tagName.toLowerCase() === 'input') {
         const selectedList = lists.find(list => list.id === selectedListId);
         const selectedTask = selectedList.tasks.find(task => task.id === e.target.id);
-        selectedTask.complete = e.target.checked;
+        selectedTask.complete = e.target.checked; // = true
         save();
         renderTaskCount(selectedList);
     }
@@ -95,6 +97,8 @@ function deletList() {
     saveAndRender();
 }
 
+// add new list object to lists array 
+//then save to localStorage and render UI
 newListForm.addEventListener('submit', e => {
     e.preventDefault();
     const listName = newListInput.value;
@@ -105,6 +109,9 @@ newListForm.addEventListener('submit', e => {
     saveAndRender();
 });     
 
+// add new task object in the tasks array 
+//within the selectedList object in the lists array
+//and save the new data to localStrage and render UI
 newTaskForm.addEventListener('submit', e => {
     e.preventDefault();
     const taskName = newTaskInput.value;
@@ -116,6 +123,7 @@ newTaskForm.addEventListener('submit', e => {
     saveAndRender();
 });   
 
+// create list object
 function createList(name) {
     return {id: Date.now().toString(), name: name, tasks: []}; //tasks are items
 }
@@ -129,11 +137,14 @@ function saveAndRender() {
     render();
 }
 
+//saving the stringify current lists array and 
+//selectedListId got from li to localStorage object
 function save() {
     localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(lists));
     localStorage.setItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY, selectedListId);
 }
 
+// render all DOM elements
 function render() {    
     clearElement(listsContainer);   
     renderList();
@@ -150,6 +161,8 @@ function render() {
     }
 }
 
+// create DOM element for each task objects in the selectedList 
+// and append elements to tasksContainer
 function renderTasks(selectedList) {
     selectedList.tasks.forEach(task => {
         const taskElement = document.importNode(taskTemplate.content, true);
@@ -168,7 +181,8 @@ function renderTaskCount(selectedList) {
     const taskString = incompleteTaskCount === 1 || incompleteTaskCount === 0 ? 'item' : 'items';
     listCountElement.innerHTML =`<span>${incompleteTaskCount}</span>  ${taskString} left`;
 }
-
+// create DOM element for each list objects in the lists array
+// and append elements to listsContainer
 function renderList() {
     lists.forEach(list => {
         const listElement = document.createElement('li');
