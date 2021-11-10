@@ -37,10 +37,13 @@ const headerEditDropDown = document.querySelector('.edit-dropdown-menu');
 headerEditIcon.menu = headerEditDropDown;
 headerEditIcon.addEventListener('click', toggleOpenClose);
 
-// my lists <---| attention |
+// my lists & menu-nav lists
 const listsContainer = document.querySelector('[data-lists]');
+const listsContainer2 = document.querySelector('[data-lists-dropdown]');
 const newListForm = document.querySelector('[data-new-list-form]');
+const newListForm2 = document.querySelector('[data-new-list-form-2]');
 const newListInput = document.querySelector('[data-new-list-input]');
+const newListInput2 = document.querySelector('[data-new-list-input-2]');
 const LOCAL_STORAGE_LIST_KEY = 'task.list';
 const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'task.selectedListId';
 const deletListBtns = document.querySelectorAll('[data-delete-list-button]');
@@ -66,6 +69,14 @@ listsContainer.addEventListener('click', e => {
         }
 });
 
+listsContainer2.addEventListener('click', e => {           
+    if(e.target.tagName.toLowerCase() === 'li') {
+        selectedListId = e.target.dataset.listId;
+        saveAndRender();
+        e.currentTarget.parentElement.parentElement.style.display = 'none';
+    }
+});
+
 //(the 'input' below is the checkbox ) find selected task
 tasksContainer.addEventListener('click', e => {
     if (e.target.tagName.toLowerCase() === 'input') {
@@ -79,6 +90,7 @@ tasksContainer.addEventListener('click', e => {
 
 clearCompletedTasksBtns.forEach(btn => {
     btn.addEventListener('click', clearCompleted);
+    btn.addEventListener('click', hideParent);
 });
 
 function clearCompleted() {
@@ -89,12 +101,17 @@ function clearCompleted() {
 
 deletListBtns.forEach( btn => {
     btn.addEventListener('click', deletList);
+    btn.addEventListener('click', hideParent);
 });
 
 function deletList() {
     lists = lists.filter(list => list.id !== selectedListId);
     selectedListId = "null";
     saveAndRender();
+}
+
+function hideParent(e) {
+    e.currentTarget.parentElement.parentElement.style.display = 'none';
 }
 
 // add new list object to lists array 
@@ -107,7 +124,17 @@ newListForm.addEventListener('submit', e => {
     newListInput.value = null;
     lists.push(list);
     saveAndRender();
-});     
+});    
+
+newListForm2.addEventListener('submit', e => {
+    e.preventDefault();
+    const listName = newListInput2.value;
+    if (listName == null || listName == '') return;
+    const list = createList(listName);
+    newListInput2.value = null;
+    lists.push(list);
+    saveAndRender();
+});  
 
 // add new task object in the tasks array 
 //within the selectedList object in the lists array
@@ -146,7 +173,8 @@ function save() {
 
 // render all DOM elements
 function render() {    
-    clearElement(listsContainer);   
+    clearElement(listsContainer);  
+    clearElement(listsContainer2); 
     renderList();
 
     const selectedList = lists.find(list => list.id === selectedListId);
@@ -186,13 +214,20 @@ function renderTaskCount(selectedList) {
 function renderList() {
     lists.forEach(list => {
         const listElement = document.createElement('li');
+        const listElement2 = document.createElement('li');
         listElement.dataset.listId = list.id;
+        listElement2.dataset.listId = list.id;
         listElement.classList.add('desktop-menu-list');
+        listElement2.classList.add('menu-nav-list');
         listElement.innerText = list.name;
+        listElement2.innerText = list.name;
         if (list.id === selectedListId) {
-            listElement.classList.add('desktop-active-list')
+            listElement.classList.add('desktop-active-list');
+            listElement2.classList.add('active-list');
         };
-        listsContainer.appendChild(listElement);
+            listsContainer.appendChild(listElement);
+            listsContainer2.appendChild(listElement2);
+            
         });
 }
 
