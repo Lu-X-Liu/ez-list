@@ -119,7 +119,13 @@
                     </button>
                     <button class="edit-btn" data-clear-completed-tasks-btn>
                         Clear completed items
-                    </button>                    
+                    </button>       
+                    <button class="edit-btn">
+                        Create new category
+                    </button> 
+                    <button class="edit-btn">
+                        Delete current category
+                    </button>              
                 </div>
             </div>
         </div>
@@ -162,46 +168,8 @@
                         <path d="M13 6h-13v-4h13v4zm0 4h-13v4h13v-4zm0 8h-13v4h13v-4zm3-8l4 5.075 4-5.075h-8z"/>
                 </svg>
             </div>
-            <div class="category-dropdown-menu menu-content">
-                <div class='menu-category-list menu-list'>
-                    <button class="menu-category-list-btn menu-list_btn">
-                        Add new item
-                    </button>
-                </div>
-                <div class='menu-category-list menu-list'>
-                    <button class="menu-category-list-btn menu-list_btn">
-                        Hide current category
-                    </button>
-                </div>
-                <div class='menu-category-list menu-list'>
-                    <button class="menu-category-list-btn menu-list_btn">
-                        Rename current category
-                    </button>
-                </div>
-                <div class='menu-category-list menu-list'>
-                    <button class="menu-category-list-btn menu-list_btn">
-                        Delete current category 
-                    </button>    
-                </div>
-            </div>
             <ul class="items">
             </ul>
-            <div class="new-item-creator">
-                <form action="">
-                    <input type="text"
-                        class="new new-item"
-                        placeholder="enter new item"
-                        aria-label="enter new item">
-                    <button class="new-item-btn" aria-label="create new item">
-                        <svg class="plus-new-item"><use href="#plus-icon"></use></svg>
-                    </button>
-                    <button class="close-add-new-item" aria-label="close add new item input form">
-                        <svg class="close-circle" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
-                                <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6 16.538l-4.592-4.548 4.546-4.587-1.416-1.403-4.545 4.589-4.588-4.543-1.405 1.405 4.593 4.552-4.547 4.592 1.405 1.405 4.555-4.596 4.591 4.55 1.403-1.416z"/>                                            
-                        </svg>
-                    </button>
-                </form>
-            </div>
         </div>
     </template>
 </body>
