@@ -47,6 +47,12 @@
                 <button class='menu-edit-btn' data-clear-completed-tasks-btn>                    
                         Clear completed items    
                 </button>
+                <button class="menu-edit-btn" data-create-new-category-btn>
+                    Create new category
+                </button> 
+                <button class="menu-edit-btn" data-delete-category-btn>
+                    Delete current category
+                </button>  
             </div>
         </div>         
         <div class="main-content-wrapper">
@@ -84,26 +90,24 @@
                 </div>
                 <div class="current-list" data-list-display-container>
                     <div class="list-title">
-                        <h2 data-list-title>Grocery</h2>
-                        <span data-list-count><span>3</span>item left</span>
+                        <h2 data-list-title></h2>
+                        <span data-list-count><span>0</span>item left</span>
                     </div>
-                    <div class="list-content">
-                        <ul class="items" data-tasks>
-                        </ul>
-                        <div class="new-creator new-item-creator">
-                            <form action="" data-new-task-form>
-                                <input type="text"
-                                    class="add-new new-item"
-                                    placeholder="enter new item"
-                                    aria-label="enter new item"
-                                    data-new-task-input>
-                                <button class="new-btn new-item-btn" aria-label="create new item">
-                                    <svg class="plus-new plus-new-item"><use href="#plus-icon"></use></svg>
-                                </button>
-                            </form>
-                        </div>                                              
+                    <div class="list-content" data-categories-container>                                        
                     </div>
                 </div>                
+            </div>
+            <div class="create-category-wrapper" data-new-category-form-popup>
+                <form action="" class="new-category" data-new-category-form>
+                    <svg data-close-category-form xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
+                        <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
+                    </svg>
+                    <input type="text" class="new-category-input" 
+                    placeholder="enter new category"
+                    aria-label="enter new category"
+                    data-new-category-input>
+                    <button class="create-category-btn">Create</button>
+                </form>
             </div>
         </div>
         <div class="edit-tab">
@@ -120,10 +124,10 @@
                     <button class="edit-btn" data-clear-completed-tasks-btn>
                         Clear completed items
                     </button>       
-                    <button class="edit-btn">
+                    <button class="edit-btn" data-create-new-category-btn>
                         Create new category
                     </button> 
-                    <button class="edit-btn">
+                    <button class="edit-btn" data-delete-category-btn>
                         Delete current category
                     </button>              
                 </div>
@@ -154,7 +158,9 @@
     </div>
     <template id="task-template">
         <li class="item">
-            <input type="checkbox">
+            <input type="checkbox"
+            placeholder="enter new category"
+            aria-label="enter new category">
             <label>
                 <span class="custom-checkbox"></span>      
             </label>                                
@@ -163,13 +169,28 @@
     <template id="category-template">
         <div class="category">
             <div class="category-title">
-                <h3></h3>
+                <input type="radio" name="category">
+                <label></label> 
                 <svg class="menu-category" aria-label="category menu icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">                                    
                         <path d="M13 6h-13v-4h13v4zm0 4h-13v4h13v-4zm0 8h-13v4h13v-4zm3-8l4 5.075 4-5.075h-8z"/>
                 </svg>
             </div>
             <ul class="items">
             </ul>
+        </div>
+    </template>
+    <template id="new-item-form-template">
+        <div class="new-creator new-item-creator">
+            <form action="" class="new-task-form">
+                <input type="text"
+                    class="add-new new-item"
+                    placeholder="enter new item"
+                    aria-label="enter new item"
+                    data-new-task-input>
+                <button class="new-btn new-item-btn" aria-label="create new item">
+                    <svg class="plus-new plus-new-item"><use href="#plus-icon"></use></svg>
+                </button>
+            </form>
         </div>
     </template>
 </body>
