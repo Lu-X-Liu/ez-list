@@ -161,47 +161,42 @@ categoriesContainer.addEventListener('click', e => {
                 //console.log(category.content);  
                 if (category.content === 'hide') {
                     category.selected = false;
-                }              
-                //console.log(category.selected);
+                    //console.log(category.selected);
+                    // reasign selectedCategoryId 
+                    if (selectedCategoryId === currentRadioBtnId) {
+                        selectedCategoryId = 'null'; 
+                        //console.log(selectedCategoryId);
+                    }
+                } else if (category.content === 'show' && selectedCategoryId === 'null') {
+                    category.selected = true;
+                    selectedCategoryId = currentRadioBtnId;
+                    //console.log(category.selected);
+                }                                                                            
             } 
-            // reasign selectedCategoryId 
-
-            if (selectedCategoryId === currentRadioBtnId && category.content === 'hide') {
-                selectedCategoryId = 'null';  
-                //console.log(selectedCategoryId);                       
-            } 
-            if (selectedCategoryId === 'null' && category.content === 'show') {
-                selectedCategoryId = currentRadioBtnId;
-                category.selected = true;
-            }
         });
-
         saveAndRenderselectedList();
     } 
     else if (e.target.parentNode.classList.contains('menu-category')) {
         const categoryWrapper = e.target.parentElement.parentElement.parentElement;  
         const currentRadioBtnId = categoryWrapper.firstElementChild.firstElementChild.id;
         const selectedList = lists.find(list=> list.id === selectedListId);
-        selectedList.categories.forEach(category=> {
+        selectedList.categories.forEach(category=> {           
             if (category.id === currentRadioBtnId) {
-                if (category.id === currentRadioBtnId) {
-                    category.content = (category.content === 'show') ? 'hide' : 'show';
-                    //console.log(category.content);  
-                    if (category.content === 'hide') {
-                        category.selected = false;
-                    }              
+                category.content = (category.content === 'show') ? 'hide' : 'show';
+                //console.log(category.content);  
+                if (category.content === 'hide') {
+                    category.selected = false;
                     //console.log(category.selected);
-                } 
-                // reasign selectedCategoryId 
-    
-                if (selectedCategoryId === currentRadioBtnId && category.content === 'hide') {
-                    selectedCategoryId = 'null';  
-                    //console.log(selectedCategoryId);                       
-                } 
-                if (selectedCategoryId === 'null' && category.content === 'show') {
-                    selectedCategoryId = currentRadioBtnId;
+                    // reasign selectedCategoryId 
+                    if (selectedCategoryId === currentRadioBtnId) {
+                        selectedCategoryId = 'null'; 
+                        //console.log(selectedCategoryId);
+                    }
+                } else if (category.content === 'show' && selectedCategoryId === 'null') {
                     category.selected = true;
-                }
+                    selectedCategoryId = currentRadioBtnId;
+                    //console.log(category.selected);
+                }                                                                            
             } 
         });   
         saveAndRenderselectedList();
