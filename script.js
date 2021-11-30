@@ -94,6 +94,7 @@ categoriesContainer.addEventListener('click', e => {
         const selectedList = lists.find(list => list.id === selectedListId);
         const selectedCategory = selectedList.categories.find(category => category.id === e.target.id);
         selectedCategory.selected = true;
+        selectedCategory.content = 'show';
         selectedList.categories.forEach(
             category => {
                 if (category !== selectedCategory) {
@@ -151,44 +152,61 @@ categoriesContainer.addEventListener('click', e => {
 // Show / hide category content
 categoriesContainer.addEventListener('click', e => {
     if (e.target.classList.contains('menu-category')) {
-        const categoryWrapper = e.target.parentElement.parentElement;        
+        const categoryWrapper = e.target.parentElement.parentElement;      
         const currentRadioBtnId = categoryWrapper.firstElementChild.firstElementChild.id;
         const selectedList = lists.find(list=> list.id === selectedListId);
         selectedList.categories.forEach(category=> {
             if (category.id === currentRadioBtnId) {
                 category.content = (category.content === 'show') ? 'hide' : 'show';
-                console.log(category.content);
+                //console.log(category.content);  
+                if (category.content === 'hide') {
+                    category.selected = false;
+                }              
+                //console.log(category.selected);
+            } 
+            // reasign selectedCategoryId 
+
+            if (selectedCategoryId === currentRadioBtnId && category.content === 'hide') {
+                selectedCategoryId = 'null';  
+                //console.log(selectedCategoryId);                       
+            } 
+            if (selectedCategoryId === 'null' && category.content === 'show') {
+                selectedCategoryId = currentRadioBtnId;
+                category.selected = true;
             }
         });
-        if (currentRadioBtnId === selectedCategoryId) {
-            selectedCategoryId = 'null';               
-            saveAndRenderselectedList();
-        }
+
+        saveAndRenderselectedList();
     } 
     else if (e.target.parentNode.classList.contains('menu-category')) {
-        const categoryWrapper = e.target.parentElement.parentElement.parentElement;   
+        const categoryWrapper = e.target.parentElement.parentElement.parentElement;  
         const currentRadioBtnId = categoryWrapper.firstElementChild.firstElementChild.id;
         const selectedList = lists.find(list=> list.id === selectedListId);
         selectedList.categories.forEach(category=> {
             if (category.id === currentRadioBtnId) {
-                category.content = (category.content === 'show') ? 'hide' : 'show';
-                console.log(category.content);
-            }
+                if (category.id === currentRadioBtnId) {
+                    category.content = (category.content === 'show') ? 'hide' : 'show';
+                    //console.log(category.content);  
+                    if (category.content === 'hide') {
+                        category.selected = false;
+                    }              
+                    //console.log(category.selected);
+                } 
+                // reasign selectedCategoryId 
+    
+                if (selectedCategoryId === currentRadioBtnId && category.content === 'hide') {
+                    selectedCategoryId = 'null';  
+                    //console.log(selectedCategoryId);                       
+                } 
+                if (selectedCategoryId === 'null' && category.content === 'show') {
+                    selectedCategoryId = currentRadioBtnId;
+                    category.selected = true;
+                }
+            } 
         });   
-        if (currentRadioBtnId === selectedCategoryId) {
-            selectedCategoryId = 'null';          
-            saveAndRenderselectedList();
-        }
+        saveAndRenderselectedList();
     }
 })
-// open / close category content
-/* function toggleCategoryContent(taskContainStyle) {
-    if (taskContainStyle.display === 'block' || taskContainStyle.display === '') {
-        taskContainStyle.display = 'none';   
-    } else {
-        taskContainStyle.display = 'block';
-    }
-} */
 
 //clear completed tasks
 clearCompletedTasksBtns.forEach(btn => {
@@ -363,13 +381,15 @@ function renderCategories(selectedList) {
         categoriesContainer.appendChild(categoryElement); 
     })  
 
-    //render hide / show taskContainer <------------ debug here
-/*     const tasksContainers = document.querySelectorAll('ul.items');
+    //render hide / show taskContainer 
+    const tasksContainers = document.querySelectorAll('ul.items');
+    //console.log(tasksContainers);
     tasksContainers.forEach(tasksContainer => {
+        //console.log(tasksContainer.classList);
         if (tasksContainer.classList.contains('hide')) {
             tasksContainer.style.display = 'none';
-        }
-    }); */
+        } 
+    });
 
     //styling selected category wrapper
     if (selectedCategoryId !== 'null') {
