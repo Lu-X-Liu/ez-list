@@ -148,6 +148,48 @@ categoriesContainer.addEventListener('click', e => {
     }
 });
 
+// Show / hide category content
+categoriesContainer.addEventListener('click', e => {
+    if (e.target.classList.contains('menu-category')) {
+        const categoryWrapper = e.target.parentElement.parentElement;        
+        const currentRadioBtnId = categoryWrapper.firstElementChild.firstElementChild.id;
+        const selectedList = lists.find(list=> list.id === selectedListId);
+        selectedList.categories.forEach(category=> {
+            if (category.id === currentRadioBtnId) {
+                category.content = (category.content === 'show') ? 'hide' : 'show';
+                console.log(category.content);
+            }
+        });
+        if (currentRadioBtnId === selectedCategoryId) {
+            selectedCategoryId = 'null';               
+            saveAndRenderselectedList();
+        }
+    } 
+    else if (e.target.parentNode.classList.contains('menu-category')) {
+        const categoryWrapper = e.target.parentElement.parentElement.parentElement;   
+        const currentRadioBtnId = categoryWrapper.firstElementChild.firstElementChild.id;
+        const selectedList = lists.find(list=> list.id === selectedListId);
+        selectedList.categories.forEach(category=> {
+            if (category.id === currentRadioBtnId) {
+                category.content = (category.content === 'show') ? 'hide' : 'show';
+                console.log(category.content);
+            }
+        });   
+        if (currentRadioBtnId === selectedCategoryId) {
+            selectedCategoryId = 'null';          
+            saveAndRenderselectedList();
+        }
+    }
+})
+// open / close category content
+/* function toggleCategoryContent(taskContainStyle) {
+    if (taskContainStyle.display === 'block' || taskContainStyle.display === '') {
+        taskContainStyle.display = 'none';   
+    } else {
+        taskContainStyle.display = 'block';
+    }
+} */
+
 //clear completed tasks
 clearCompletedTasksBtns.forEach(btn => {
     btn.addEventListener('click', clearCompleted);
@@ -195,15 +237,6 @@ newCategoryFormPopup.style.display = 'none';
 deleteCategoryBtns.forEach(btn=> {
     btn.addEventListener('click', () => {
         const selectedList = lists.find(list=> list.id === selectedListId);
-        /* Old code that didn't work:
-        let categoryArr = selectedList.categories;
-        categoryArr = categoryArr.filter(category=> !category.selected);
-        because console.log(categoryArr) 
-        and console.log(selectedList.categories)
-        yield different results 
-        and selectedList.categories was plugged into the later saveAndRenderselectedList()*/
-
-        // New code that work:
         selectedList.categories = selectedList.categories.filter(category=> !category.selected);
         selectedCategoryId = 'null'; 
         saveAndRenderselectedList();
@@ -261,7 +294,7 @@ function createList(listName) {
 }
 
 function createCategory(categoryName) {
-    return {id: Date.now().toString(), name: categoryName, tasks: [], selected: true};//tasks are items
+    return {id: Date.now().toString(), name: categoryName, tasks: [], selected: true, content: 'show'};//tasks are items
 }
 
 function createTask(taskName, categoryName) {
@@ -316,29 +349,42 @@ function renderCategories(selectedList) {
         const categoryElement = document.importNode(categoryTemplate.content, true);
         const radioBtn = categoryElement.querySelector('input[type="radio"]');
         const categoryLabel = categoryElement.querySelector('label');
+        const tasksContainer = categoryElement.querySelector('ul.items');
+        const categoryMenuIcon = categoryElement.querySelector('.menu-category');
+        tasksContainer.classList.add(category.content);
+        //console.log(tasksContainer.classList);
         radioBtn.setAttribute('name', 'category');
         radioBtn.id = category.id;
         radioBtn.checked = category.selected;
         categoryLabel.htmlFor = category.id;
-        const tasksContainer = categoryElement.querySelector('ul.items');
         tasksContainer.id = category.name;
         categoryLabel.append(category.name);
-        categoriesContainer.appendChild(categoryElement);
-    })
+        categoryMenuIcon.id = category.name.concat('-menu');
+        categoriesContainer.appendChild(categoryElement); 
+    })  
 
-        if (selectedCategoryId !== 'null') {
-            const categoryTitleRadioBtns = document.querySelectorAll('input[type="radio"]');
-            categoryTitleRadioBtns.forEach(categoryTitleRadioBtn=> { 
-                if(categoryTitleRadioBtn.id === selectedCategoryId) {
-                    categoryTitleRadioBtn.parentElement.parentElement.classList.add('selected-category');
-                }
-            }) 
-            
-            // render newItemForm within selectedCategory
-            const selectedCategoryWrapper = document.querySelector('.selected-category');
-            const newItemFormElement = document.importNode(newItemFormTemplate.content, true);
-            selectedCategoryWrapper.appendChild(newItemFormElement);            
-        }  
+    //render hide / show taskContainer <------------ debug here
+/*     const tasksContainers = document.querySelectorAll('ul.items');
+    tasksContainers.forEach(tasksContainer => {
+        if (tasksContainer.classList.contains('hide')) {
+            tasksContainer.style.display = 'none';
+        }
+    }); */
+
+    //styling selected category wrapper
+    if (selectedCategoryId !== 'null') {
+        const categoryTitleRadioBtns = document.querySelectorAll('input[type="radio"]');
+        categoryTitleRadioBtns.forEach(categoryTitleRadioBtn=> { 
+            if(categoryTitleRadioBtn.id === selectedCategoryId) {
+                categoryTitleRadioBtn.parentElement.parentElement.classList.add('selected-category');
+            }
+        }) 
+        
+        // render newItemForm within selectedCategory
+        const selectedCategoryWrapper = document.querySelector('.selected-category');
+        const newItemFormElement = document.importNode(newItemFormTemplate.content, true);
+        selectedCategoryWrapper.appendChild(newItemFormElement);            
+    }  
 } 
 // create DOM element for each task objects in the selectedList 
 // and append elements to tasksContainer
