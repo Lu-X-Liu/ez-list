@@ -76,6 +76,9 @@ let selectedCategoryId = localStorage.getItem(LOCAL_STORAGE_SELECTED_CATEGORY_ID
 listsContainer.addEventListener('click', e => {           
         if(e.target.tagName.toLowerCase() === 'li') {
             selectedListId = e.target.dataset.listId;
+            selectedCategoryId = 'null';
+            const selectedList = lists.find(list => list.id === selectedListId);
+            selectedList.categories.forEach(category => category.selected = false);
             saveAndRenderAll();
         }
 });
@@ -83,6 +86,9 @@ listsContainer.addEventListener('click', e => {
 listsContainer2.addEventListener('click', e => {           
     if(e.target.tagName.toLowerCase() === 'li') {
         selectedListId = e.target.dataset.listId;
+        selectedCategoryId = 'null';
+        const selectedList = lists.find(list => list.id === selectedListId);
+        selectedList.categories.forEach(category => category.selected = false);
         saveAndRenderAll();
         e.currentTarget.parentElement.parentElement.style.display = 'none';
     }
