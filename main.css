@@ -300,6 +300,7 @@ h1 {
     background: var(--clr-item-bg);
     padding-bottom: 1px;
     margin: 0 auto;
+    position: relative;
 }
 
 .current-list h2 {
@@ -309,7 +310,10 @@ h1 {
 }
 
 .list-title {
-    width: 100%;
+    position: fixed;
+    z-index: 8;
+    width: 86%;
+    max-width: 500px;
     padding: 1rem 1.5rem ;
     background: var(--clr-list-title-bg);
     color: var(--clr-text-bright);
@@ -324,6 +328,13 @@ h1 {
 
 .list-title span > span {
     font-size: 1.3rem;
+}
+
+.list-content {
+    position: relative;
+    top: 60px;
+    background: var(--clr-item-bg);
+    padding-bottom: 1px;
 }
 
 .my-lists {

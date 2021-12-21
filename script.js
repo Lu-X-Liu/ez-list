@@ -62,6 +62,7 @@ const deleteCategoryBtns = document.querySelectorAll('[data-delete-category-btn]
 
 //items
 const listDisplayContainer = document.querySelector('[data-list-display-container]');
+const listTitleDiv = document.querySelector('.list-title');
 const listTitleElement = document.querySelector('[data-list-title]');
 const listCountElement = document.querySelector('[data-list-count]');
 const taskTemplate = document.getElementById('task-template');
@@ -80,6 +81,7 @@ listsContainer.addEventListener('click', e => {
             const selectedList = lists.find(list => list.id === selectedListId);
             selectedList.categories.forEach(category => category.selected = false);
             saveAndRenderAll();
+            scrollToTop();
         }
 });
 
@@ -90,9 +92,15 @@ listsContainer2.addEventListener('click', e => {
         const selectedList = lists.find(list => list.id === selectedListId);
         selectedList.categories.forEach(category => category.selected = false);
         saveAndRenderAll();
+        scrollToTop();
         e.currentTarget.parentElement.parentElement.style.display = 'none';
     }
 });
+
+function scrollToTop() {
+    const listWrapper = document.querySelector('.list-wrapper');
+    listWrapper.scrollTo(0, 0);
+}
 
 // select category or items in the category
 categoriesContainer.addEventListener('click', e => {
@@ -109,7 +117,8 @@ categoriesContainer.addEventListener('click', e => {
             }
         )
         selectedCategoryId = selectedCategory.id 
-        saveAndRenderselectedList();                                           
+        saveAndRenderselectedList();  
+        scrollPage();                                         
     }
 });
 
@@ -129,10 +138,19 @@ categoriesContainer.addEventListener('submit', e => {
         newTaskInput.value = null;
         selectedCategory.tasks.push(task);
         //saveAndRenderselectedList();
+        save();
         const tasksContainer = document.querySelectorAll('.category .items');
         renderTaskCount(selectedList);
         tasksContainer.forEach(taskContainer=> clearElement(taskContainer));
         renderTasks(selectedList); 
+        //scrolling the new-item-form into view as the heigt of the list grow.
+        const screenHeight = window.screen.height;
+        const availableHeight = screenHeight - 56;
+        const taskFormBottom = e.target.getBoundingClientRect().bottom;
+        if ((availableHeight - taskFormBottom) < 0) {
+            const newItemForm = document.querySelector('.new-task-form');
+            newItemForm.scrollIntoView(false);
+        }
     }
 }); 
 
@@ -173,11 +191,11 @@ categoriesContainer.addEventListener('click', e => {
                         selectedCategoryId = 'null'; 
                         //console.log(selectedCategoryId);
                     }
-                } else if (category.content === 'show' && selectedCategoryId === 'null') {
+                } /* else if (category.content === 'show' && selectedCategoryId === 'null') {
                     category.selected = true;
                     selectedCategoryId = currentRadioBtnId;
                     //console.log(category.selected);
-                }                                                                            
+                }  */                                                                           
             } 
         });
         saveAndRenderselectedList();
@@ -198,11 +216,11 @@ categoriesContainer.addEventListener('click', e => {
                         selectedCategoryId = 'null'; 
                         //console.log(selectedCategoryId);
                     }
-                } else if (category.content === 'show' && selectedCategoryId === 'null') {
+                } /* else if (category.content === 'show' && selectedCategoryId === 'null') {
                     category.selected = true;
                     selectedCategoryId = currentRadioBtnId;
                     //console.log(category.selected);
-                }                                                                            
+                }   */                                                                          
             } 
         });   
         saveAndRenderselectedList();
@@ -354,8 +372,10 @@ function renderSelectedList() {
     } else {
         listDisplayContainer.style.display = '';
         listTitleElement.innerText = selectedList.name; 
+        const listTitleHeight = listTitleDiv.getBoundingClientRect().height;
+        categoriesContainer.style.top = `${listTitleHeight}px`;
         clearElement(categoriesContainer);
-        renderCategories(selectedList);      
+        renderCategories(selectedList);  
         const tasksContainer = document.querySelectorAll('.category .items');
         renderTaskCount(selectedList);
         tasksContainer.forEach(taskContainer=> clearElement(taskContainer));
@@ -369,7 +389,6 @@ function renderCategories(selectedList) {
         const radioBtn = categoryElement.querySelector('input[type="radio"]');
         const categoryLabel = categoryElement.querySelector('label');
         const tasksContainer = categoryElement.querySelector('ul.items');
-        const categoryMenuIcon = categoryElement.querySelector('.menu-category');
         tasksContainer.classList.add(category.content);
         //console.log(tasksContainer.classList);
         radioBtn.setAttribute('name', 'category');
@@ -378,7 +397,6 @@ function renderCategories(selectedList) {
         categoryLabel.htmlFor = category.id;
         tasksContainer.id = category.name;
         categoryLabel.append(category.name);
-        categoryMenuIcon.id = category.name.concat('-menu');
         categoriesContainer.appendChild(categoryElement); 
     })  
 
@@ -397,16 +415,31 @@ function renderCategories(selectedList) {
         const categoryTitleRadioBtns = document.querySelectorAll('input[type="radio"]');
         categoryTitleRadioBtns.forEach(categoryTitleRadioBtn=> { 
             if(categoryTitleRadioBtn.id === selectedCategoryId) {
-                categoryTitleRadioBtn.parentElement.parentElement.classList.add('selected-category');
+                categoryTitleRadioBtn.parentElement.parentElement.classList.add('selected-category');        
             }
         }) 
         
         // render newItemForm within selectedCategory
         const selectedCategoryWrapper = document.querySelector('.selected-category');
         const newItemFormElement = document.importNode(newItemFormTemplate.content, true);
-        selectedCategoryWrapper.appendChild(newItemFormElement);            
+        selectedCategoryWrapper.appendChild(newItemFormElement);     
     }  
 } 
+
+function scrollPage() {
+    if (selectedCategoryId !== 'null') {
+        const selectedListTitle = document.querySelector('.list-title');
+        const selectedCategory = document.querySelector('.selected-category');
+        const listTitleBottom = selectedListTitle.getBoundingClientRect().bottom;
+        const selectedCategoryTop = selectedCategory.getBoundingClientRect().top;
+        const scrollDistance = Math.floor(listTitleBottom - selectedCategoryTop) ;
+        if (scrollDistance > 0) {
+            const listWrapper = document.querySelector('.list-wrapper');
+            listWrapper.scrollBy(0, -scrollDistance);
+        }
+    }
+}
+
 // create DOM element for each task objects in the selectedList 
 // and append elements to tasksContainer
 //if I coould add a class for each li.item that match the id of the ul.items it belong
@@ -442,8 +475,8 @@ function renderTaskCount(selectedList) {
                 totalTasks = totalTasks.concat(categoriesArr[i].tasks);
         }
         const incompleteTaskCount = totalTasks.filter(task => !task.complete).length;
-        const taskString = incompleteTaskCount === 1 || incompleteTaskCount === 0 ? 'item' : 'items';
-        listCountElement.innerHTML =`<span>${incompleteTaskCount}</span>  ${taskString} left`;             
+        //const taskString = incompleteTaskCount === 1 || incompleteTaskCount === 0 ? 'item' : 'items';
+        listCountElement.innerHTML =`<span>${incompleteTaskCount}</span> left`;             
 
 }
 // create DOM element for each list objects in the lists array
