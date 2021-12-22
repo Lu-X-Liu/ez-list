@@ -282,6 +282,9 @@ h1 {
     display: grid;
     place-items: center;
     border: 2px dashed var(--clr-text-dark);
+    cursor: pointer;
+    position: relative;
+    z-index: 9;
 }
 
 /* current list*/
@@ -304,7 +307,7 @@ h1 {
 }
 
 .current-list h2 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 500;
     margin-right: 1.5rem;
 }
@@ -358,7 +361,7 @@ h1 {
     }
 
     .my-lists-title {
-        font-size: 1.3rem;
+        font-size: 1.35rem;
         font-weight: 700;
         padding-bottom: 0.5rem;
         position: relative;
@@ -431,7 +434,7 @@ h1 {
 }
 
 .category-title label {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     font-weight: 500;  
     cursor: pointer;
 }
@@ -619,9 +622,10 @@ input.add-new:focus::placeholder {
     transform-origin: left;
 }
 
-/* create category pop-up */
+/* create category pop-up & delet confirmation pop-up*/
 
-.create-category-wrapper {
+.create-category-wrapper,
+.delete-confirmation-wrapper {
     position: absolute;
     top: 0;
     z-index: 100;
@@ -633,7 +637,12 @@ input.add-new:focus::placeholder {
     display: none;
 }
 
-.new-category {
+.delete-confirmation-wrapper {
+    z-index: 101;
+}
+
+.new-category,
+.delete-confirmation {
     padding: 4rem 2rem;
     background-color: var(--clr-body-bg);
     display: flex;
@@ -665,11 +674,38 @@ input.add-new:focus::placeholder {
     background-color: var(--clr-category-title-bg);
 }
 
-.new-category svg {
+.new-category svg,
+.delete-confirmation svg {
     fill: var(--clr-text-dark);
     position: absolute;
     right: 1rem;
     top: 1rem;
+}
+
+.confirmation-message {
+    font-size: 1rem;
+    margin-top: -1rem;
+    margin-bottom: 2rem;
+}
+
+.cancel-btn,
+.delete-btn {
+    padding: 0.75rem 1.2rem;
+    border: none;
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.cancel-btn {
+   margin-bottom: 1rem; 
+   color: var(--clr-text-dark);
+}
+
+.delete-btn {
+    background-color: #eb4034;
+    color: var(--clr-text-bright)
 }
 
 /* mobil bottom tab for edit */

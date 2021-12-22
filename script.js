@@ -48,6 +48,8 @@ const LOCAL_STORAGE_LIST_KEY = 'task.list';
 const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'task.selectedListId';
 const LOCAL_STORAGE_SELECTED_CATEGORY_ID_KEY = 'task.selectedCategoryId';
 const deletListBtns = document.querySelectorAll('[data-delete-list-button]');
+const initialDisplay = document.querySelector('.initial');
+const initialBtns = initialDisplay.querySelectorAll('.dash-box');
 
 //categories
 const categoriesContainer = document.querySelector('[data-categories-container]');
@@ -72,6 +74,14 @@ const clearCompletedTasksBtns = document.querySelectorAll('[data-clear-completed
 let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
 let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
 let selectedCategoryId = localStorage.getItem(LOCAL_STORAGE_SELECTED_CATEGORY_ID_KEY);
+
+//click initial buttons opens the nav menu
+initialBtns.forEach(btn => {
+    btn.addEventListener('click', ()=> {
+        headerMenuDropDown.style.display = 'block';
+        
+    })
+})
 
 // getting the selectedListId from target li
 listsContainer.addEventListener('click', e => {           
@@ -121,6 +131,20 @@ categoriesContainer.addEventListener('click', e => {
         scrollPage();                                         
     }
 });
+
+function scrollPage() {
+    if (selectedCategoryId !== 'null') {
+        const selectedListTitle = document.querySelector('.list-title');
+        const selectedCategory = document.querySelector('.selected-category');
+        const listTitleBottom = selectedListTitle.getBoundingClientRect().bottom;
+        const selectedCategoryTop = selectedCategory.getBoundingClientRect().top;
+        const scrollDistance = Math.floor(listTitleBottom - selectedCategoryTop) ;
+        if (scrollDistance > 0) {
+            const listWrapper = document.querySelector('.list-wrapper');
+            listWrapper.scrollBy(0, -scrollDistance);
+        }
+    }
+}
 
 categoriesContainer.addEventListener('submit', e => {
     e.preventDefault();
@@ -369,7 +393,9 @@ function renderSelectedList() {
     const selectedList = lists.find(list => list.id === selectedListId);
     if(selectedListId == 'null') {
         listDisplayContainer.style.display = 'none';
+        initialDisplay.style.display = 'block';
     } else {
+        initialDisplay.style.display = 'none';
         listDisplayContainer.style.display = '';
         listTitleElement.innerText = selectedList.name; 
         const listTitleHeight = listTitleDiv.getBoundingClientRect().height;
@@ -395,7 +421,7 @@ function renderCategories(selectedList) {
         radioBtn.id = category.id;
         radioBtn.checked = category.selected;
         categoryLabel.htmlFor = category.id;
-        tasksContainer.id = category.name;
+        tasksContainer.id = category.name.replaceAll(' ', '-');
         categoryLabel.append(category.name);
         categoriesContainer.appendChild(categoryElement); 
     })  
@@ -426,20 +452,6 @@ function renderCategories(selectedList) {
     }  
 } 
 
-function scrollPage() {
-    if (selectedCategoryId !== 'null') {
-        const selectedListTitle = document.querySelector('.list-title');
-        const selectedCategory = document.querySelector('.selected-category');
-        const listTitleBottom = selectedListTitle.getBoundingClientRect().bottom;
-        const selectedCategoryTop = selectedCategory.getBoundingClientRect().top;
-        const scrollDistance = Math.floor(listTitleBottom - selectedCategoryTop) ;
-        if (scrollDistance > 0) {
-            const listWrapper = document.querySelector('.list-wrapper');
-            listWrapper.scrollBy(0, -scrollDistance);
-        }
-    }
-}
-
 // create DOM element for each task objects in the selectedList 
 // and append elements to tasksContainer
 //if I coould add a class for each li.item that match the id of the ul.items it belong
@@ -458,7 +470,7 @@ function renderTasks(selectedList) {
             label.append(task.name); 
             const tasksContainers = document.querySelectorAll('.category ul.items');
             for (let j= 0; j<tasksContainers.length; j++) {
-                if (task.category === tasksContainers[j].id) {
+                if (task.category === tasksContainers[j].id.replaceAll('-', ' ')) {
                     tasksContainers[j].appendChild(taskElement);
                 }
             }
