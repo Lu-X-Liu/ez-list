@@ -476,7 +476,6 @@ function renderSelectedList() {
         listDisplayContainer.style.display = '';
         listTitleElement.innerText = selectedList.name; 
         const listTitleHeight = listTitleDiv.getBoundingClientRect().height;
-        console.log(listTitleDiv.getBoundingClientRect());
         categoriesContainer.style.top = `${listTitleHeight}px`;
         clearElement(categoriesContainer);
         renderCategories(selectedList);  
@@ -548,7 +547,7 @@ function renderTasks(selectedList) {
             label.append(task.name); 
             const tasksContainers = document.querySelectorAll('.category ul.items');
             for (let j= 0; j<tasksContainers.length; j++) {
-                if (task.category === tasksContainers[j].id.replaceAll('-', ' ')) {
+                if (task.category === tasksContainers[j].id) {
                     tasksContainers[j].appendChild(taskElement);
                 }
             }
