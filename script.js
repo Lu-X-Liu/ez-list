@@ -47,9 +47,15 @@ const newListInput2 = document.querySelector('[data-new-list-input-2]');
 const LOCAL_STORAGE_LIST_KEY = 'task.list';
 const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'task.selectedListId';
 const LOCAL_STORAGE_SELECTED_CATEGORY_ID_KEY = 'task.selectedCategoryId';
-const deletListBtns = document.querySelectorAll('[data-delete-list-button]');
+const LOCAL_STORAGE_DELETE_OPTION_KEY = 'task.delete';
 const initialDisplay = document.querySelector('.initial');
 const initialBtns = initialDisplay.querySelectorAll('.dash-box');
+
+const deleteListBtns = document.querySelectorAll('[data-delete-list-button]');
+const deleteConfirmationWrapper = document.querySelector('.delete-confirmation-wrapper');
+const confirmDeleteName = document.querySelector('[data-confirm-name]');
+const deleteBtnWithOptions = document.querySelector('[data-delete-option]');
+const cancelDeleteBtn = document.querySelector('[data-cancel-delete]');
 
 //categories
 const categoriesContainer = document.querySelector('[data-categories-container]');
@@ -74,13 +80,17 @@ const clearCompletedTasksBtns = document.querySelectorAll('[data-clear-completed
 let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
 let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
 let selectedCategoryId = localStorage.getItem(LOCAL_STORAGE_SELECTED_CATEGORY_ID_KEY);
+let deleteOption = localStorage.getItem(LOCAL_STORAGE_DELETE_OPTION_KEY);
+
+function saveDeleteOption() {
+    localStorage.setItem(LOCAL_STORAGE_DELETE_OPTION_KEY, deleteOption);
+}
 
 //click initial buttons opens the nav menu
 initialBtns.forEach(btn => {
     btn.addEventListener('click', ()=> {
-        headerMenuDropDown.style.display = 'block';
-        
-    })
+       headerMenuDropDown.style.display = 'block'; 
+    });
 })
 
 // getting the selectedListId from target li
@@ -161,7 +171,6 @@ categoriesContainer.addEventListener('submit', e => {
         const task = createTask(taskName,categoryName);
         newTaskInput.value = null;
         selectedCategory.tasks.push(task);
-        //saveAndRenderselectedList();
         save();
         const tasksContainer = document.querySelectorAll('.category .items');
         renderTaskCount(selectedList);
@@ -249,7 +258,7 @@ categoriesContainer.addEventListener('click', e => {
         });   
         saveAndRenderselectedList();
     }
-})
+});
 
 //clear completed tasks
 clearCompletedTasksBtns.forEach(btn => {
@@ -265,10 +274,51 @@ function clearCompleted() {
     saveAndRenderAll();
 }
 //delete list
-deletListBtns.forEach( btn => {
+/* deleteListBtns.forEach( btn => {
     btn.addEventListener('click', deleteList);
     btn.addEventListener('click', hideParent);
+}); */
+deleteListBtns.forEach(btn => {
+    if (selectedListId === 'null' || selectedListId === '') {   
+        btn.addEventListener('click', hideParent); 
+        return;
+    }  else {
+        btn.addEventListener('click', () => {
+            deleteOption = 'selected-list';
+            saveDeleteOption();
+            const selecetedListName = lists.find(list=> list.id === selectedListId).name;
+            openDeleteConfirmation();
+            confirmDeleteName.innerText = selecetedListName;
+            deleteBtnWithOptions.dataset.deleteOption = deleteOption;                 
+        })    
+        btn.addEventListener('click', hideParent);            
+    }  
 });
+
+cancelDeleteBtn.addEventListener('click', resetDeleteConfirmationData);
+
+deleteBtnWithOptions.addEventListener('click', e => {
+    if (e.target.dataset.deleteOption === 'selected-list') {
+        deleteList();
+        resetDeleteConfirmationData();
+    }
+})
+
+function resetDeleteConfirmationData() {
+    deleteOption = '';
+    saveDeleteOption();
+    confirmDeleteName.innerText = '';
+    deleteBtnWithOptions.dataset.deleteOption = '';
+    closeDeleteConfirmation();    
+}
+
+function openDeleteConfirmation() {
+    deleteConfirmationWrapper.style.display = 'grid';
+}
+
+function closeDeleteConfirmation() {
+    deleteConfirmationWrapper.style.display = 'none';
+}
 
 function deleteList() {
     lists = lists.filter(list => list.id !== selectedListId);
@@ -295,7 +345,7 @@ newCategoryFormPopup.style.display = 'none';
 });
 
 //delete category
-deleteCategoryBtns.forEach(btn=> {
+/* deleteCategoryBtns.forEach(btn=> {
     btn.addEventListener('click', () => {
         const selectedList = lists.find(list=> list.id === selectedListId);
         selectedList.categories = selectedList.categories.filter(category=> !category.selected);
@@ -304,7 +354,34 @@ deleteCategoryBtns.forEach(btn=> {
     });
     btn.addEventListener('click', hideParent);
 });
+ */
+deleteCategoryBtns.forEach(btn => {
+    if (selectedCategoryId === 'null' || selectedCategoryId === '') {
+        btn.addEventListener('click', hideParent); 
+        return;
+    }  else {
+        btn.addEventListener('click', () => {
+            deleteOption = 'selected-Category';
+            saveDeleteOption();
+            const selectedList = lists.find(list => list.id === selectedListId);
+            const selecetedCategoryName = selectedList.categories.find(category=> category.id === selectedCategoryId).name;
+            openDeleteConfirmation();
+            confirmDeleteName.innerText = selecetedCategoryName;
+            deleteBtnWithOptions.dataset.deleteOption = deleteOption;                 
+        })    
+        btn.addEventListener('click', hideParent);    
+    }              
+});
 
+deleteBtnWithOptions.addEventListener('click', e => {
+    if (e.target.dataset.deleteOption === 'selected-Category') {
+        const selectedList = lists.find(list=> list.id === selectedListId);
+        selectedList.categories = selectedList.categories.filter(category=> !category.selected);
+        selectedCategoryId = 'null'; 
+        saveAndRenderselectedList();
+        resetDeleteConfirmationData();        
+    }
+})
 
 // add new list object to lists array 
 //then save to localStorage and render UI
@@ -399,6 +476,7 @@ function renderSelectedList() {
         listDisplayContainer.style.display = '';
         listTitleElement.innerText = selectedList.name; 
         const listTitleHeight = listTitleDiv.getBoundingClientRect().height;
+        console.log(listTitleDiv.getBoundingClientRect());
         categoriesContainer.style.top = `${listTitleHeight}px`;
         clearElement(categoriesContainer);
         renderCategories(selectedList);  
