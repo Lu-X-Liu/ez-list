@@ -118,8 +118,8 @@ listsContainer2.addEventListener('click', e => {
 });
 
 function scrollToTop() {
-    const listWrapper = document.querySelector('.list-wrapper');
-    listWrapper.scrollTo(0, 0);
+    const currentListWrapper = document.querySelector('.current-list-wrapper');
+    currentListWrapper.scrollTo(0, 0);
 }
 
 // select category or items in the category
@@ -150,8 +150,8 @@ function scrollPage() {
         const selectedCategoryTop = selectedCategory.getBoundingClientRect().top;
         const scrollDistance = Math.floor(listTitleBottom - selectedCategoryTop) ;
         if (scrollDistance > 0) {
-            const listWrapper = document.querySelector('.list-wrapper');
-            listWrapper.scrollBy(0, -scrollDistance);
+            const currentListWrapper = document.querySelector('.current-list-wrapper');
+            currentListWrapper.scrollBy(0, -scrollDistance);
         }
     }
 }

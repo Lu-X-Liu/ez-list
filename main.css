@@ -291,16 +291,22 @@ h1 {
 
 .list-wrapper {
     height: calc(100vh - 6.4rem);
-    overflow: scroll;
+    overflow: hidden;
     position: absolute;
     top: 0;
+    width: 100%;
+}
+
+.current-list-wrapper {
+    height: 100%;
+    overflow: scroll;
     width: 100%;
     padding: 0 7%;
 }
 
 .current-list {
     max-width: 500px;
-    background: var(--clr-item-bg);
+    /*background: var(--clr-item-bg);*/
     padding-bottom: 1px;
     margin: 0 auto;
     position: relative;
@@ -335,9 +341,9 @@ h1 {
 
 .list-content {
     position: relative;
-    /*top: 60px;*/
+    /*top: 60px;
     background: var(--clr-item-bg);
-    padding-bottom: 1px;
+    padding-bottom: 1px;*/
 }
 
 .my-lists {
@@ -350,32 +356,46 @@ h1 {
     }
 
     .list-wrapper {
+        position: relative;
+        top: 7vh;
+        height: calc(93vh - 6.4rem);
         display: grid;
         grid: ". lists gap current ." auto /
               1fr minmax(200px, 300px) 0.5fr minmax(200px, 600px) 1fr;
     }
+
     .my-lists {
         display: block;
         grid-area: lists;
         margin-top: 10vh;
+        height: calc(76vh - 5rem);
+        padding-left: 1.5rem;
+        overflow: scroll;
     }
 
     .my-lists-title {
         font-size: 1.35rem;
         font-weight: 700;
         padding-bottom: 0.5rem;
-        position: relative;
+        position: fixed;
     }
 
     .my-lists-content {
+        position: relative;
+        top: 2.5rem;
         list-style: none;
-        padding: 0 3rem;
+        padding-left: 3rem;
+        padding-right: 0.5rem;
+        margin-right: 2.5rem;
+        height: 47.5%;
+        overflow-x: visible;
+        overflow-y: scroll;
     }
 
     .new-list-creator::before {
         content: '';
         position: absolute;
-        top: -1.5rem;
+        top: 0;
         left: 2.5rem;
         right: 1.5rem;
         height: 1px;
@@ -385,11 +405,18 @@ h1 {
     .new-list-creator {
         margin-top: 2.5rem;
         transform: translateX(-2rem);
+        position: relative;
+        z-index: 3;
+        padding-top: 1.5rem;
+    }
+
+    .current-list-wrapper {
+        grid-area: current;
+        margin-left: -7%;        
     }
 
     .current-list {
-        grid-area: current;
-        margin: 7vh 0;
+        margin: 0 0 7vh; 
     }
 
     .new-list-creater form {
@@ -440,7 +467,14 @@ h1 {
 }
 
 .category {
-    position: relative;
+    position: relative;   
+    background: var(--clr-item-bg);
+    padding-bottom: 1px;
+   /*  margin-top: -1px; */
+}
+
+.category:not(:first-child) {
+    margin-top: -1px;
 }
 
 [type="radio"] {
@@ -462,22 +496,17 @@ h1 {
 }
 
 .selected-category {
-    margin-left: -7vw;
-    margin-right: -7vw;
+    margin-left: -5vw;
+    margin-right: -5vw;
     background-color: var(--clr-item-bg);
+    padding-bottom: 1rem;
+    margin-bottom: 1px;
 }
 
-/* .hide {
-    display: none;
-}
-.show {
-    display: block;
-}
- */
 @media(min-width: 1024px) {
     .selected-category{
-        margin-left: -2vw;
-        margin-right: -2vw;
+        margin-left: -1.3vw;
+        margin-right: -1.3vw;
     }
 }
 
@@ -552,7 +581,7 @@ input.add-new {
     border: none;
     font-size: 1.25rem;
     padding: 0.4rem 0 0.7rem 1rem;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     outline: none;
     order: 2;
     border-bottom: 2px solid var(--clr-border-dark);
