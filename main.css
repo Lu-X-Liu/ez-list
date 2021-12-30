@@ -278,6 +278,7 @@ h1 {
 .dash-box {
     margin: 2rem auto;
     width: 75%;
+    max-width: 400px;
     padding: 2rem;
     display: grid;
     place-items: center;
@@ -505,7 +506,7 @@ h1 {
     margin-left: -5vw;
     margin-right: -5vw;
     background-color: var(--clr-item-bg);
-    padding-bottom: 1rem;
+    /* padding-bottom: 1rem; */
     margin-bottom: 1px;
 }
 
@@ -564,6 +565,7 @@ li.item::after {
 
 .new-item-creator form {
     padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 .new-btn {

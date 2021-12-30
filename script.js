@@ -87,6 +87,17 @@ function saveDeleteOption() {
     localStorage.setItem(LOCAL_STORAGE_DELETE_OPTION_KEY, deleteOption);
 }
 
+window.addEventListener('resize', () => {
+    if(selectedListId == 'null') {
+        listDisplayContainer.style.display = 'none';
+        if(window.innerWidth < 1024){
+          initialDisplay.style.display = 'block';  
+        } else {
+          initialDisplay.style.display = 'none'; 
+        }
+    }
+});
+
 //click initial buttons opens the nav menu
 initialBtns.forEach(btn => {
     btn.addEventListener('click', ()=> {
@@ -179,8 +190,8 @@ categoriesContainer.addEventListener('submit', e => {
         tasksContainer.forEach(taskContainer=> clearElement(taskContainer));
         renderTasks(selectedList); 
         //scrolling the new-item-form into view as the heigt of the list grow.
-        const screenHeight = window.screen.height;
-        const availableHeight = screenHeight - 56;
+        const windowHeight = window.innerHeight;
+        const availableHeight = windowHeight - 56;
         const taskFormBottom = e.target.getBoundingClientRect().bottom;
         if ((availableHeight - taskFormBottom) < 0) {
             const newItemForm = document.querySelector('.new-task-form');
@@ -475,7 +486,7 @@ function renderSelectedList() {
     const selectedList = lists.find(list => list.id === selectedListId);
     if(selectedListId == 'null') {
         listDisplayContainer.style.display = 'none';
-        if(window.screen.width < 1024){
+        if(window.innerWidth < 1024){
           initialDisplay.style.display = 'block';  
         }
     } else {
