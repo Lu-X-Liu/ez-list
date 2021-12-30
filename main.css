@@ -368,7 +368,8 @@ h1 {
         display: block;
         grid-area: lists;
         margin-top: 10vh;
-        height: calc(76vh - 5rem);
+        /* height: calc(76vh - 5rem); */
+        max-height: 70vh;
         padding-left: 1.5rem;
         overflow: scroll;
     }
@@ -378,6 +379,10 @@ h1 {
         font-weight: 700;
         padding-bottom: 0.5rem;
         position: fixed;
+        z-index: 3;
+        min-width: 250px;
+        max-width: 300px;
+        background-color: var(--clr-body-bg);
     }
 
     .my-lists-content {
@@ -387,7 +392,6 @@ h1 {
         padding-left: 3rem;
         padding-right: 0.5rem;
         margin-right: 2.5rem;
-        height: 47.5%;
         overflow-x: visible;
         overflow-y: scroll;
     }
@@ -400,6 +404,7 @@ h1 {
         right: 1.5rem;
         height: 1px;
         background-color: var(--clr-border-dark);
+        margin-top: 1rem;
     }
 
     .new-list-creator {
@@ -800,7 +805,6 @@ input.add-new:focus::placeholder {
 .edit-btn:hover,
 .edit-btn::selection {
     background-color: var(--clr-category-menu);
-    font-weight: 700;
     color: var(--clr-border-dark);
 }
 
@@ -808,6 +812,5 @@ input.add-new:focus::placeholder {
 .edit-btn:focus {
     outline: none;
     background-color: var(--clr-category-menu);
-    font-weight: 700;
     color: var(--clr-border-dark);
 }

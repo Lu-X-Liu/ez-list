@@ -56,6 +56,7 @@ const deleteConfirmationWrapper = document.querySelector('.delete-confirmation-w
 const confirmDeleteName = document.querySelector('[data-confirm-name]');
 const deleteBtnWithOptions = document.querySelector('[data-delete-option]');
 const cancelDeleteBtn = document.querySelector('[data-cancel-delete]');
+/* const newListCreator = document.querySelector('.new-list-creator'); */
 
 //categories
 const categoriesContainer = document.querySelector('[data-categories-container]');
@@ -92,6 +93,7 @@ initialBtns.forEach(btn => {
        headerMenuDropDown.style.display = 'block'; 
     });
 })
+
 
 // getting the selectedListId from target li
 listsContainer.addEventListener('click', e => {           
@@ -279,20 +281,20 @@ function clearCompleted() {
     btn.addEventListener('click', hideParent);
 }); */
 deleteListBtns.forEach(btn => {
-    if (selectedListId === 'null' || selectedListId === '') {   
-        btn.addEventListener('click', hideParent); 
-        return;
-    }  else {
-        btn.addEventListener('click', () => {
-            deleteOption = 'selected-list';
-            saveDeleteOption();
-            const selecetedListName = lists.find(list=> list.id === selectedListId).name;
-            openDeleteConfirmation();
-            confirmDeleteName.innerText = selecetedListName;
-            deleteBtnWithOptions.dataset.deleteOption = deleteOption;                 
-        })    
-        btn.addEventListener('click', hideParent);            
-    }  
+    btn.addEventListener('click', e => {
+        if (selectedListId === 'null' || selectedListId === '') {   
+            hideParent(e); 
+            return;
+        }  else {
+                deleteOption = 'selected-list';
+                saveDeleteOption();
+                const selecetedListName = lists.find(list=> list.id === selectedListId).name;
+                openDeleteConfirmation();
+                confirmDeleteName.innerText = selecetedListName;
+                deleteBtnWithOptions.dataset.deleteOption = deleteOption;                   
+            hideParent(e);            
+        }          
+    })
 });
 
 cancelDeleteBtn.addEventListener('click', resetDeleteConfirmationData);
@@ -356,21 +358,21 @@ newCategoryFormPopup.style.display = 'none';
 });
  */
 deleteCategoryBtns.forEach(btn => {
-    if (selectedCategoryId === 'null' || selectedCategoryId === '') {
-        btn.addEventListener('click', hideParent); 
-        return;
-    }  else {
-        btn.addEventListener('click', () => {
-            deleteOption = 'selected-Category';
-            saveDeleteOption();
-            const selectedList = lists.find(list => list.id === selectedListId);
-            const selecetedCategoryName = selectedList.categories.find(category=> category.id === selectedCategoryId).name;
-            openDeleteConfirmation();
-            confirmDeleteName.innerText = selecetedCategoryName;
-            deleteBtnWithOptions.dataset.deleteOption = deleteOption;                 
-        })    
-        btn.addEventListener('click', hideParent);    
-    }              
+    btn.addEventListener('click', e => {
+        if (selectedCategoryId === 'null' || selectedCategoryId === '') {
+            hideParent(e);
+            return;
+        }  else {
+                deleteOption = 'selected-Category';
+                saveDeleteOption();
+                const selectedList = lists.find(list => list.id === selectedListId);
+                const selecetedCategoryName = selectedList.categories.find(category=> category.id === selectedCategoryId).name;
+                openDeleteConfirmation();
+                confirmDeleteName.innerText = selecetedCategoryName;
+                deleteBtnWithOptions.dataset.deleteOption = deleteOption;                   
+                hideParent(e);
+        }           
+    })        
 });
 
 deleteBtnWithOptions.addEventListener('click', e => {
@@ -394,6 +396,7 @@ newListForm.addEventListener('submit', e => {
     lists.push(list);
     selectedCategoryId = 'null';
     saveAndRenderAll();
+    listsContainer.lastChild.scrollIntoView();
 });    
 
 newListForm2.addEventListener('submit', e => {
@@ -470,7 +473,9 @@ function renderSelectedList() {
     const selectedList = lists.find(list => list.id === selectedListId);
     if(selectedListId == 'null') {
         listDisplayContainer.style.display = 'none';
-        initialDisplay.style.display = 'block';
+        if(window.screen.width < 1024){
+          initialDisplay.style.display = 'block';  
+        }
     } else {
         initialDisplay.style.display = 'none';
         listDisplayContainer.style.display = '';
