@@ -394,6 +394,7 @@ newListForm.addEventListener('submit', e => {
     const list = createList(listName);
     newListInput.value = null;
     lists.push(list);
+    selectedListId = list.id;
     selectedCategoryId = 'null';
     saveAndRenderAll();
     listsContainer.lastChild.scrollIntoView();
@@ -406,6 +407,7 @@ newListForm2.addEventListener('submit', e => {
     const list = createList(listName);
     newListInput2.value = null;
     lists.push(list);
+    selectedListId = list.id;
     selectedCategoryId= 'null';
     saveAndRenderAll();
 });  
