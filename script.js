@@ -61,17 +61,13 @@ const cancelDeleteBtn = document.querySelector('[data-cancel-delete]');
 //categories
 const listInitialWrapper = document.querySelector('.list-initial-wrapper');
 const uncategorizedBtn = document.querySelector('.uncategorized-btn');
-const initialCategoryForm = document.querySelector('.initial-category-form');
-const initialCategoryInput = document.querySelector('.initial-category-input');
-const initialCategoryBtn = document.querySelector('.initial-category-btn');
 
 const categoriesContainer = document.querySelector('[data-categories-container]');
 const categoryTemplate = document.getElementById('category-template');
 const newItemFormTemplate = document.getElementById('new-item-form-template');
 const createNewCategoryBtns = document.querySelectorAll('[data-create-new-category-btn]');
 const newCategoryFormPopup = document.querySelector('[data-new-category-form-popup]');
-const newCategoryForm = document.querySelector('[data-new-category-form]');
-const newCategoryInput = document.querySelector('[data-new-category-input]');
+const newCategoryForms = document.querySelectorAll('[data-new-category-form]');
 const closeCategoryForm = document.querySelector('[data-close-category-form]');
 const deleteCategoryBtns = document.querySelectorAll('[data-delete-category-btn]');
 
@@ -142,7 +138,19 @@ function scrollToTop() {
 }
 
 // list initial displayed options
-/* uncategorizedBtn.addEventListener('click', ) */
+uncategorizedBtn.addEventListener('click', ()=> {
+    const categoryName = 'uncategorized';
+    const category = createCategory(categoryName);
+    const selectedList = lists.find(list => list.id === selectedListId);
+    selectedCategoryId = category.id
+    selectedList.categories.push(category);   
+    selectedList.categories.forEach(category => {
+        if (category.id !== selectedCategoryId) {
+            category.selected = false;
+        }
+    })
+    saveAndRenderselectedList();
+})
 
 // select category or items in the category
 categoriesContainer.addEventListener('click', e => {
@@ -433,22 +441,28 @@ newListForm2.addEventListener('submit', e => {
 });  
 
 // add new category to list
-newCategoryForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const categoryName = newCategoryInput.value;
-    if (categoryName == null || categoryName == '') return;        
-    const category = createCategory(categoryName);
-    newCategoryInput.value = null;
-    const selectedList = lists.find(list => list.id === selectedListId);
-    selectedCategoryId = category.id
-    selectedList.categories.push(category);   
-    selectedList.categories.forEach(category => {
-        if (category.id !== selectedCategoryId) {
-            category.selected = false;
-        }
+newCategoryForms.forEach(form => {
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const newCategoryInput = form.querySelector('[data-new-category-input]');
+        const categoryName = newCategoryInput.value;
+        if (!categoryName || categoryName === ' ') {
+            newCategoryInput.value = null;
+            return; 
+        }        
+        const category = createCategory(categoryName);
+        newCategoryInput.value = null;
+        const selectedList = lists.find(list => list.id === selectedListId);
+        selectedCategoryId = category.id
+        selectedList.categories.push(category);   
+        selectedList.categories.forEach(category => {
+            if (category.id !== selectedCategoryId) {
+                category.selected = false;
+            }
+        })
+        saveAndRenderselectedList();
+        newCategoryFormPopup.style.display = 'none';
     })
-    saveAndRenderselectedList();
-    newCategoryFormPopup.style.display = 'none';
 })
 
 // create list object
@@ -533,6 +547,11 @@ function renderCategories(selectedList) {
         categoryLabel.htmlFor = category.id;
         tasksContainer.id = category.name.replaceAll(' ', '-');
         categoryLabel.append(category.name);
+        //hide uncategorized title
+        if (categoryLabel.innerText === 'uncategorized') {
+            const categoryTitle = categoryElement.querySelector('.category-title');
+            categoryTitle.style.display = 'none';
+        }        
         categoriesContainer.appendChild(categoryElement); 
     })  
 
@@ -546,12 +565,29 @@ function renderCategories(selectedList) {
         } 
     });
 
+    if (categoriesContainer.children.length === 1) { 
+        const onlyCategory = categoriesContainer.children[0];
+        const itemsContainerId = onlyCategory.children[1].id;
+        if(itemsContainerId === 'uncategorized') {
+            selectedCategoryId = categoriesContainer.children[0].children[0].children[0].id;
+            onlyCategory.classList.add('uncategorized-only');                     
+        }           
+    }   
+    else if (categoriesContainer.children.length > 1) {       
+        for (let i = 0; i < categoriesContainer.children.length; i++) {
+            if (categoriesContainer.children[i].children[1].id === 'uncategorized') {
+                categoriesContainer.children[i].children[0].style.display = 'flex';
+            }
+        }
+    } 
+
     //styling selected category wrapper
     if (selectedCategoryId !== 'null') {
         const categoryTitleRadioBtns = document.querySelectorAll('input[type="radio"]');
         categoryTitleRadioBtns.forEach(categoryTitleRadioBtn=> { 
             if(categoryTitleRadioBtn.id === selectedCategoryId) {
-                categoryTitleRadioBtn.parentElement.parentElement.classList.add('selected-category');        
+                const categoryDiv = categoryTitleRadioBtn.parentElement.parentElement;
+                categoryDiv.classList.add('selected-category');        
             }
         }) 
         
@@ -560,6 +596,7 @@ function renderCategories(selectedList) {
         const newItemFormElement = document.importNode(newItemFormTemplate.content, true);
         selectedCategoryWrapper.appendChild(newItemFormElement);     
     }  
+
 } 
 
 // create DOM element for each task objects in the selectedList 

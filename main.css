@@ -510,6 +510,10 @@ h1 {
     margin-bottom: 1px;
 }
 
+.uncategorized-only {
+    margin: 0;
+}
+
 @media(min-width: 1024px) {
     .selected-category{
         margin-left: -1.3vw;
