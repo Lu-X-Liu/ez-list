@@ -56,9 +56,15 @@ const deleteConfirmationWrapper = document.querySelector('.delete-confirmation-w
 const confirmDeleteName = document.querySelector('[data-confirm-name]');
 const deleteBtnWithOptions = document.querySelector('[data-delete-option]');
 const cancelDeleteBtn = document.querySelector('[data-cancel-delete]');
-/* const newListCreator = document.querySelector('.new-list-creator'); */
+
 
 //categories
+const listInitialWrapper = document.querySelector('.list-initial-wrapper');
+const uncategorizedBtn = document.querySelector('.uncategorized-btn');
+const initialCategoryForm = document.querySelector('.initial-category-form');
+const initialCategoryInput = document.querySelector('.initial-category-input');
+const initialCategoryBtn = document.querySelector('.initial-category-btn');
+
 const categoriesContainer = document.querySelector('[data-categories-container]');
 const categoryTemplate = document.getElementById('category-template');
 const newItemFormTemplate = document.getElementById('new-item-form-template');
@@ -134,6 +140,9 @@ function scrollToTop() {
     const currentListWrapper = document.querySelector('.current-list-wrapper');
     currentListWrapper.scrollTo(0, 0);
 }
+
+// list initial displayed options
+/* uncategorizedBtn.addEventListener('click', ) */
 
 // select category or items in the category
 categoriesContainer.addEventListener('click', e => {
@@ -497,6 +506,12 @@ function renderSelectedList() {
         categoriesContainer.style.top = `${listTitleHeight}px`;
         clearElement(categoriesContainer);
         renderCategories(selectedList);  
+        if (categoriesContainer.innerHTML === '') {
+            listInitialWrapper.style.top = `${listTitleHeight}px`;
+            listInitialWrapper.style.display = 'block';            
+        } else {
+            listInitialWrapper.style.display = 'none';
+        }
         const tasksContainer = document.querySelectorAll('.category .items');
         renderTaskCount(selectedList);
         tasksContainer.forEach(taskContainer=> clearElement(taskContainer));
