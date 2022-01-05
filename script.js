@@ -1,11 +1,30 @@
-// open add category at the bottom for mobil 
-
 const bottomTabIcon = document.querySelector('.edit-tab svg');
 const editBtnWrapper = document.querySelector('.edit-btns-wrapper');
+const headerMenuIcon = document.querySelector('.menu-btn svg');
+const headerMenuDropDown = document.querySelector('.nav-dropdown-menu');
+const headerEditIcon = document.querySelector('.pencil-btn svg');
+const headerEditDropDown = document.querySelector('.edit-dropdown-menu');
+const navMenuContainer = document.querySelector('[data-nav-menu-container]');
+bottomTabIcon.menu = editBtnWrapper;
+headerMenuIcon.menu = headerMenuDropDown;
+headerEditIcon.menu = headerEditDropDown;
 
+// open add category at the bottom for mobil 
 bottomTabIcon.addEventListener('click', toggleOpenClose, false);
 bottomTabIcon.addEventListener('click', rotateBtn, false);
-bottomTabIcon.menu = editBtnWrapper;
+
+// open / close nav menu 
+headerMenuIcon.addEventListener('click', ()=> {
+    headerEditDropDown.style.display = 'none';
+    editBtnWrapper.style.display = 'none';
+})
+headerMenuIcon.addEventListener('click', toggleOpenClose);
+
+// open / close edit menu 
+headerEditIcon.addEventListener('click', () => {
+    headerMenuDropDown.style.display = 'none';
+})
+headerEditIcon.addEventListener('click', toggleOpenClose);
 
 function toggleOpenClose(evt) {
     const contentDisplay = evt.currentTarget.menu.style;
@@ -24,18 +43,6 @@ function rotateBtn(evt) {
         bottomTabIcon.style.transform = 'rotate(-90deg) translateX(5px)';
     }    
 }
-
-// open / close nav menu 
-const headerMenuIcon = document.querySelector('.menu-btn svg');
-const headerMenuDropDown = document.querySelector('.nav-dropdown-menu');
-headerMenuIcon.menu = headerMenuDropDown;
-headerMenuIcon.addEventListener('click', toggleOpenClose);
-
-// open / close edit menu 
-const headerEditIcon = document.querySelector('.pencil-btn svg');
-const headerEditDropDown = document.querySelector('.edit-dropdown-menu');
-headerEditIcon.menu = headerEditDropDown;
-headerEditIcon.addEventListener('click', toggleOpenClose);
 
 // my lists & menu-nav lists
 const listsContainer = document.querySelector('[data-lists]');
@@ -128,7 +135,7 @@ listsContainer2.addEventListener('click', e => {
         selectedList.categories.forEach(category => category.selected = false);
         saveAndRenderAll();
         scrollToTop();
-        e.currentTarget.parentElement.parentElement.style.display = 'none';
+        e.currentTarget.parentElement.parentElement.parentElement.style.display = 'none';
     }
 });
 
@@ -358,7 +365,7 @@ function deleteList() {
 
 
 function hideParent(e) {
-    e.currentTarget.parentElement.parentElement.style.display = 'none';
+    e.currentTarget.parentElement.parentElement.parentElement.style.display = 'none';
 }
 
 // display create category form
@@ -426,6 +433,7 @@ newListForm.addEventListener('submit', e => {
     selectedCategoryId = 'null';
     saveAndRenderAll();
     listsContainer.lastChild.scrollIntoView();
+    menuAnimation();
 });    
 
 newListForm2.addEventListener('submit', e => {
@@ -438,7 +446,21 @@ newListForm2.addEventListener('submit', e => {
     selectedListId = list.id;
     selectedCategoryId= 'null';
     saveAndRenderAll();
+    menuAnimation();
 });  
+
+function menuAnimation() {
+    const menuStyle = navMenuContainer.style;
+    if (menuStyle.transform === 'scaleX(1)' || menuStyle.transform === '') {
+        setTimeout(()=> {
+        menuStyle.transform = 'scaleX(0)';       
+        }, 500);
+        setTimeout(() => {
+            headerMenuDropDown.style.display = 'none'; 
+            menuStyle.transform = 'scaleX(1)';  
+        }, 700);
+    } 
+}
 
 // add new category to list
 newCategoryForms.forEach(form => {
@@ -509,6 +531,7 @@ function renderSelectedList() {
     const selectedList = lists.find(list => list.id === selectedListId);
     if(selectedListId == 'null') {
         listDisplayContainer.style.display = 'none';
+        listInitialWrapper.style.display = 'none';
         if(window.innerWidth < 1024){
           initialDisplay.style.display = 'block';  
         }
@@ -565,6 +588,7 @@ function renderCategories(selectedList) {
         } 
     });
 
+    //uncategorized list or list with uncategorized category
     if (categoriesContainer.children.length === 1) { 
         const onlyCategory = categoriesContainer.children[0];
         const itemsContainerId = onlyCategory.children[1].id;
