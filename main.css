@@ -43,7 +43,8 @@ html {
     transition: all 150ms ease-in-out;
 }
 
-button {
+button,
+a {
     cursor: pointer;
 }
 
@@ -74,6 +75,11 @@ h1 {
     color: var(--clr-text-dark);
 }
 
+.nav{
+    display: flex;
+    align-items: center;
+}
+
 .nav-btn {
     background: transparent;
     border: none;
@@ -85,6 +91,67 @@ h1 {
 
 .nav-btn svg:hover {
     fill: #556854;
+}
+
+.lang-wrapper {
+    position: relative;
+    min-width: 80px;
+    max-width: 86px;
+}
+
+.lang {
+    display: flex;
+    border: 1px solid var(--clr-border-dark);
+    background: none;
+    color: var(--clr-text-dark);
+    width: 100%;
+    padding: 2px 5px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lang div {
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.lang:hover {
+    color: #556854; 
+    border: 1px solid #556854;
+}
+
+.lang:hover .lang-svg {
+    fill: #556854;
+}
+
+nav .lang-svg {
+    height: 12px;
+    width: 12px;
+    transform: rotate(180deg);
+}
+
+.lang-options {
+    position: absolute;
+    width: 100%;
+    background-color: var(--clr-item-bg);
+    display: none;
+}
+
+.lang-options a {
+    display: block;
+    padding: 0.4rem 0 0.4rem 0.75rem;
+    text-decoration: none;
+    color: var(--clr-text-dark);
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.lang-options a:hover {
+    color: #556854;
 }
 
 /* main*/
@@ -347,11 +414,11 @@ h1 {
 }
 
 .list-title span {
-    font-size: 0.8rem;
+    font-size: 1.3rem;
 }
 
-.list-title span > span {
-    font-size: 1.3rem;
+span[data-tasks-left] {
+    font-size: 0.8rem;
 }
 
 .list-content {
@@ -517,8 +584,8 @@ h1 {
 }
 
 .selected-category {
-    margin-left: -5vw;
-    margin-right: -5vw;
+    margin-left: -4vw;
+    margin-right: -4vw;
     background-color: var(--clr-item-bg);
     /* padding-bottom: 1rem; */
     margin-bottom: 1px;
@@ -696,8 +763,9 @@ input.add-new:focus::placeholder {
 
 .list-initial-wrapper button {
     font-size: 1.2rem;
-    padding: 0.75rem 1rem;
-    font-weight: 700;
+    padding: 0.5rem 1rem;
+    height: 45px;
+    font-weight: 500;
     color: var(--clr-text-bright);
     background-color: var(--clr-category-title-bg);
     border: none;

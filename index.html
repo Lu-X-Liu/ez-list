@@ -15,15 +15,29 @@
         <div class="wrapper">
             <h1 class="logo">EZ List</h1>
             <nav class="nav">
-                    <button class="nav-btn pencil-btn" aria-label="edit list icon"><svg><use href="#pencil-icon"></use></svg></button>
-                    <button class="nav-btn menu-btn" aria-label="navigation menu icon"><svg><use href="#menu-header"></use></svg></button>      
+                <div class="lang-wrapper">
+                    <button class="lang" data-lang> 
+                        <div>English</div>
+                        <svg class="lang-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path d="M0 16.67l2.829 2.83 9.175-9.339 9.167 9.339 2.829-2.83-11.996-12.17z"/>
+                        </svg>
+                    </button>  
+                    <div class="lang-options">
+                        <a data-lang-option href="#en-US">English</a>
+                        <a data-lang-option href="#zh-TW">繁體中文</a>
+                        <a data-lang-option href="#zh-CN">简体中文</a>
+                        <a data-lang-option href="#es">Español</a>
+                    </div>                  
+                </div>
+                <button class="nav-btn pencil-btn" aria-label="edit list icon"><svg><use href="#pencil-icon"></use></svg></button>
+                <button class="nav-btn menu-btn" aria-label="navigation menu icon"><svg><use href="#menu-header"></use></svg></button>      
             </nav>
         </div>       
     </header>
     <main class="main">
         <div class="nav-dropdown-menu dropdown-menu">
             <div class="menu-container" data-nav-menu-container>
-                <div class="spacer header-menu-title"> My Lists :</div>
+                <div class="spacer header-menu-title" data-my-lists> My Lists :</div>
                 <div class="menu-nav-wrapper">
                     <ul class="menu-nav menu-content" data-lists-dropdown>   
                     </ul> 
@@ -63,13 +77,13 @@
         <div class="main-content-wrapper">
             <div class="initial">
                 <div class="create-new-list">
-                    <h3>Create a new list</h3>
+                    <h3 data-initial-new-list>Create a new list</h3>
                     <div class="dash-box">
                         <svg><use href="#plus-icon"></use></svg>
                     </div>
                 </div>
                 <div class="select-existing-list">
-                    <h3>or select an existing list</h3>
+                    <h3 data-initial-existing-list>or select an existing list</h3>
                     <div class="dash-box">
                         <svg><use href="#menu-list"></use></svg>
                     </div>
@@ -77,7 +91,7 @@
             </div>
             <div class="list-wrapper">
                 <div class="my-lists">
-                    <div class="my-lists-title"> My Lists :</div>                     
+                    <div class="my-lists-title" data-my-lists> My Lists :</div>                     
                     <ul class="my-lists-content" data-lists>   
                     </ul>
                     <div class="new-creator new-list-creator">
@@ -98,7 +112,7 @@
                     <div class="current-list" data-list-display-container>
                         <div class="list-title">
                             <h2 data-list-title></h2>
-                            <span data-list-count><span>0</span>item left</span>
+                            <span><span data-list-count>0</span><span data-tasks-left>left</span></span>
                         </div>
                         <div class="list-content" data-categories-container>                                        
                         </div>
@@ -115,7 +129,7 @@
                                 aria-label="enter new category"
                                 maxlength="13"
                                 data-new-category-input>
-                                <button class="initial-category-btn">Create</button>
+                                <button class="initial-category-btn" data-create-btns>Create</button>
                             </form>
                         </div>                           
                     </div>                   
@@ -132,7 +146,7 @@
                     aria-label="enter new category"
                     maxlength="13"
                     data-new-category-input>
-                    <button class="create-category-btn">Create</button>
+                    <button class="create-category-btn" data-create-btns>Create</button>
                 </form>
             </div>
             <div class="delete-confirmation-wrapper">

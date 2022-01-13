@@ -1,3 +1,4 @@
+//buttons and menu icons
 const bottomTabIcon = document.querySelector('.edit-tab svg');
 const editBtnWrapper = document.querySelector('.edit-btns-wrapper');
 const headerMenuIcon = document.querySelector('.menu-btn svg');
@@ -8,6 +9,62 @@ const navMenuContainer = document.querySelector('[data-nav-menu-container]');
 bottomTabIcon.menu = editBtnWrapper;
 headerMenuIcon.menu = headerMenuDropDown;
 headerEditIcon.menu = headerEditDropDown;
+
+const languageSwitch = document.querySelector('.lang');
+const languageOptions = document.querySelector('.lang-options');
+languageSwitch.menu = languageOptions;
+
+// my lists & menu-nav lists
+const listsContainer = document.querySelector('[data-lists]');
+const listsContainer2 = document.querySelector('[data-lists-dropdown]');
+const newListForm = document.querySelector('[data-new-list-form]');
+const newListForm2 = document.querySelector('[data-new-list-form-2]');
+const newListInput = document.querySelector('[data-new-list-input]');
+const newListInput2 = document.querySelector('[data-new-list-input-2]');
+const LOCAL_STORAGE_LIST_KEY = 'task.list';
+const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'task.selectedListId';
+const LOCAL_STORAGE_SELECTED_CATEGORY_ID_KEY = 'task.selectedCategoryId';
+const LOCAL_STORAGE_DELETE_OPTION_KEY = 'task.delete';
+
+//initial & languages
+const initialDisplay = document.querySelector('.initial');
+const initialBtns = initialDisplay.querySelectorAll('.dash-box');
+
+const deleteListBtns = document.querySelectorAll('[data-delete-list-button]');
+const deleteConfirmationWrapper = document.querySelector('.delete-confirmation-wrapper');
+const confirmDeleteName = document.querySelector('[data-confirm-name]');
+const deleteBtnWithOptions = document.querySelector('[data-delete-option]');
+const cancelDeleteBtn = document.querySelector('[data-cancel-delete]');
+
+//categories
+const listInitialWrapper = document.querySelector('.list-initial-wrapper');
+const uncategorizedBtn = document.querySelector('.uncategorized-btn');
+
+const categoriesContainer = document.querySelector('[data-categories-container]');
+const categoryTemplate = document.getElementById('category-template');
+const newItemFormTemplate = document.getElementById('new-item-form-template');
+const createNewCategoryBtns = document.querySelectorAll('[data-create-new-category-btn]');
+const newCategoryFormPopup = document.querySelector('[data-new-category-form-popup]');
+const newCategoryForms = document.querySelectorAll('[data-new-category-form]');
+const closeCategoryForm = document.querySelector('[data-close-category-form]');
+const deleteCategoryBtns = document.querySelectorAll('[data-delete-category-btn]');
+
+//items
+const listDisplayContainer = document.querySelector('[data-list-display-container]');
+const listTitleDiv = document.querySelector('.list-title');
+const listTitleElement = document.querySelector('[data-list-title]');
+const listCountElement = document.querySelector('[data-list-count]');
+const tasksLeft = document.querySelector('[data-tasks-left]');
+const taskTemplate = document.getElementById('task-template');
+const clearCompletedTasksBtns = document.querySelectorAll('[data-clear-completed-tasks-btn]');
+
+let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
+let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
+let selectedCategoryId = localStorage.getItem(LOCAL_STORAGE_SELECTED_CATEGORY_ID_KEY);
+let deleteOption = localStorage.getItem(LOCAL_STORAGE_DELETE_OPTION_KEY);
+
+//open / close language menu
+languageSwitch.addEventListener('click', toggleOpenClose);
 
 // open add category at the bottom for mobil 
 bottomTabIcon.addEventListener('click', toggleOpenClose, false);
@@ -44,53 +101,169 @@ function rotateBtn(evt) {
     }    
 }
 
-// my lists & menu-nav lists
-const listsContainer = document.querySelector('[data-lists]');
-const listsContainer2 = document.querySelector('[data-lists-dropdown]');
-const newListForm = document.querySelector('[data-new-list-form]');
-const newListForm2 = document.querySelector('[data-new-list-form-2]');
-const newListInput = document.querySelector('[data-new-list-input]');
-const newListInput2 = document.querySelector('[data-new-list-input-2]');
-const LOCAL_STORAGE_LIST_KEY = 'task.list';
-const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'task.selectedListId';
-const LOCAL_STORAGE_SELECTED_CATEGORY_ID_KEY = 'task.selectedCategoryId';
-const LOCAL_STORAGE_DELETE_OPTION_KEY = 'task.delete';
-const initialDisplay = document.querySelector('.initial');
-const initialBtns = initialDisplay.querySelectorAll('.dash-box');
+//language translations
+const languages = {
+    enUS : {
+        language: 'Englisn',
+        initialCreateNew: 'Create a new list',
+        initialSelectList: 'or select an existing list',
+        myLists: 'My Lists',
+        left: 'left',
+        listInputPlaceHolder: 'enter new list',
+        uncategorized: 'Uncategorized List',
+        categoryInputPlaceHolder: 'enter new category',
+        create: 'Create',
+        deletePrompt: 'Are you sure you want to delete ',
+        cancle: 'Cancel',
+        delete: 'Delete',
+        deleteList: 'Delete current list',
+        clearTasks: 'Clear completed items',
+        createCategory: 'Create new category',
+        deleteCategory: 'Delete current category',
+        taskInputPlaceHolder: 'enter new item',
+        or: 'or'
+    },
+    zhTW: {
+        language: '繁體中文',
+        initialCreateNew: '創建新清單',
+        initialSelectList: '或選擇現有清單',
+        myLists: '我的清單 :',
+        left: '個剩餘',
+        listInputPlaceHolder: '輸入新清單',
+        uncategorized: '未分類清單',
+        categoryInputPlaceHolder: '輸入新類別',
+        create: '創建',
+        deletePrompt: '你確定要刪除 ',
+        cancle: '取消',
+        delete: '刪除',
+        deleteList: '刪除此清單',
+        clearTasks: '清除已完成的項目',
+        createCategory: '創建新類別',
+        deleteCategory: '刪除當前類別',
+        taskInputPlaceHolder: '輸入新項目',
+        or: '或者'
+    },
+    zhCN: {
+        language: '简体中文',
+        initialCreateNew: '创建新清单',
+        initialSelectList: '或选择现有清单',
+        myLists: '我的清单 :',
+        left: '个剩余',
+        listInputPlaceHolder: '输入新清单',
+        uncategorized: '未分类清单',
+        categoryInputPlaceHolder: '输入新类别',
+        create: '创建',
+        deletePrompt: '你确定要删除 ',
+        cancle: '取消',
+        delete: '刪除',
+        deleteList: '删除此清单',
+        clearTasks: '清除已完成的项目',
+        createCategory: '创建新类别',
+        deleteCategory: '删除当前类别',
+        taskInputPlaceHolder: '输入新条目',
+        or: '或者'
+    },
+    es: {
+        language: 'Español',
+        initialCreateNew: 'Crear una nueva lista',
+        initialSelectList: 'o seleccione una lista existente',
+        myLists: 'Mis Listas :',
+        left: 'tarea pendiente',
+        listInputPlaceHolder: 'ingresar nueva lista',
+        uncategorized: 'Lista sin categorizar',
+        categoryInputPlaceHolder: 'entrar en nueva categoría',
+        create: 'Crear',
+        deletePrompt: '¿Estás segura de que quieres eliminar ',
+        cancle: 'Cancelar',
+        delete: 'Borrar',
+        deleteList: 'Eliminar lista actual',
+        clearTasks: 'Borrar elementos completados',
+        createCategory: 'Crear nueva categoría',
+        deleteCategory: 'Eliminar categoría actual',
+        taskInputPlaceHolder: 'ingresar nuevo elemento',
+        or: 'o'
+    }
+}
 
-const deleteListBtns = document.querySelectorAll('[data-delete-list-button]');
-const deleteConfirmationWrapper = document.querySelector('.delete-confirmation-wrapper');
-const confirmDeleteName = document.querySelector('[data-confirm-name]');
-const deleteBtnWithOptions = document.querySelector('[data-delete-option]');
-const cancelDeleteBtn = document.querySelector('[data-cancel-delete]');
+function changeLanguage(lang) {
+    const langText = languageSwitch.querySelector('div');
+    const initialNewList = initialDisplay.querySelector('[data-initial-new-list]');
+    const initialExistingList = initialDisplay.querySelector('[data-initial-existing-list]');
+    const myListsText = document.querySelectorAll('[data-my-lists]');
+    const newCategoryInputs = document.querySelectorAll('[data-new-category-input]');
+    const createBtns = document.querySelectorAll('[data-create-btns]');
+    const confirmDelete = document.querySelector('.confirmation-message');
+    const or = document.querySelector('.or');
 
+    langText.innerText = lang.language;
+    initialNewList.textContent = lang.initialCreateNew;
+    initialExistingList.textContent = lang.initialSelectList;
+    myListsText.forEach(myList => myList.textContent = lang.myLists);
+    tasksLeft.textContent = lang.left;
+    uncategorizedBtn.textContent = lang.uncategorized;
+    or.textContent = lang.or;
+    newListInput.placeholder = lang.listInputPlaceHolder;
+    newListInput2.placeholder = lang.listInputPlaceHolder;
+    newCategoryInputs.forEach(input => input.placeholder = lang.categoryInputPlaceHolder);
+    createBtns.forEach(btn => btn.textContent = lang.create);
+    confirmDelete.textContent = lang.deletePrompt;
+    cancelDeleteBtn.textContent = lang.cancle;
+    deleteBtnWithOptions.textContent = lang.delete;
+    deleteListBtns.forEach(btn => btn.textContent = lang.deleteList);
+    clearCompletedTasksBtns.forEach(btn => btn.textContent = lang.clearTasks);
+    createNewCategoryBtns.forEach(btn => btn.textContent = lang.createCategory);
+    deleteCategoryBtns.forEach(btn => btn.textContent = lang.deleteCategory);
+}
 
-//categories
-const listInitialWrapper = document.querySelector('.list-initial-wrapper');
-const uncategorizedBtn = document.querySelector('.uncategorized-btn');
+//when refreshed language don't change
+if(window.location.hash === '#en-US') {
+    const us = languages.enUS;
+    changeLanguage(us);
+} else if(window.location.hash === '#zh-TW') {
+    const tw = languages.zhTW;
+    changeLanguage(tw);
+} else if(window.location.hash === '#zh-CN') {
+    const cn =languages.zhCN;
+    changeLanguage(cn);
+} else if(window.location.hash === '#es') {
+    const es = languages.es;
+    changeLanguage(es);
+} 
 
-const categoriesContainer = document.querySelector('[data-categories-container]');
-const categoryTemplate = document.getElementById('category-template');
-const newItemFormTemplate = document.getElementById('new-item-form-template');
-const createNewCategoryBtns = document.querySelectorAll('[data-create-new-category-btn]');
-const newCategoryFormPopup = document.querySelector('[data-new-category-form-popup]');
-const newCategoryForms = document.querySelectorAll('[data-new-category-form]');
-const closeCategoryForm = document.querySelector('[data-close-category-form]');
-const deleteCategoryBtns = document.querySelectorAll('[data-delete-category-btn]');
+//change language
+languageOptions.addEventListener('click', e => {
+    if(e.target.hash === '#en-US') {
+        const us = languages.enUS;
+        changeLanguage(us);
+        if (selectedCategoryId !== 'null') {
+            const newTaskInput = document.querySelector('[data-new-task-input]');
+            newTaskInput.placeholder = us.taskInputPlaceHolder;
+        }
+    } else if(e.target.hash === '#zh-TW') {
+        const tw = languages.zhTW;
+        changeLanguage(tw);
+        if (selectedCategoryId !== 'null') {
+            const newTaskInput = document.querySelector('[data-new-task-input]');
+            newTaskInput.placeholder = tw.taskInputPlaceHolder;
+        }
+    } else if(e.target.hash === '#zh-CN') {
+        const cn =languages.zhCN;
+        changeLanguage(cn);
+        if (selectedCategoryId !== 'null') {
+            const newTaskInput = document.querySelector('[data-new-task-input]');
+            newTaskInput.placeholder = cn.taskInputPlaceHolder;
+        }
+    } else if(e.target.hash === '#es') {
+        const es = languages.es;
+        changeLanguage(es);
+        if (selectedCategoryId !== 'null') {
+            const newTaskInput = document.querySelector('[data-new-task-input]');
+            newTaskInput.placeholder = es.taskInputPlaceHolder;
+        }
+    } 
+    languageOptions.style.display = 'none';           
+})
 
-//items
-const listDisplayContainer = document.querySelector('[data-list-display-container]');
-const listTitleDiv = document.querySelector('.list-title');
-const listTitleElement = document.querySelector('[data-list-title]');
-const listCountElement = document.querySelector('[data-list-count]');
-const taskTemplate = document.getElementById('task-template');
-const clearCompletedTasksBtns = document.querySelectorAll('[data-clear-completed-tasks-btn]');
-
-
-let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
-let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
-let selectedCategoryId = localStorage.getItem(LOCAL_STORAGE_SELECTED_CATEGORY_ID_KEY);
-let deleteOption = localStorage.getItem(LOCAL_STORAGE_DELETE_OPTION_KEY);
 
 function saveDeleteOption() {
     localStorage.setItem(LOCAL_STORAGE_DELETE_OPTION_KEY, deleteOption);
@@ -618,10 +791,27 @@ function renderCategories(selectedList) {
         // render newItemForm within selectedCategory
         const selectedCategoryWrapper = document.querySelector('.selected-category');
         const newItemFormElement = document.importNode(newItemFormTemplate.content, true);
-        selectedCategoryWrapper.appendChild(newItemFormElement);     
+        selectedCategoryWrapper.appendChild(newItemFormElement);  
+        getPlaceholderLang();
     }  
-
 } 
+
+function getPlaceholderLang() {
+    const newTaskInput = document.querySelector('[data-new-task-input]');
+    if(window.location.hash === '#en-US') {
+        const us = languages.enUS;
+        newTaskInput.placeholder = us.taskInputPlaceHolder;
+    } else if(window.location.hash === '#zh-TW') {
+        const tw = languages.zhTW;
+        newTaskInput.placeholder = tw.taskInputPlaceHolder;
+    } else if(window.location.hash === '#zh-CN') {
+        const cn =languages.zhCN;
+        newTaskInput.placeholder = cn.taskInputPlaceHolder;
+    } else if(window.location.hash === '#es') {
+        const es = languages.es;
+        newTaskInput.placeholder = es.taskInputPlaceHolder;
+    }      
+};
 
 // create DOM element for each task objects in the selectedList 
 // and append elements to tasksContainer
@@ -653,14 +843,13 @@ function renderTasks(selectedList) {
 //then calculate its length. The number will be the imcomplete task count.
 function renderTaskCount(selectedList) {
     const categoriesArr = selectedList.categories;
-        let totalTasks = [];
-        for (let i = 0; i<categoriesArr.length; i++){
-                totalTasks = totalTasks.concat(categoriesArr[i].tasks);
-        }
-        const incompleteTaskCount = totalTasks.filter(task => !task.complete).length;
-        //const taskString = incompleteTaskCount === 1 || incompleteTaskCount === 0 ? 'item' : 'items';
-        listCountElement.innerHTML =`<span>${incompleteTaskCount}</span> left`;             
-
+    let totalTasks = [];
+    for (let i = 0; i<categoriesArr.length; i++){
+            totalTasks = totalTasks.concat(categoriesArr[i].tasks);
+    }
+    const incompleteTaskCount = totalTasks.filter(task => !task.complete).length;
+    //const taskString = incompleteTaskCount === 1 || incompleteTaskCount === 0 ? 'item' : 'items';
+    listCountElement.innerText =`${incompleteTaskCount} `;             
 }
 // create DOM element for each list objects in the lists array
 // and append elements to listsContainer
