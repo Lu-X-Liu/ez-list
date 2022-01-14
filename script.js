@@ -64,6 +64,9 @@ let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
 let selectedCategoryId = localStorage.getItem(LOCAL_STORAGE_SELECTED_CATEGORY_ID_KEY);
 let deleteOption = localStorage.getItem(LOCAL_STORAGE_DELETE_OPTION_KEY);
 
+const editBottomTabBtns = document.querySelectorAll('.edit-btn');
+editBottomTabBtns.forEach(btn => btn.menu = editBtnWrapper);
+
 //open / close language menu
 languageSwitch.addEventListener('click', toggleOpenClose);
 
@@ -220,6 +223,26 @@ function changeLanguage(lang) {
     deleteCategoryBtns.forEach(btn => btn.textContent = lang.deleteCategory);
 }
 
+// disable delete buttons when no list or category is selected
+enabelOrDisabelDeleteList();
+enableOrDisableDeleteCategory();
+
+function enabelOrDisabelDeleteList() {
+    if (selectedListId === 'null' || selectedListId === '') {
+        deleteListBtns.forEach(btn => btn.disabled = true);
+    } else {
+        deleteListBtns.forEach(btn => btn.disabled = false);
+    }    
+}
+
+function enableOrDisableDeleteCategory() {
+    if (selectedCategoryId === 'null' || selectedCategoryId === '' || categoriesContainer.children[0].classList.contains('uncategorized-only')) {
+        deleteCategoryBtns.forEach(btn => btn.disabled = true);
+    } else {
+        deleteCategoryBtns.forEach(btn => btn.disabled = false);
+    }    
+}
+
 //when refreshed language don't change
 if(window.location.hash === '#en-US') {
     const us = languages.enUS;
@@ -330,6 +353,8 @@ listsContainer.addEventListener('click', e => {
             selectedList.categories.forEach(category => category.selected = false);
             saveAndRenderAll();
             scrollToTop();
+            enabelOrDisabelDeleteList();
+            enableOrDisableDeleteCategory();
         }
 });
 
@@ -342,6 +367,8 @@ listsContainer2.addEventListener('click', e => {
         saveAndRenderAll();
         scrollToTop();
         e.currentTarget.parentElement.parentElement.parentElement.style.display = 'none';
+        enabelOrDisabelDeleteList();
+        enableOrDisableDeleteCategory();
     }
 });
 
@@ -381,7 +408,8 @@ categoriesContainer.addEventListener('click', e => {
         )
         selectedCategoryId = selectedCategory.id 
         saveAndRenderselectedList();  
-        scrollPage();                                         
+        scrollPage(); 
+        enableOrDisableDeleteCategory();                                        
     }
 });
 
@@ -465,6 +493,7 @@ categoriesContainer.addEventListener('click', e => {
                     // reasign selectedCategoryId 
                     if (selectedCategoryId === currentRadioBtnId) {
                         selectedCategoryId = 'null'; 
+                        enableOrDisableDeleteCategory();
                         //console.log(selectedCategoryId);
                     }
                 } /* else if (category.content === 'show' && selectedCategoryId === 'null') {
@@ -489,7 +518,8 @@ categoriesContainer.addEventListener('click', e => {
                     //console.log(category.selected);
                     // reasign selectedCategoryId 
                     if (selectedCategoryId === currentRadioBtnId) {
-                        selectedCategoryId = 'null'; 
+                        selectedCategoryId = 'null';
+                        enableOrDisableDeleteCategory(); 
                         //console.log(selectedCategoryId);
                     }
                 } /* else if (category.content === 'show' && selectedCategoryId === 'null') {
@@ -506,7 +536,7 @@ categoriesContainer.addEventListener('click', e => {
 //clear completed tasks
 clearCompletedTasksBtns.forEach(btn => {
     btn.addEventListener('click', clearCompleted);
-    btn.addEventListener('click', hideParent);
+    /* btn.addEventListener('click', hideParent); */
 });
 
 function clearCompleted() {
@@ -523,18 +553,18 @@ function clearCompleted() {
 }); */
 deleteListBtns.forEach(btn => {
     btn.addEventListener('click', e => {
-        if (selectedListId === 'null' || selectedListId === '') {   
+/*         if (selectedListId === 'null' || selectedListId === '') {   
             hideParent(e); 
             return;
-        }  else {
+        }  else { */
                 deleteOption = 'selected-list';
                 saveDeleteOption();
                 const selecetedListName = lists.find(list=> list.id === selectedListId).name;
                 openDeleteConfirmation();
                 confirmDeleteName.innerText = selecetedListName;
                 deleteBtnWithOptions.dataset.deleteOption = deleteOption;                   
-            hideParent(e);            
-        }          
+            /* hideParent(e);  */       
+        //}          
     })
 });
 
@@ -566,7 +596,10 @@ function closeDeleteConfirmation() {
 function deleteList() {
     lists = lists.filter(list => list.id !== selectedListId);
     selectedListId = "null";
+    selectedCategoryId = 'null';
     saveAndRenderAll();
+    enabelOrDisabelDeleteList();
+    enableOrDisableDeleteCategory();
 }
 
 
@@ -579,7 +612,7 @@ createNewCategoryBtns.forEach(btn => {
     btn.addEventListener('click', ()=> {
         newCategoryFormPopup.style.display = 'grid';
     });
-    btn.addEventListener('click', hideParent);
+    /* btn.addEventListener('click', hideParent); */
 });
 
 //close create category form
@@ -600,19 +633,20 @@ newCategoryFormPopup.style.display = 'none';
  */
 deleteCategoryBtns.forEach(btn => {
     btn.addEventListener('click', e => {
-        if (selectedCategoryId === 'null' || selectedCategoryId === '') {
+/*         if (selectedCategoryId === 'null' || selectedCategoryId === '') {
             hideParent(e);
             return;
-        }  else {
+        }  else { */
                 deleteOption = 'selected-Category';
                 saveDeleteOption();
-                const selectedList = lists.find(list => list.id === selectedListId);
-                const selecetedCategoryName = selectedList.categories.find(category=> category.id === selectedCategoryId).name;
+                //const selectedList = lists.find(list => list.id === selectedListId);
+                const selecetedCategory = document.querySelector('.selected-category'); 
+                //const selecetedCategoryName = selectedList.categories.find(category=> category.id === selectedCategoryId).name;
                 openDeleteConfirmation();
-                confirmDeleteName.innerText = selecetedCategoryName;
+                confirmDeleteName.innerText = selecetedCategory.children[0].children[1].innerText;
                 deleteBtnWithOptions.dataset.deleteOption = deleteOption;                   
-                hideParent(e);
-        }           
+                /* hideParent(e); */
+        //}           
     })        
 });
 
@@ -622,9 +656,15 @@ deleteBtnWithOptions.addEventListener('click', e => {
         selectedList.categories = selectedList.categories.filter(category=> !category.selected);
         selectedCategoryId = 'null'; 
         saveAndRenderselectedList();
-        resetDeleteConfirmationData();        
+        resetDeleteConfirmationData(); 
+        enableOrDisableDeleteCategory();     
     }
 })
+
+editBottomTabBtns.forEach(btn => {
+    btn.addEventListener('click', hideParent);
+    btn.addEventListener('click', rotateBtn);
+});
 
 // add new list object to lists array 
 //then save to localStorage and render UI
@@ -640,6 +680,7 @@ newListForm.addEventListener('submit', e => {
     saveAndRenderAll();
     listsContainer.lastChild.scrollIntoView();
     menuAnimation();
+    enabelOrDisabelDeleteList();
 });    
 
 newListForm2.addEventListener('submit', e => {
@@ -653,6 +694,7 @@ newListForm2.addEventListener('submit', e => {
     selectedCategoryId= 'null';
     saveAndRenderAll();
     menuAnimation();
+    enabelOrDisabelDeleteList();
 });  
 
 function menuAnimation() {
@@ -690,6 +732,7 @@ newCategoryForms.forEach(form => {
         })
         saveAndRenderselectedList();
         newCategoryFormPopup.style.display = 'none';
+        enableOrDisableDeleteCategory();
     })
 })
 

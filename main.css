@@ -950,6 +950,19 @@ input.add-new:focus::placeholder {
     width: 15rem;
 }
 
+button[data-delete-list-button]:disabled,
+button[data-delete-category-btn]:disabled {
+    opacity: 0.5;
+    cursor:initial;
+}
+
+button:disabled:hover,
+button:disabled::selection,
+button:disabled:focus {
+    color: var(--clr-category-menu);
+    background-color: transparent;
+}
+
 @media (min-width: 769px) {
     .edit-tab {
         display: none;
