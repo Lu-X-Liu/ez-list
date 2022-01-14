@@ -32,6 +32,7 @@ const initialBtns = initialDisplay.querySelectorAll('.dash-box');
 
 const deleteListBtns = document.querySelectorAll('[data-delete-list-button]');
 const deleteConfirmationWrapper = document.querySelector('.delete-confirmation-wrapper');
+const deletConfirmationMessage = document.querySelector('.confirmation-message');
 const confirmDeleteName = document.querySelector('[data-confirm-name]');
 const deleteBtnWithOptions = document.querySelector('[data-delete-option]');
 const cancelDeleteBtn = document.querySelector('[data-cancel-delete]');
@@ -121,7 +122,8 @@ const languages = {
         createCategory: 'Create new category',
         deleteCategory: 'Delete current category',
         taskInputPlaceHolder: 'enter new item',
-        or: 'or'
+        or: 'or',
+        uncategorizedName: 'uncategorized'
     },
     zhTW: {
         language: '繁體中文',
@@ -141,7 +143,8 @@ const languages = {
         createCategory: '創建新類別',
         deleteCategory: '刪除當前類別',
         taskInputPlaceHolder: '輸入新項目',
-        or: '或者'
+        or: '或者',
+        uncategorizedName: '未分類'
     },
     zhCN: {
         language: '简体中文',
@@ -161,7 +164,8 @@ const languages = {
         createCategory: '创建新类别',
         deleteCategory: '删除当前类别',
         taskInputPlaceHolder: '输入新条目',
-        or: '或者'
+        or: '或者',
+        uncategorizedName: '未分类'
     },
     es: {
         language: 'Español',
@@ -181,7 +185,8 @@ const languages = {
         createCategory: 'Crear nueva categoría',
         deleteCategory: 'Eliminar categoría actual',
         taskInputPlaceHolder: 'ingresar nuevo elemento',
-        or: 'o'
+        or: 'o',
+        uncategorizedName: 'sin categorizar'
     }
 }
 
@@ -239,12 +244,26 @@ languageOptions.addEventListener('click', e => {
             const newTaskInput = document.querySelector('[data-new-task-input]');
             newTaskInput.placeholder = us.taskInputPlaceHolder;
         }
+        if (categoriesContainer.children.length > 1) {
+            for (let i = 0; i < categoriesContainer.children.length; i++) {
+                if (categoriesContainer.children[i].children[1].id === 'uncategorized') {
+                    categoriesContainer.children[i].children[0].children[1].innerText = us.uncategorizedName;
+                } 
+            }
+        }
     } else if(e.target.hash === '#zh-TW') {
         const tw = languages.zhTW;
         changeLanguage(tw);
         if (selectedCategoryId !== 'null') {
             const newTaskInput = document.querySelector('[data-new-task-input]');
             newTaskInput.placeholder = tw.taskInputPlaceHolder;
+        }
+        if (categoriesContainer.children.length > 1) {
+            for (let i = 0; i < categoriesContainer.children.length; i++) {
+                if (categoriesContainer.children[i].children[1].id === 'uncategorized') {
+                    categoriesContainer.children[i].children[0].children[1].innerText = tw.uncategorizedName;
+                } 
+            }
         }
     } else if(e.target.hash === '#zh-CN') {
         const cn =languages.zhCN;
@@ -253,12 +272,26 @@ languageOptions.addEventListener('click', e => {
             const newTaskInput = document.querySelector('[data-new-task-input]');
             newTaskInput.placeholder = cn.taskInputPlaceHolder;
         }
+        if (categoriesContainer.children.length > 1) {
+            for (let i = 0; i < categoriesContainer.children.length; i++) {
+                if (categoriesContainer.children[i].children[1].id === 'uncategorized') {
+                    categoriesContainer.children[i].children[0].children[1].innerText = cn.uncategorizedName;
+                } 
+            }
+        }
     } else if(e.target.hash === '#es') {
         const es = languages.es;
         changeLanguage(es);
         if (selectedCategoryId !== 'null') {
             const newTaskInput = document.querySelector('[data-new-task-input]');
             newTaskInput.placeholder = es.taskInputPlaceHolder;
+        }
+        if (categoriesContainer.children.length > 1) {
+            for (let i = 0; i < categoriesContainer.children.length; i++) {
+                if (categoriesContainer.children[i].children[1].id === 'uncategorized') {
+                    categoriesContainer.children[i].children[0].children[1].innerText = es.uncategorizedName;
+                } 
+            }
         }
     } 
     languageOptions.style.display = 'none';           
@@ -744,7 +777,7 @@ function renderCategories(selectedList) {
         tasksContainer.id = category.name.replaceAll(' ', '-');
         categoryLabel.append(category.name);
         //hide uncategorized title
-        if (categoryLabel.innerText === 'uncategorized') {
+        if (tasksContainer.id === 'uncategorized') {
             const categoryTitle = categoryElement.querySelector('.category-title');
             categoryTitle.style.display = 'none';
         }        
@@ -774,6 +807,19 @@ function renderCategories(selectedList) {
         for (let i = 0; i < categoriesContainer.children.length; i++) {
             if (categoriesContainer.children[i].children[1].id === 'uncategorized') {
                 categoriesContainer.children[i].children[0].style.display = 'flex';
+                if(window.location.hash === '#en-US') {
+                    const us = languages.enUS;
+                    categoriesContainer.children[i].children[0].children[1].innerText = us.uncategorizedName;
+                } else if(window.location.hash === '#zh-TW') {
+                    const tw = languages.zhTW;
+                    categoriesContainer.children[i].children[0].children[1].innerText = tw .uncategorizedName;
+                } else if(window.location.hash === '#zh-CN') {
+                    const cn =languages.zhCN;
+                    categoriesContainer.children[i].children[0].children[1].innerText = cn.uncategorizedName;
+                } else if(window.location.hash === '#es') {
+                    const es = languages.es;
+                    categoriesContainer.children[i].children[0].children[1].innerText = es.uncategorizedName;
+                } 
             }
         }
     } 

@@ -830,13 +830,16 @@ input.add-new:focus::placeholder {
     display: flex;
     flex-direction: column;
     position: relative;
+    width: 90vw;
+    max-width: 450px;
 }
+
+
 .new-category-input,
 .create-category-btn {
     display: block;
-    width: 72vw;
+    width: 100%;
     border: none;
-    max-width: 380px;
 }
 
 .new-category-input {
@@ -851,7 +854,7 @@ input.add-new:focus::placeholder {
 .create-category-btn {
     font-size: 1.25rem;
     padding: 0.75rem 1.5rem;
-    font-weight: 700;
+    font-weight: 500;
     color: var(--clr-text-bright);
     background-color: var(--clr-category-title-bg);
 }
@@ -864,7 +867,7 @@ input.add-new:focus::placeholder {
     top: 1rem;
 }
 
-.confirmation-message {
+.delete-confirmation h2 {
     font-size: 1rem;
     margin-top: -1rem;
     margin-bottom: 1rem;
@@ -872,7 +875,7 @@ input.add-new:focus::placeholder {
     line-height: 1.4;
 }
 
-.confirmation-message span {
+.confirmation-message + span {
     display: block;
     text-align: center; 
     margin-top: 0.5rem;
@@ -897,6 +900,12 @@ input.add-new:focus::placeholder {
 .delete-btn {
     background-color: #eb4034;
     color: var(--clr-text-bright)
+}
+
+@media(min-width: 768px) {
+    .delete-confirmation {
+        width: 450px;
+    }
 }
 
 /* mobil bottom tab for edit */
