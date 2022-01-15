@@ -228,7 +228,7 @@ enabelOrDisabelDeleteList();
 enableOrDisableDeleteCategory();
 
 function enabelOrDisabelDeleteList() {
-    if (selectedListId === 'null' || selectedListId === '') {
+    if (/* selectedListId === 'null' || */ !selectedListId) {
         deleteListBtns.forEach(btn => btn.disabled = true);
     } else {
         deleteListBtns.forEach(btn => btn.disabled = false);
@@ -236,7 +236,9 @@ function enabelOrDisabelDeleteList() {
 }
 
 function enableOrDisableDeleteCategory() {
-    if (selectedCategoryId === 'null' || selectedCategoryId === '' || categoriesContainer.children[0].classList.contains('uncategorized-only')) {
+    if (/* selectedCategoryId === 'null' ||  */!selectedCategoryId /* || categoriesContainer.children[0].classList.contains('uncategorized-only') */) {
+        deleteCategoryBtns.forEach(btn => btn.disabled = true);
+    } else if (categoriesContainer.children[0] && categoriesContainer.children[0].classList.contains('uncategorized-only')) {
         deleteCategoryBtns.forEach(btn => btn.disabled = true);
     } else {
         deleteCategoryBtns.forEach(btn => btn.disabled = false);
@@ -263,7 +265,7 @@ languageOptions.addEventListener('click', e => {
     if(e.target.hash === '#en-US') {
         const us = languages.enUS;
         changeLanguage(us);
-        if (selectedCategoryId !== 'null') {
+        if (/* selectedCategoryId !== 'null' */selectedCategoryId) {
             const newTaskInput = document.querySelector('[data-new-task-input]');
             newTaskInput.placeholder = us.taskInputPlaceHolder;
         }
@@ -277,7 +279,7 @@ languageOptions.addEventListener('click', e => {
     } else if(e.target.hash === '#zh-TW') {
         const tw = languages.zhTW;
         changeLanguage(tw);
-        if (selectedCategoryId !== 'null') {
+        if (/* selectedCategoryId !== 'null' */selectedCategoryId) {
             const newTaskInput = document.querySelector('[data-new-task-input]');
             newTaskInput.placeholder = tw.taskInputPlaceHolder;
         }
@@ -291,7 +293,7 @@ languageOptions.addEventListener('click', e => {
     } else if(e.target.hash === '#zh-CN') {
         const cn =languages.zhCN;
         changeLanguage(cn);
-        if (selectedCategoryId !== 'null') {
+        if (/* selectedCategoryId !== 'null' */selectedCategoryId) {
             const newTaskInput = document.querySelector('[data-new-task-input]');
             newTaskInput.placeholder = cn.taskInputPlaceHolder;
         }
@@ -305,7 +307,7 @@ languageOptions.addEventListener('click', e => {
     } else if(e.target.hash === '#es') {
         const es = languages.es;
         changeLanguage(es);
-        if (selectedCategoryId !== 'null') {
+        if (/* selectedCategoryId !== 'null' */selectedCategoryId) {
             const newTaskInput = document.querySelector('[data-new-task-input]');
             newTaskInput.placeholder = es.taskInputPlaceHolder;
         }
@@ -326,7 +328,7 @@ function saveDeleteOption() {
 }
 
 window.addEventListener('resize', () => {
-    if(selectedListId == 'null') {
+    if(/* selectedListId == 'null' */!selectedListId) {
         listDisplayContainer.style.display = 'none';
         if(window.innerWidth < 1024){
           initialDisplay.style.display = 'block';  
@@ -348,7 +350,7 @@ initialBtns.forEach(btn => {
 listsContainer.addEventListener('click', e => {           
         if(e.target.tagName.toLowerCase() === 'li') {
             selectedListId = e.target.dataset.listId;
-            selectedCategoryId = 'null';
+            selectedCategoryId = null;
             const selectedList = lists.find(list => list.id === selectedListId);
             selectedList.categories.forEach(category => category.selected = false);
             saveAndRenderAll();
@@ -361,7 +363,7 @@ listsContainer.addEventListener('click', e => {
 listsContainer2.addEventListener('click', e => {           
     if(e.target.tagName.toLowerCase() === 'li') {
         selectedListId = e.target.dataset.listId;
-        selectedCategoryId = 'null';
+        selectedCategoryId = null;
         const selectedList = lists.find(list => list.id === selectedListId);
         selectedList.categories.forEach(category => category.selected = false);
         saveAndRenderAll();
@@ -414,7 +416,7 @@ categoriesContainer.addEventListener('click', e => {
 });
 
 function scrollPage() {
-    if (selectedCategoryId !== 'null') {
+    if (/* selectedCategoryId !== 'null' */selectedCategoryId) {
         const selectedListTitle = document.querySelector('.list-title');
         const selectedCategory = document.querySelector('.selected-category');
         const listTitleBottom = selectedListTitle.getBoundingClientRect().bottom;
@@ -518,7 +520,7 @@ categoriesContainer.addEventListener('click', e => {
                     //console.log(category.selected);
                     // reasign selectedCategoryId 
                     if (selectedCategoryId === currentRadioBtnId) {
-                        selectedCategoryId = 'null';
+                        selectedCategoryId = null;
                         enableOrDisableDeleteCategory(); 
                         //console.log(selectedCategoryId);
                     }
@@ -595,8 +597,8 @@ function closeDeleteConfirmation() {
 
 function deleteList() {
     lists = lists.filter(list => list.id !== selectedListId);
-    selectedListId = "null";
-    selectedCategoryId = 'null';
+    selectedListId = null;
+    selectedCategoryId = null;
     saveAndRenderAll();
     enabelOrDisabelDeleteList();
     enableOrDisableDeleteCategory();
@@ -654,7 +656,7 @@ deleteBtnWithOptions.addEventListener('click', e => {
     if (e.target.dataset.deleteOption === 'selected-Category') {
         const selectedList = lists.find(list=> list.id === selectedListId);
         selectedList.categories = selectedList.categories.filter(category=> !category.selected);
-        selectedCategoryId = 'null'; 
+        selectedCategoryId = null; 
         saveAndRenderselectedList();
         resetDeleteConfirmationData(); 
         enableOrDisableDeleteCategory();     
@@ -676,7 +678,7 @@ newListForm.addEventListener('submit', e => {
     newListInput.value = null;
     lists.push(list);
     selectedListId = list.id;
-    selectedCategoryId = 'null';
+    selectedCategoryId = null;
     saveAndRenderAll();
     listsContainer.lastChild.scrollIntoView();
     menuAnimation();
@@ -691,7 +693,7 @@ newListForm2.addEventListener('submit', e => {
     newListInput2.value = null;
     lists.push(list);
     selectedListId = list.id;
-    selectedCategoryId= 'null';
+    selectedCategoryId= null;
     saveAndRenderAll();
     menuAnimation();
     enabelOrDisabelDeleteList();
@@ -777,14 +779,14 @@ function renderAll() {
 }
 
 function renderSelectedList() {
-    const selectedList = lists.find(list => list.id === selectedListId);
-    if(selectedListId == 'null') {
+    if(!selectedListId /* || selectedListId == 'null' */) {
         listDisplayContainer.style.display = 'none';
         listInitialWrapper.style.display = 'none';
         if(window.innerWidth < 1024){
           initialDisplay.style.display = 'block';  
         }
     } else {
+        const selectedList = lists.find(list => list.id === selectedListId);
         initialDisplay.style.display = 'none';
         listDisplayContainer.style.display = '';
         listTitleElement.innerText = selectedList.name; 
@@ -868,7 +870,7 @@ function renderCategories(selectedList) {
     } 
 
     //styling selected category wrapper
-    if (selectedCategoryId !== 'null') {
+    if (/* selectedCategoryId !== 'null' */selectedCategoryId) {
         const categoryTitleRadioBtns = document.querySelectorAll('input[type="radio"]');
         categoryTitleRadioBtns.forEach(categoryTitleRadioBtn=> { 
             if(categoryTitleRadioBtn.id === selectedCategoryId) {
