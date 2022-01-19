@@ -66,6 +66,8 @@ let deleteOption = localStorage.getItem(LOCAL_STORAGE_DELETE_OPTION_KEY);
 
 const editBottomTabBtns = document.querySelectorAll('.edit-btn');
 editBottomTabBtns.forEach(btn => btn.menu = editBtnWrapper);
+const headerEditBtns = document.querySelectorAll('.menu-edit-btn');
+headerEditBtns.forEach(btn => btn.menu = headerEditDropDown);
 
 //open / close language menu
 languageSwitch.addEventListener('click', toggleOpenClose);
@@ -228,7 +230,7 @@ enabelOrDisabelDeleteList();
 enableOrDisableDeleteCategory();
 
 function enabelOrDisabelDeleteList() {
-    if (/* selectedListId === 'null' || */ !selectedListId) {
+    if (!selectedListId || selectedListId == 'null') {
         deleteListBtns.forEach(btn => btn.disabled = true);
     } else {
         deleteListBtns.forEach(btn => btn.disabled = false);
@@ -236,7 +238,7 @@ function enabelOrDisabelDeleteList() {
 }
 
 function enableOrDisableDeleteCategory() {
-    if (/* selectedCategoryId === 'null' ||  */!selectedCategoryId /* || categoriesContainer.children[0].classList.contains('uncategorized-only') */) {
+    if (!selectedCategoryId || selectedCategoryId == 'null'/* || categoriesContainer.children[0].classList.contains('uncategorized-only') */) {
         deleteCategoryBtns.forEach(btn => btn.disabled = true);
     } else if (categoriesContainer.children[0] && categoriesContainer.children[0].classList.contains('uncategorized-only')) {
         deleteCategoryBtns.forEach(btn => btn.disabled = true);
@@ -265,7 +267,7 @@ languageOptions.addEventListener('click', e => {
     if(e.target.hash === '#en-US') {
         const us = languages.enUS;
         changeLanguage(us);
-        if (/* selectedCategoryId !== 'null' */selectedCategoryId) {
+        if (selectedCategoryId && selectedCategoryId !== 'null') {
             const newTaskInput = document.querySelector('[data-new-task-input]');
             newTaskInput.placeholder = us.taskInputPlaceHolder;
         }
@@ -279,7 +281,7 @@ languageOptions.addEventListener('click', e => {
     } else if(e.target.hash === '#zh-TW') {
         const tw = languages.zhTW;
         changeLanguage(tw);
-        if (/* selectedCategoryId !== 'null' */selectedCategoryId) {
+        if (selectedCategoryId && selectedCategoryId !== 'null') {
             const newTaskInput = document.querySelector('[data-new-task-input]');
             newTaskInput.placeholder = tw.taskInputPlaceHolder;
         }
@@ -293,7 +295,7 @@ languageOptions.addEventListener('click', e => {
     } else if(e.target.hash === '#zh-CN') {
         const cn =languages.zhCN;
         changeLanguage(cn);
-        if (/* selectedCategoryId !== 'null' */selectedCategoryId) {
+        if (selectedCategoryId && selectedCategoryId !== 'null') {
             const newTaskInput = document.querySelector('[data-new-task-input]');
             newTaskInput.placeholder = cn.taskInputPlaceHolder;
         }
@@ -307,7 +309,7 @@ languageOptions.addEventListener('click', e => {
     } else if(e.target.hash === '#es') {
         const es = languages.es;
         changeLanguage(es);
-        if (/* selectedCategoryId !== 'null' */selectedCategoryId) {
+        if (selectedCategoryId && selectedCategoryId !== 'null') {
             const newTaskInput = document.querySelector('[data-new-task-input]');
             newTaskInput.placeholder = es.taskInputPlaceHolder;
         }
@@ -328,7 +330,7 @@ function saveDeleteOption() {
 }
 
 window.addEventListener('resize', () => {
-    if(/* selectedListId == 'null' */!selectedListId) {
+    if(!selectedListId || selectedListId == 'null') {
         listDisplayContainer.style.display = 'none';
         if(window.innerWidth < 1024){
           initialDisplay.style.display = 'block';  
@@ -394,7 +396,7 @@ uncategorizedBtn.addEventListener('click', ()=> {
     saveAndRenderselectedList();
 })
 
-// select category or items in the category
+// select category 
 categoriesContainer.addEventListener('click', e => {
     if(e.target.tagName.toLowerCase() === 'input' && e.target.type.toLowerCase() === 'radio'){
         const selectedList = lists.find(list => list.id === selectedListId);
@@ -416,7 +418,7 @@ categoriesContainer.addEventListener('click', e => {
 });
 
 function scrollPage() {
-    if (/* selectedCategoryId !== 'null' */selectedCategoryId) {
+    if (selectedCategoryId && selectedCategoryId !== 'null') {
         const selectedListTitle = document.querySelector('.list-title');
         const selectedCategory = document.querySelector('.selected-category');
         const listTitleBottom = selectedListTitle.getBoundingClientRect().bottom;
@@ -439,7 +441,10 @@ categoriesContainer.addEventListener('submit', e => {
         const newTaskInput = selectedCategoryWrapper.querySelector('[data-new-task-input]');
         
         const taskName = newTaskInput.value;
-        if (taskName == null || taskName == '') return;
+        if (taskName == null || taskName == ' ') {
+            newTaskInput.value = null;
+            return
+        };
         const categoryName = selectedCategoryTaskContainer.id;
         const task = createTask(taskName,categoryName);
         newTaskInput.value = null;
@@ -460,7 +465,7 @@ categoriesContainer.addEventListener('submit', e => {
     }
 }); 
 
-//(the 'input' below is the checkbox ) find selected task
+//select task (item)
 categoriesContainer.addEventListener('click', e => {
     if (e.target.tagName.toLowerCase() === 'input' && e.target.type.toLowerCase() === 'checkbox') {
         const selectedList = lists.find(list => list.id === selectedListId);
@@ -487,22 +492,15 @@ categoriesContainer.addEventListener('click', e => {
         const selectedList = lists.find(list=> list.id === selectedListId);
         selectedList.categories.forEach(category=> {
             if (category.id === currentRadioBtnId) {
-                category.content = (category.content === 'show') ? 'hide' : 'show';
-                //console.log(category.content);  
+                category.content = (category.content === 'show') ? 'hide' : 'show'; 
                 if (category.content === 'hide') {
-                    category.selected = false;
-                    //console.log(category.selected);
+                    category.selected = false;    
                     // reasign selectedCategoryId 
                     if (selectedCategoryId === currentRadioBtnId) {
-                        selectedCategoryId = 'null'; 
+                        selectedCategoryId = null; 
                         enableOrDisableDeleteCategory();
-                        //console.log(selectedCategoryId);
                     }
-                } /* else if (category.content === 'show' && selectedCategoryId === 'null') {
-                    category.selected = true;
-                    selectedCategoryId = currentRadioBtnId;
-                    //console.log(category.selected);
-                }  */                                                                           
+                }                                                                          
             } 
         });
         saveAndRenderselectedList();
@@ -514,21 +512,14 @@ categoriesContainer.addEventListener('click', e => {
         selectedList.categories.forEach(category=> {           
             if (category.id === currentRadioBtnId) {
                 category.content = (category.content === 'show') ? 'hide' : 'show';
-                //console.log(category.content);  
                 if (category.content === 'hide') {
                     category.selected = false;
-                    //console.log(category.selected);
                     // reasign selectedCategoryId 
                     if (selectedCategoryId === currentRadioBtnId) {
                         selectedCategoryId = null;
                         enableOrDisableDeleteCategory(); 
-                        //console.log(selectedCategoryId);
                     }
-                } /* else if (category.content === 'show' && selectedCategoryId === 'null') {
-                    category.selected = true;
-                    selectedCategoryId = currentRadioBtnId;
-                    //console.log(category.selected);
-                }   */                                                                          
+                }                                                                         
             } 
         });   
         saveAndRenderselectedList();
@@ -548,25 +539,16 @@ function clearCompleted() {
     })
     saveAndRenderAll();
 }
-//delete list
-/* deleteListBtns.forEach( btn => {
-    btn.addEventListener('click', deleteList);
-    btn.addEventListener('click', hideParent);
-}); */
+
+//delet list functions
 deleteListBtns.forEach(btn => {
     btn.addEventListener('click', e => {
-/*         if (selectedListId === 'null' || selectedListId === '') {   
-            hideParent(e); 
-            return;
-        }  else { */
                 deleteOption = 'selected-list';
                 saveDeleteOption();
                 const selecetedListName = lists.find(list=> list.id === selectedListId).name;
                 openDeleteConfirmation();
                 confirmDeleteName.innerText = selecetedListName;
-                deleteBtnWithOptions.dataset.deleteOption = deleteOption;                   
-            /* hideParent(e);  */       
-        //}          
+                deleteBtnWithOptions.dataset.deleteOption = deleteOption;                        
     })
 });
 
@@ -622,33 +604,15 @@ closeCategoryForm.addEventListener('click', ()=> {
 newCategoryFormPopup.style.display = 'none';
 });
 
-//delete category
-/* deleteCategoryBtns.forEach(btn=> {
-    btn.addEventListener('click', () => {
-        const selectedList = lists.find(list=> list.id === selectedListId);
-        selectedList.categories = selectedList.categories.filter(category=> !category.selected);
-        selectedCategoryId = 'null'; 
-        saveAndRenderselectedList();
-    });
-    btn.addEventListener('click', hideParent);
-});
- */
+//delete category functions
 deleteCategoryBtns.forEach(btn => {
     btn.addEventListener('click', e => {
-/*         if (selectedCategoryId === 'null' || selectedCategoryId === '') {
-            hideParent(e);
-            return;
-        }  else { */
                 deleteOption = 'selected-Category';
                 saveDeleteOption();
-                //const selectedList = lists.find(list => list.id === selectedListId);
                 const selecetedCategory = document.querySelector('.selected-category'); 
-                //const selecetedCategoryName = selectedList.categories.find(category=> category.id === selectedCategoryId).name;
                 openDeleteConfirmation();
                 confirmDeleteName.innerText = selecetedCategory.children[0].children[1].innerText;
-                deleteBtnWithOptions.dataset.deleteOption = deleteOption;                   
-                /* hideParent(e); */
-        //}           
+                deleteBtnWithOptions.dataset.deleteOption = deleteOption;                         
     })        
 });
 
@@ -668,12 +632,17 @@ editBottomTabBtns.forEach(btn => {
     btn.addEventListener('click', rotateBtn);
 });
 
+headerEditBtns.forEach(btn => btn.addEventListener('click', hideParent));
+
 // add new list object to lists array 
 //then save to localStorage and render UI
 newListForm.addEventListener('submit', e => {
     e.preventDefault();
     const listName = newListInput.value;
-    if (listName == null || listName == '') return;
+    if (listName == null || listName == ' ') {
+        newListInput.value = null;
+        return;
+    }
     const list = createList(listName);
     newListInput.value = null;
     lists.push(list);
@@ -688,7 +657,10 @@ newListForm.addEventListener('submit', e => {
 newListForm2.addEventListener('submit', e => {
     e.preventDefault();
     const listName = newListInput2.value;
-    if (listName == null || listName == '') return;
+    if (listName == null || listName == ' ') {
+        newListInput2.value = null;
+        return;
+    }
     const list = createList(listName);
     newListInput2.value = null;
     lists.push(list);
@@ -733,6 +705,16 @@ newCategoryForms.forEach(form => {
             }
         })
         saveAndRenderselectedList();
+        // scroll newly created category into view
+        const windowHeight = window.innerHeight;
+        const availableHeight = windowHeight - 56;
+        const newItemForm = document.querySelector('.new-task-form');
+        const taskFormBottom = newItemForm.getBoundingClientRect().bottom;
+        if ((availableHeight - taskFormBottom) < 0) {
+            newItemForm.scrollIntoView(false);
+        }
+
+        //close pop up form
         newCategoryFormPopup.style.display = 'none';
         enableOrDisableDeleteCategory();
     })
@@ -779,7 +761,7 @@ function renderAll() {
 }
 
 function renderSelectedList() {
-    if(!selectedListId /* || selectedListId == 'null' */) {
+    if(!selectedListId || selectedListId == 'null') {
         listDisplayContainer.style.display = 'none';
         listInitialWrapper.style.display = 'none';
         if(window.innerWidth < 1024){
@@ -814,7 +796,6 @@ function renderCategories(selectedList) {
         const categoryLabel = categoryElement.querySelector('label');
         const tasksContainer = categoryElement.querySelector('ul.items');
         tasksContainer.classList.add(category.content);
-        //console.log(tasksContainer.classList);
         radioBtn.setAttribute('name', 'category');
         radioBtn.id = category.id;
         radioBtn.checked = category.selected;
@@ -831,9 +812,7 @@ function renderCategories(selectedList) {
 
     //render hide / show taskContainer 
     const tasksContainers = document.querySelectorAll('ul.items');
-    //console.log(tasksContainers);
     tasksContainers.forEach(tasksContainer => {
-        //console.log(tasksContainer.classList);
         if (tasksContainer.classList.contains('hide')) {
             tasksContainer.style.display = 'none';
         } 
@@ -870,7 +849,7 @@ function renderCategories(selectedList) {
     } 
 
     //styling selected category wrapper
-    if (/* selectedCategoryId !== 'null' */selectedCategoryId) {
+    if (selectedCategoryId && selectedCategoryId !== 'null') {
         const categoryTitleRadioBtns = document.querySelectorAll('input[type="radio"]');
         categoryTitleRadioBtns.forEach(categoryTitleRadioBtn=> { 
             if(categoryTitleRadioBtn.id === selectedCategoryId) {
@@ -904,10 +883,7 @@ function getPlaceholderLang() {
     }      
 };
 
-// create DOM element for each task objects in the selectedList 
-// and append elements to tasksContainer
-//if I coould add a class for each li.item that match the id of the ul.items it belong
-//I can append them to the 
+// render tasks
 function renderTasks(selectedList) {
     const categoriesArr = selectedList.categories;
     for (let i=0; i<categoriesArr.length; i++) {
@@ -939,7 +915,6 @@ function renderTaskCount(selectedList) {
             totalTasks = totalTasks.concat(categoriesArr[i].tasks);
     }
     const incompleteTaskCount = totalTasks.filter(task => !task.complete).length;
-    //const taskString = incompleteTaskCount === 1 || incompleteTaskCount === 0 ? 'item' : 'items';
     listCountElement.innerText =`${incompleteTaskCount} `;             
 }
 // create DOM element for each list objects in the lists array
