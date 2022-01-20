@@ -52,6 +52,9 @@ const deleteCategoryBtns = document.querySelectorAll('[data-delete-category-btn]
 
 //items
 const listDisplayContainer = document.querySelector('[data-list-display-container]');
+const mainContent = document.querySelector('.main-content-wrapper');
+const listWrapper = document.querySelector('.list-wrapper');
+const currentListWrapper = document.querySelector('.current-list-wrapper');
 const listTitleDiv = document.querySelector('.list-title');
 const listTitleElement = document.querySelector('[data-list-title]');
 const listCountElement = document.querySelector('[data-list-count]');
@@ -123,10 +126,10 @@ const languages = {
         cancle: 'Cancel',
         delete: 'Delete',
         deleteList: 'Delete current list',
-        clearTasks: 'Clear completed items',
+        clearTasks: 'Clear completed tasks',
         createCategory: 'Create new category',
         deleteCategory: 'Delete current category',
-        taskInputPlaceHolder: 'enter new item',
+        taskInputPlaceHolder: 'enter new task',
         or: 'or',
         uncategorizedName: 'uncategorized'
     },
@@ -177,7 +180,7 @@ const languages = {
         initialCreateNew: 'Crear una nueva lista',
         initialSelectList: 'o seleccione una lista existente',
         myLists: 'Mis Listas :',
-        left: 'tarea pendiente',
+        left: 'quedan ',
         listInputPlaceHolder: 'ingresar nueva lista',
         uncategorized: 'Lista sin categorizar',
         categoryInputPlaceHolder: 'entrar en nueva categoría',
@@ -189,7 +192,7 @@ const languages = {
         clearTasks: 'Borrar elementos completados',
         createCategory: 'Crear nueva categoría',
         deleteCategory: 'Eliminar categoría actual',
-        taskInputPlaceHolder: 'ingresar nuevo elemento',
+        taskInputPlaceHolder: 'ingresar nueva tarea',
         or: 'o',
         uncategorizedName: 'sin categorizar'
     }
@@ -204,12 +207,19 @@ function changeLanguage(lang) {
     const createBtns = document.querySelectorAll('[data-create-btns]');
     const confirmDelete = document.querySelector('.confirmation-message');
     const or = document.querySelector('.or');
+    const spanishLeft = document.querySelector('[data-spanish-left]');
 
     langText.innerText = lang.language;
     initialNewList.textContent = lang.initialCreateNew;
     initialExistingList.textContent = lang.initialSelectList;
     myListsText.forEach(myList => myList.textContent = lang.myLists);
-    tasksLeft.textContent = lang.left;
+    if (lang === languages.es) {
+        tasksLeft.textContent = '';
+        spanishLeft.textContent = lang.left;
+    } else {
+        spanishLeft.textContent = '';
+        tasksLeft.textContent = lang.left;  
+    }
     uncategorizedBtn.textContent = lang.uncategorized;
     or.textContent = lang.or;
     newListInput.placeholder = lang.listInputPlaceHolder;
@@ -238,7 +248,7 @@ function enabelOrDisabelDeleteList() {
 }
 
 function enableOrDisableDeleteCategory() {
-    if (!selectedCategoryId || selectedCategoryId == 'null'/* || categoriesContainer.children[0].classList.contains('uncategorized-only') */) {
+    if (!selectedCategoryId || selectedCategoryId == 'null') {
         deleteCategoryBtns.forEach(btn => btn.disabled = true);
     } else if (categoriesContainer.children[0] && categoriesContainer.children[0].classList.contains('uncategorized-only')) {
         deleteCategoryBtns.forEach(btn => btn.disabled = true);
@@ -332,11 +342,18 @@ function saveDeleteOption() {
 window.addEventListener('resize', () => {
     if(!selectedListId || selectedListId == 'null') {
         listDisplayContainer.style.display = 'none';
+        initialDisplay.style.zIndex = '7';
         if(window.innerWidth < 1024){
-          initialDisplay.style.display = 'block';  
+            mainContent.classList.remove('main-grid');
+            listWrapper.classList.remove('max-width'); 
+            initialDisplay.style.display = 'block';  
         } else {
           initialDisplay.style.display = 'none'; 
+          mainContent.classList.add('main-grid');
+          listWrapper.classList.add('max-width');   
         }
+    } else {
+        renderSelectedList();
     }
 });
 
@@ -764,13 +781,27 @@ function renderSelectedList() {
     if(!selectedListId || selectedListId == 'null') {
         listDisplayContainer.style.display = 'none';
         listInitialWrapper.style.display = 'none';
+        initialDisplay.style.zIndex = '7';
         if(window.innerWidth < 1024){
-          initialDisplay.style.display = 'block';  
+            mainContent.classList.remove('main-grid');
+            listWrapper.classList.remove('max-width'); 
+            initialDisplay.style.display = 'block';  
+        } else {
+                mainContent.classList.add('main-grid');
+                listWrapper.classList.add('max-width'); 
+                listWrapper.classList.remove('list-grid');  
         }
     } else {
         const selectedList = lists.find(list => list.id === selectedListId);
         initialDisplay.style.display = 'none';
+        initialDisplay.style.zIndex = '';
+        mainContent.classList.remove('main-grid');
+        listWrapper.classList.remove('max-width'); 
+        if (window.innerWidth >= 1024) {
+            listWrapper.classList.add('list-grid'); 
+        }
         listDisplayContainer.style.display = '';
+        listTitleDiv.style.display = 'flex';
         listTitleElement.innerText = selectedList.name; 
         const listTitleHeight = listTitleDiv.getBoundingClientRect().height;
         categoriesContainer.style.top = `${listTitleHeight}px`;
@@ -895,7 +926,7 @@ function renderTasks(selectedList) {
             checkbox.checked = task.complete;
             const label = taskElement.querySelector('label');
             label.htmlFor = task.id;
-            label.append(task.name); 
+            label.append(task.name);                      // items are tasks vvv
             const tasksContainers = document.querySelectorAll('.category ul.items');
             for (let j= 0; j<tasksContainers.length; j++) {
                 if (task.category === tasksContainers[j].id) {

@@ -161,8 +161,8 @@ nav .lang-svg {
     top: 3.5rem;
     height: calc(100% - 4rem);
 }
-    /* nav dropdown */
 
+/* nav dropdown */
 .nav-dropdown-menu {
     position: relative;
     top: 0;
@@ -185,12 +185,7 @@ nav .lang-svg {
 }
 
 .menu-nav-wrapper {
-    /*    width: 80%;
-    max-width: 300px; */
     background: var(--clr-item-bg);
-    /*    position: absolute;
-    right: 0;
-    top: 3rem; */
     margin-top: 51px;
     width: 100%;
     height: calc(100% - 51px);
@@ -320,7 +315,6 @@ nav .lang-svg {
     background-color: var(--clr-border-dark);
     color: var(--clr-category-menu);
     overflow: scroll;
-    /* width: 80%; */
     width: 100%;
     height: calc(100% - 2rem);
     max-width: 300px;
@@ -345,11 +339,16 @@ nav .lang-svg {
     position: absolute;
     top: 0;
     width: 100%;
+    height: 100%;   
 }
 
 .initial {
     margin-top: 10vh;
+    margin-bottom: 10vh;
     display: none;
+    height: calc(100% - 20vh);
+    overflow: scroll;
+    position: relative;
 }
 
 .initial h3 {
@@ -388,7 +387,6 @@ nav .lang-svg {
 
 .current-list {
     max-width: 500px;
-    /*background: var(--clr-item-bg);*/
     padding-bottom: 1px;
     margin: 0 auto;
     position: relative;
@@ -417,19 +415,28 @@ nav .lang-svg {
     font-size: 1.3rem;
 }
 
-span[data-tasks-left] {
+span[data-tasks-left],
+span[data-spanish-left] {
     font-size: 0.8rem;
 }
 
 .list-content {
     position: relative;
-    /*top: 60px;
-    background: var(--clr-item-bg);
-    padding-bottom: 1px;*/
 }
 
 .my-lists {
     display: none;
+}
+
+@media(max-width: 359px) {
+    .list-title {
+        flex-direction: column;
+        align-items: start;
+        padding: 0.7rem 1.5rem;
+    }
+    .list-title > span {
+        margin-top: 5px;
+    }
 }
 
 @media (min-width: 1024px) {
@@ -437,23 +444,35 @@ span[data-tasks-left] {
         display: none;
     }
 
+    .main-grid {
+        display: grid;
+        place-items: center;
+    }
+
     .list-wrapper {
         position: relative;
         top: 7vh;
         height: calc(93vh - 6.4rem);
+
+    }
+
+    .list-grid {
         display: grid;
         grid: ". lists gap current ." auto /
               1fr minmax(200px, 300px) 0.5fr minmax(200px, 600px) 1fr;
+    }
+
+    .max-width {
+        max-width: 350px;
+        padding-left: 1.25rem;
     }
 
     .my-lists {
         display: block;
         grid-area: lists;
         margin-top: 10vh;
-        /* height: calc(76vh - 5rem); */
         max-height: 70vh;
         padding-left: 1.5rem;
-        /* overflow: scroll; */
     }
 
     .my-lists-title {
@@ -558,7 +577,6 @@ span[data-tasks-left] {
     position: relative;   
     background: var(--clr-item-bg);
     padding-bottom: 1px;
-   /*  margin-top: -1px; */
 }
 
 .category:not(:first-child) {
@@ -587,7 +605,6 @@ span[data-tasks-left] {
     margin-left: -4vw;
     margin-right: -4vw;
     background-color: var(--clr-item-bg);
-    /* padding-bottom: 1rem; */
     margin-bottom: 1px;
 }
 
@@ -615,7 +632,7 @@ span[data-tasks-left] {
     margin-left: -2.5rem;   
 }
 
-/* itmes */
+/* itmes */  /* items are tasks  */
 li.item {
     font-size: 1.25rem;
     font-weight: 400;
@@ -678,7 +695,6 @@ input.add-new {
     border: none;
     font-size: 1.25rem;
     padding: 0.4rem 0 0.7rem 1rem;
-    /* margin-bottom: 1rem; */
     outline: none;
     order: 2;
     border-bottom: 2px solid var(--clr-border-dark);
@@ -764,7 +780,6 @@ input.add-new:focus::placeholder {
 .list-initial-wrapper button {
     font-size: 1.2rem;
     padding: 0.5rem 1rem;
-    height: 45px;
     font-weight: 500;
     color: var(--clr-text-bright);
     background-color: var(--clr-category-title-bg);

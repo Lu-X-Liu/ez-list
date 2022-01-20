@@ -46,7 +46,7 @@
                             class="add-new new-list_dropdown"
                             placeholder="enter new list"
                             aria-label="enter new list"
-                            maxlength="25"
+                            maxlength="16"
                             required
                             data-new-list-input-2>
                         <button class="new-btn new-list-button_dropdown" aria-label="create new list">
@@ -64,7 +64,7 @@
                             Delete current list
                     </button>
                     <button class='menu-edit-btn' data-clear-completed-tasks-btn>                    
-                            Clear completed items    
+                            Clear completed tasks    
                     </button>
                     <button class="menu-edit-btn" data-create-new-category-btn>
                         Create new category
@@ -101,7 +101,7 @@
                                 class="add-new new-list"
                                 placeholder="enter new list"
                                 aria-label="enter new list"
-                                maxlength="25"
+                                maxlength="16"
                                 required
                                 data-new-list-input>
                             <button class="new-btn new-list-button" aria-label="create new list">
@@ -114,7 +114,7 @@
                     <div class="current-list" data-list-display-container>
                         <div class="list-title">
                             <h2 data-list-title></h2>
-                            <span><span data-list-count>0</span><span data-tasks-left>left</span></span>
+                            <span><span data-spanish-left></span><span data-list-count>0</span><span data-tasks-left>left</span></span>
                         </div>
                         <div class="list-content" data-categories-container>                                        
                         </div>
@@ -176,7 +176,7 @@
                             Delete current list
                         </button>
                         <button class="edit-btn" data-clear-completed-tasks-btn>
-                            Clear completed items
+                            Clear completed tasks
                         </button>       
                         <button class="edit-btn" data-create-new-category-btn>
                             Create new category
@@ -212,10 +212,8 @@
             </svg>
     </div>
     <template id="task-template">
-        <li class="item">
-            <input type="checkbox"
-            placeholder="enter new category"
-            aria-label="enter new category">
+        <li class="item">  <!-- item is task -->
+            <input type="checkbox">
             <label>
                 <span class="custom-checkbox"></span>      
             </label>                                
@@ -239,12 +237,12 @@
             <form action="" class="new-task-form">
                 <input type="text"
                     class="add-new new-item"
-                    placeholder="enter new item"
-                    aria-label="enter new item"
+                    placeholder="enter new task"
+                    aria-label="enter new task"
                     maxlength="30"
                     required
                     data-new-task-input>
-                <button class="new-btn new-item-btn" aria-label="create new item">
+                <button class="new-btn new-item-btn" aria-label="create new task">
                     <svg class="plus-new plus-new-item"><use href="#plus-icon"></use></svg>
                 </button>
             </form>
