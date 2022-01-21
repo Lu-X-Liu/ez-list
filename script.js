@@ -138,7 +138,7 @@ const languages = {
         initialCreateNew: '創建新清單',
         initialSelectList: '或選擇現有清單',
         myLists: '我的清單 :',
-        left: '個剩餘',
+        left: '項剩餘',
         listInputPlaceHolder: '輸入新清單',
         uncategorized: '未分類清單',
         categoryInputPlaceHolder: '輸入新類別',
@@ -159,7 +159,7 @@ const languages = {
         initialCreateNew: '创建新清单',
         initialSelectList: '或选择现有清单',
         myLists: '我的清单 :',
-        left: '个剩余',
+        left: '项剩余',
         listInputPlaceHolder: '输入新清单',
         uncategorized: '未分类清单',
         categoryInputPlaceHolder: '输入新类别',
@@ -235,9 +235,7 @@ function changeLanguage(lang) {
     deleteCategoryBtns.forEach(btn => btn.textContent = lang.deleteCategory);
 }
 
-// disable delete buttons when no list or category is selected
-enabelOrDisabelDeleteList();
-enableOrDisableDeleteCategory();
+// disable buttons functions
 
 function enabelOrDisabelDeleteList() {
     if (!selectedListId || selectedListId == 'null') {
@@ -255,6 +253,36 @@ function enableOrDisableDeleteCategory() {
     } else {
         deleteCategoryBtns.forEach(btn => btn.disabled = false);
     }    
+}
+
+function enableOrDisableCreateNewCategory() {
+    if (!selectedListId || selectedListId == 'null') {
+        createNewCategoryBtns.forEach(btn => btn.disabled = true);
+    } else {
+        createNewCategoryBtns.forEach(btn => btn.disabled = false);
+    }   
+}
+
+function enableOrDisableClearCompleted() {
+    if (!selectedListId || selectedListId == 'null') {
+        clearCompletedTasksBtns.forEach(btn => btn.disabled = true);
+    } else {
+        const selectedList = lists.find(list => list.id === selectedListId);
+        if (selectedList.categories.length === 0) {
+            clearCompletedTasksBtns.forEach(btn => btn.disabled = true); 
+        } else {
+            const booleanArr = [];
+            selectedList.categories.forEach(category => {               
+                const checkComplete = category.tasks.some(task => task.complete);
+                booleanArr.push(checkComplete);              
+            });   
+            if (booleanArr.includes(true)) {
+                clearCompletedTasksBtns.forEach(btn => btn.disabled = false);
+            } else {
+                clearCompletedTasksBtns.forEach(btn => btn.disabled = true);
+                }             
+        }
+    }  
 }
 
 //when refreshed language don't change
@@ -376,6 +404,8 @@ listsContainer.addEventListener('click', e => {
             scrollToTop();
             enabelOrDisabelDeleteList();
             enableOrDisableDeleteCategory();
+            enableOrDisableCreateNewCategory();
+            enableOrDisableClearCompleted();
         }
 });
 
@@ -390,6 +420,8 @@ listsContainer2.addEventListener('click', e => {
         e.currentTarget.parentElement.parentElement.parentElement.style.display = 'none';
         enabelOrDisabelDeleteList();
         enableOrDisableDeleteCategory();
+        enableOrDisableCreateNewCategory();
+        enableOrDisableClearCompleted();
     }
 });
 
@@ -498,6 +530,7 @@ categoriesContainer.addEventListener('click', e => {
                 }                    
             }
         }
+        enableOrDisableClearCompleted();
     }
 });
 
@@ -546,7 +579,6 @@ categoriesContainer.addEventListener('click', e => {
 //clear completed tasks
 clearCompletedTasksBtns.forEach(btn => {
     btn.addEventListener('click', clearCompleted);
-    /* btn.addEventListener('click', hideParent); */
 });
 
 function clearCompleted() {
@@ -601,6 +633,8 @@ function deleteList() {
     saveAndRenderAll();
     enabelOrDisabelDeleteList();
     enableOrDisableDeleteCategory();
+    enableOrDisableCreateNewCategory();
+    enableOrDisableClearCompleted();
 }
 
 
@@ -640,7 +674,8 @@ deleteBtnWithOptions.addEventListener('click', e => {
         selectedCategoryId = null; 
         saveAndRenderselectedList();
         resetDeleteConfirmationData(); 
-        enableOrDisableDeleteCategory();     
+        enableOrDisableDeleteCategory();  
+        enableOrDisableClearCompleted();   
     }
 })
 
@@ -669,6 +704,8 @@ newListForm.addEventListener('submit', e => {
     listsContainer.lastChild.scrollIntoView();
     menuAnimation();
     enabelOrDisabelDeleteList();
+    enableOrDisableCreateNewCategory();
+    enableOrDisableClearCompleted();
 });    
 
 newListForm2.addEventListener('submit', e => {
@@ -686,6 +723,8 @@ newListForm2.addEventListener('submit', e => {
     saveAndRenderAll();
     menuAnimation();
     enabelOrDisabelDeleteList();
+    enableOrDisableCreateNewCategory();
+    enableOrDisableClearCompleted();
 });  
 
 function menuAnimation() {
@@ -976,5 +1015,9 @@ function clearElement(element) {
     }
 }
 
-renderAll()
+renderAll();
 
+enabelOrDisabelDeleteList();
+enableOrDisableClearCompleted();
+enableOrDisableCreateNewCategory();
+enableOrDisableDeleteCategory();
