@@ -179,6 +179,7 @@ nav .lang-svg {
     right: 0;
     top: 0;
     height: 100%;
+    max-height: calc(100vh - 3.5rem);
     transform: scaleX(1);
     transform-origin: right;
     transition: transform 200ms ease-in-out;
@@ -189,6 +190,10 @@ nav .lang-svg {
     margin-top: 51px;
     width: 100%;
     height: calc(100% - 51px);
+}
+
+.menu-nav {
+    max-height: calc(100% - 78.39px);
     overflow: scroll;
 }
 
@@ -200,6 +205,7 @@ nav .lang-svg {
     height: fit-content;
     padding: 0;
     list-style: none;
+    overflow: scroll;
 }
 
 .menu-content div,
@@ -961,7 +967,7 @@ input.add-new:focus::placeholder {
 }
 
 .edit-btn {
-    padding: 0.7rem 2rem;
+    padding: 0.7rem 1.5rem;
     color: var(--clr-category-menu);
     background: transparent;
     border: 2px solid var(--clr-category-menu);

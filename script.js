@@ -383,6 +383,12 @@ window.addEventListener('resize', () => {
     } else {
         renderSelectedList();
     }
+    if(window.innerWidth < 768 && headerEditDropDown.style.display === 'block') {
+        headerEditDropDown.style.display = 'none';
+
+    } else if (window.innerWidth >= 1024 && headerMenuDropDown.style.display === 'block') {
+        headerMenuDropDown.style.display = 'none';
+    }
 });
 
 //click initial buttons opens the nav menu
@@ -701,8 +707,7 @@ newListForm.addEventListener('submit', e => {
     selectedListId = list.id;
     selectedCategoryId = null;
     saveAndRenderAll();
-    listsContainer.lastChild.scrollIntoView();
-    menuAnimation();
+    listsContainer.lastChild.scrollIntoView(false);
     enabelOrDisabelDeleteList();
     enableOrDisableCreateNewCategory();
     enableOrDisableClearCompleted();
@@ -721,6 +726,7 @@ newListForm2.addEventListener('submit', e => {
     selectedListId = list.id;
     selectedCategoryId= null;
     saveAndRenderAll();
+    listsContainer2.lastChild.scrollIntoView(false);
     menuAnimation();
     enabelOrDisabelDeleteList();
     enableOrDisableCreateNewCategory();
@@ -1005,7 +1011,6 @@ function renderList() {
         };
             listsContainer.appendChild(listElement);
             listsContainer2.appendChild(listElement2);
-            
         });
 }
 
