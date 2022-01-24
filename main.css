@@ -159,7 +159,7 @@ nav .lang-svg {
 .main {
     position: relative;
     top: 3.5rem;
-    height: calc(100% - 4rem);
+    height: calc(100% - 3.5rem);
 }
 
 /* nav dropdown */
