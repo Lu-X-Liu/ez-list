@@ -459,7 +459,7 @@ function scrollPage() {
         }
     }
 }
-
+// create new tasks (items)
 categoriesContainer.addEventListener('submit', e => {
     e.preventDefault();
     if (e.target.classList.contains('new-task-form')) {
