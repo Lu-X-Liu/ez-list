@@ -517,9 +517,9 @@ span[data-spanish-left] {
     }
 
     .new-list-creator {
-        margin-top: 2.5rem;
-        transform: translateX(-2rem);
         position: relative;
+        top: 2.5rem;
+        transform: translateX(-2rem);        
         z-index: 3;
         padding-top: 1.5rem;
     }
