@@ -604,9 +604,6 @@ span[data-spanish-left] {
     cursor: pointer;
 }
 
-.menu-category:hover {
-    fill: var(--clr-text-bright);
-}
 
 .selected-category {
     margin-left: -4vw;
@@ -623,6 +620,9 @@ span[data-spanish-left] {
     .selected-category{
         margin-left: -1.3vw;
         margin-right: -1.3vw;
+    }
+    .menu-category:hover {
+        fill: var(--clr-text-bright);
     }
 }
 
