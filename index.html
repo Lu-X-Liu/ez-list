@@ -35,46 +35,50 @@
         </div>       
     </header>
     <main class="main">
-        <div class="nav-dropdown-menu dropdown-menu">
-            <div class="menu-container" data-nav-menu-container>
-                <div class="spacer header-menu-title" data-my-lists> My Lists :</div>
-                <div class="menu-nav-wrapper">
-                    <ul class="menu-nav menu-content" data-lists-dropdown>   
-                    </ul> 
-                    <form action="" class="new-list-dropdown-form" data-new-list-form-2>
-                        <input type="text"
-                            class="add-new new-list_dropdown"
-                            placeholder="enter new list"
-                            aria-label="enter new list"
-                            maxlength="16"
-                            required
-                            data-new-list-input-2>
-                        <button class="new-btn new-list-button_dropdown" aria-label="create new list">
-                            <svg class="plus-new plus-new-list_dropdown"><use href="#plus-icon"></use></svg>
-                        </button>
-                    </form>                               
-                </div>                
+        <div class="nav-dropdown-fixed">
+            <div class="nav-dropdown-menu dropdown-menu">
+                <div class="menu-container" data-nav-menu-container>
+                    <div class="spacer header-menu-title" data-my-lists> My Lists :</div>
+                    <div class="menu-nav-wrapper">
+                        <ul class="menu-nav menu-content" data-lists-dropdown>   
+                        </ul> 
+                        <form action="" class="new-list-dropdown-form" data-new-list-form-2>
+                            <input type="text"
+                                class="add-new new-list_dropdown"
+                                placeholder="enter new list"
+                                aria-label="enter new list"
+                                maxlength="16"
+                                required
+                                data-new-list-input-2>
+                            <button class="new-btn new-list-button_dropdown" aria-label="create new list">
+                                <svg class="plus-new plus-new-list_dropdown"><use href="#plus-icon"></use></svg>
+                            </button>
+                        </form>                               
+                    </div>                
+                </div>
             </div>
         </div>
-        <div class="edit-dropdown-menu dropdown-menu">
-            <div class="menu-container" data-edit-menu-container>
-                <div class="spacer"></div>
-                <div class="menu-edit menu-content">   
-                    <button class='menu-edit-btn' data-delete-list-button>                    
-                            Delete current list
-                    </button>
-                    <button class='menu-edit-btn' data-clear-completed-tasks-btn>                    
-                            Clear completed tasks    
-                    </button>
-                    <button class="menu-edit-btn" data-create-new-category-btn>
-                        Create new category
-                    </button> 
-                    <button class="menu-edit-btn" data-delete-category-btn>
-                        Delete current category
-                    </button>  
-                </div>                
-            </div>
-        </div>         
+        <div class="edit-dropdown-fixed">
+            <div class="edit-dropdown-menu dropdown-menu">
+                <div class="menu-container" data-edit-menu-container>
+                    <div class="spacer"></div>
+                    <div class="menu-edit menu-content">   
+                        <button class='menu-edit-btn' data-delete-list-button>                    
+                                Delete current list
+                        </button>
+                        <button class='menu-edit-btn' data-clear-completed-tasks-btn>                    
+                                Clear completed tasks    
+                        </button>
+                        <button class="menu-edit-btn" data-create-new-category-btn>
+                            Create new category
+                        </button> 
+                        <button class="menu-edit-btn" data-delete-category-btn>
+                            Delete current category
+                        </button>  
+                    </div>                
+                </div>
+            </div>              
+        </div> 
         <div class="main-content-wrapper">
             <div class="initial">
                 <div class="create-new-list">
@@ -170,20 +174,22 @@
                 </svg>                
             </div>
             <div class="edit-btns-wrapper"> 
-                <div class="btns-parent-element">
-                    <div class="edit-btns">
-                        <button class="edit-btn" data-delete-list-button>
-                            Delete current list
-                        </button>
-                        <button class="edit-btn" data-clear-completed-tasks-btn>
-                            Clear completed tasks
-                        </button>       
-                        <button class="edit-btn" data-create-new-category-btn>
-                            Create new category
-                        </button> 
-                        <button class="edit-btn" data-delete-category-btn>
-                            Delete current category
-                        </button>              
+                <div class="btns-parent-parent">
+                    <div class="btns-parent-element">
+                        <div class="edit-btns">
+                            <button class="edit-btn" data-delete-list-button>
+                                Delete current list
+                            </button>
+                            <button class="edit-btn" data-clear-completed-tasks-btn>
+                                Clear completed tasks
+                            </button>       
+                            <button class="edit-btn" data-create-new-category-btn>
+                                Create new category
+                            </button> 
+                            <button class="edit-btn" data-delete-category-btn>
+                                Delete current category
+                            </button>              
+                        </div>                    
                     </div>                    
                 </div>
             </div>

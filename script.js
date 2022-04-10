@@ -2,9 +2,11 @@
 const bottomTabIcon = document.querySelector('.edit-tab svg');
 const editBtnWrapper = document.querySelector('.edit-btns-wrapper');
 const headerMenuIcon = document.querySelector('.menu-btn svg');
-const headerMenuDropDown = document.querySelector('.nav-dropdown-menu');
+//const headerMenuDropDown = document.querySelector('.nav-dropdown-menu');
+const headerMenuDropDown = document.querySelector('.nav-dropdown-fixed');
 const headerEditIcon = document.querySelector('.pencil-btn svg');
-const headerEditDropDown = document.querySelector('.edit-dropdown-menu');
+//const headerEditDropDown = document.querySelector('.edit-dropdown-menu');
+const headerEditDropDown = document.querySelector('.edit-dropdown-fixed');
 const navMenuContainer = document.querySelector('[data-nav-menu-container]');
 bottomTabIcon.menu = editBtnWrapper;
 headerMenuIcon.menu = headerMenuDropDown;
@@ -397,7 +399,7 @@ listsContainer2.addEventListener('click', e => {
         selectedList.categories.forEach(category => category.selected = false);
         saveAndRenderAll();
         scrollToTop();
-        e.currentTarget.parentElement.parentElement.parentElement.style.display = 'none';
+        e.currentTarget.parentElement.parentElement.parentElement.parentElement.style.display = 'none';
         enabelOrDisabelDeleteList();
         enableOrDisableDeleteCategory();
         enableOrDisableCreateNewCategory();
@@ -454,8 +456,12 @@ function scrollPage() {
         const selectedCategoryTop = selectedCategory.getBoundingClientRect().top;
         const scrollDistance = Math.floor(listTitleBottom - selectedCategoryTop) ;
         if (scrollDistance > 0) {
+            if (window.innerWidth < 1024) {
+                window.scrollBy(0, -scrollDistance);
+            } else {
             const currentListWrapper = document.querySelector('.current-list-wrapper');
-            currentListWrapper.scrollBy(0, -scrollDistance);
+            currentListWrapper.scrollBy(0, -scrollDistance);                
+            }
         }
     }
 }
@@ -488,8 +494,8 @@ categoriesContainer.addEventListener('submit', e => {
         const availableHeight = windowHeight - 56;
         const taskFormBottom = e.target.getBoundingClientRect().bottom;
         if ((availableHeight - taskFormBottom) < 0) {
-            const newItemForm = document.querySelector('.new-task-form');
-            newItemForm.scrollIntoView(false);
+                const newItemForm = document.querySelector('.new-task-form');
+                newItemForm.scrollIntoView(false);                
         }
     }
 }); 
@@ -619,7 +625,7 @@ function deleteList() {
 
 
 function hideParent(e) {
-    e.currentTarget.parentElement.parentElement.parentElement.style.display = 'none';
+    e.currentTarget.parentElement.parentElement.parentElement.parentElement.style.display = 'none';
 }
 
 // display create category form
@@ -827,7 +833,7 @@ function renderSelectedList() {
         clearElement(categoriesContainer);
         renderCategories(selectedList);  
         if (categoriesContainer.innerHTML === '') {
-            listInitialWrapper.style.top = `${listTitleHeight}px`;
+            //listInitialWrapper.style.top = `${listTitleHeight}px`;
             listInitialWrapper.style.display = 'block';            
         } else {
             listInitialWrapper.style.display = 'none';

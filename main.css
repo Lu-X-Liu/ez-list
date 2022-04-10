@@ -24,8 +24,8 @@
 
 html,
 body{
-    height: 100%;
-    width: 100%;
+/*     height: 100%;
+    width: 100%; */
     background: var(--clr-body-bg);
     color: var(--clr-text-dark);
 }
@@ -52,7 +52,13 @@ a {
     outline: none;
 }
 
-
+@media(min-width: 1024px) {
+    html,
+    body{
+        height: 100%;
+        width: 100%;
+    }
+}
 /*header*/
 
 header {
@@ -163,13 +169,21 @@ nav .lang-svg {
 }
 
 /* nav dropdown */
+.nav-dropdown-fixed,
+.edit-dropdown-fixed {
+    position: fixed;
+    height: calc(100vh - 3.5rem);
+    width: 100%;
+    z-index: 10;
+    display: none;
+}
+
 .nav-dropdown-menu {
     position: relative;
     top: 0;
-    height: calc(100% + 0.5rem);
+    height: calc(100vh - 3.5rem);
     background: var(--clr-pop-up-wrapper-bg);
-    z-index: 10;
-    display: none;
+    /* z-index: 10; */
 }
 
 .menu-container {
@@ -193,7 +207,7 @@ nav .lang-svg {
 }
 
 .menu-nav {
-    max-height: calc(100% - 78.39px);
+    max-height: calc(100% - 78.39px); /* minus item form height and position */
     overflow: scroll;
 }
 
@@ -205,10 +219,10 @@ nav .lang-svg {
     height: fit-content;
     padding: 0;
     list-style: none;
-    overflow: scroll;
+    /* overflow: scroll; */
 }
 
-.menu-content div,
+/* .menu-content div, */
 .menu-content li {
     position: relative;
 }
@@ -226,7 +240,7 @@ nav .lang-svg {
     background-color: var(--clr-list-title-bg);
     z-index: 50;
     color: var(--clr-text-bright);
-    right: 0;
+    /* right: 0; */
 }
 
 .menu-nav-list::after {
@@ -305,10 +319,10 @@ nav .lang-svg {
 .edit-dropdown-menu {
     position: relative;
     top: 0;
-    height: calc(100% + 0.5rem);
+    height: 100%;
+    /* height: calc(100% + 0.5rem); */
     background: var(--clr-pop-up-wrapper-bg);
-    z-index: 10;
-    display: none;
+/*     z-index: 10; */
 }
 
 .edit-dropdown-menu div.spacer {
@@ -322,14 +336,14 @@ nav .lang-svg {
     background-color: var(--clr-border-dark);
     color: var(--clr-category-menu);
     overflow: scroll;
-    width: 100%;
+/*     width: 100%; */
     height: calc(100% - 2rem);
-    max-width: 300px;
+/*     max-width: 300px; */
 }
 
 .menu-edit-btn {
     color: var(--clr-category-menu);
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     width: 80%;
     background-color: transparent;
     border: 2px solid currentColor;
@@ -350,11 +364,9 @@ nav .lang-svg {
 }
 
 .initial {
-    margin-top: 10vh;
-    margin-bottom: 10vh;
+    padding-top: 10vh;
+    padding-bottom: 10vh;
     display: none;
-    height: calc(100% - 20vh);
-    overflow: scroll;
     position: relative;
 }
 
@@ -378,8 +390,7 @@ nav .lang-svg {
 /* current list*/
 
 .list-wrapper {
-    height: calc(100vh - 6.4rem);
-    overflow: hidden;
+/*     height: calc(100vh - 6.4rem);*/
     position: absolute;
     top: 0;
     width: 100%;
@@ -387,7 +398,7 @@ nav .lang-svg {
 
 .current-list-wrapper {
     height: 100%;
-    overflow: scroll;
+/*     overflow: scroll; */
     width: 100%;
     padding: 0 7%;
 }
@@ -395,8 +406,10 @@ nav .lang-svg {
 .current-list {
     max-width: 500px;
     padding-bottom: 1px;
-    margin: 0 auto;
+    margin: 0 auto 3.5rem;
     position: relative;
+    top: 0;
+    padding-bottom: 46px;
 }
 
 .current-list h2 {
@@ -456,11 +469,11 @@ span[data-spanish-left] {
         place-items: center;
     }
 
-    .list-wrapper {
+    .list-wrapper {   
         position: relative;
         top: 7vh;
         height: calc(93vh - 6.4rem);
-
+        overflow: hidden;
     }
 
     .list-grid {
@@ -526,12 +539,16 @@ span[data-spanish-left] {
 
     .current-list-wrapper {
         grid-area: current;
+        height: 100%;
+        overflow: scroll;
         margin-left: -7%;        
     }
 
-    .current-list {
+/*     .current-list {
         margin: 0 0 7vh; 
-    }
+        padding-bottom: 1px;
+        margin: 0 auto;
+    } */
 
     .new-list-creater form {
         width: 90%;
@@ -775,14 +792,14 @@ input.add-new:focus::placeholder {
 .list-initial-wrapper {
     position: relative;
     width: 100%;
-    margin-top: 10%;
+    margin-top: 10vh;
     display: none;
 }
 
 .list-initial {
     margin: 0 auto;
     max-width: 500px;
-    padding-bottom: 2rem;
+    padding-bottom: 4rem;
 }
 
 .list-initial-wrapper button {
@@ -834,7 +851,7 @@ input.add-new:focus::placeholder {
     top: -3.5rem;
     z-index: 100;
     width: 100vw;
-    height: calc(100vh - 6.4rem);
+    /* height: calc(100vh - 6.4rem); */
     background-color: var(--clr-pop-up-wrapper-bg);
     display: grid;
     place-items: center;
@@ -926,12 +943,12 @@ input.add-new:focus::placeholder {
     color: var(--clr-text-bright)
 }
 
-@media(min-width: 768px) {
+/* @media(min-width: 768px) {
     .delete-confirmation {
         width: 450px;
     }
 }
-
+ */
 /* mobil bottom tab for edit */
 
 .edit-tab {
