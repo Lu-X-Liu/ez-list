@@ -489,7 +489,7 @@ categoriesContainer.addEventListener('submit', e => {
         renderTasks(selectedList); 
         //scrolling the new-item-form into view as the heigt of the list grow.
         const windowHeight = window.innerHeight;
-        const availableHeight = windowHeight - 56;
+        const availableHeight = windowHeight - 103;
         const taskFormBottom = e.target.getBoundingClientRect().bottom;
         if ((availableHeight - taskFormBottom) < 0) {
             if (window.innerWidth < 1024){
