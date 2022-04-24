@@ -405,11 +405,10 @@ nav .lang-svg {
 
 .current-list {
     max-width: 500px;
-    padding-bottom: 1px;
     margin: 0 auto 3.5rem;
     position: relative;
     top: 0;
-    padding-bottom: 46px;
+    padding-bottom: 56px;
 }
 
 .current-list h2 {

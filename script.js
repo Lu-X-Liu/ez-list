@@ -2,10 +2,8 @@
 const bottomTabIcon = document.querySelector('.edit-tab svg');
 const editBtnWrapper = document.querySelector('.edit-btns-wrapper');
 const headerMenuIcon = document.querySelector('.menu-btn svg');
-//const headerMenuDropDown = document.querySelector('.nav-dropdown-menu');
 const headerMenuDropDown = document.querySelector('.nav-dropdown-fixed');
 const headerEditIcon = document.querySelector('.pencil-btn svg');
-//const headerEditDropDown = document.querySelector('.edit-dropdown-menu');
 const headerEditDropDown = document.querySelector('.edit-dropdown-fixed');
 const navMenuContainer = document.querySelector('[data-nav-menu-container]');
 bottomTabIcon.menu = editBtnWrapper;
@@ -485,17 +483,22 @@ categoriesContainer.addEventListener('submit', e => {
         newTaskInput.value = null;
         selectedCategory.tasks.push(task);
         save();
-        const tasksContainer = document.querySelectorAll('.category .items');
+        const tasksContainers = document.querySelectorAll('.category .items');
         renderTaskCount(selectedList);
-        tasksContainer.forEach(taskContainer=> clearElement(taskContainer));
+        tasksContainers.forEach(tasksContainer=> clearElement(tasksContainer));
         renderTasks(selectedList); 
         //scrolling the new-item-form into view as the heigt of the list grow.
         const windowHeight = window.innerHeight;
         const availableHeight = windowHeight - 56;
         const taskFormBottom = e.target.getBoundingClientRect().bottom;
         if ((availableHeight - taskFormBottom) < 0) {
+            if (window.innerWidth < 1024){
+                const scrollDistance = taskFormBottom - availableHeight;
+                window.scrollBy(0, scrollDistance);
+            } else {
                 const newItemForm = document.querySelector('.new-task-form');
-                newItemForm.scrollIntoView(false);                
+                newItemForm.scrollIntoView(false);  
+            }                  
         }
     }
 }); 
@@ -833,7 +836,6 @@ function renderSelectedList() {
         clearElement(categoriesContainer);
         renderCategories(selectedList);  
         if (categoriesContainer.innerHTML === '') {
-            //listInitialWrapper.style.top = `${listTitleHeight}px`;
             listInitialWrapper.style.display = 'block';            
         } else {
             listInitialWrapper.style.display = 'none';
