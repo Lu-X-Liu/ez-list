@@ -586,7 +586,12 @@ deleteListBtns.forEach(btn => {
                 const selecetedListName = lists.find(list=> list.id === selectedListId).name;
                 openDeleteConfirmation();
                 confirmDeleteName.innerText = selecetedListName;
-                deleteBtnWithOptions.dataset.deleteOption = deleteOption;                        
+                deleteBtnWithOptions.dataset.deleteOption = deleteOption;     
+                const deletWrapperBottom = deleteConfirmationWrapper.getBoundingClientRect().bottom;
+                if (deletWrapperBottom < window.innerHeight) {
+                    const scrollDistance = window.innerHeight - deletWrapperBottom;
+                    window.scrollBy(0, -scrollDistance);
+                }                     
     })
 });
 
@@ -651,7 +656,12 @@ deleteCategoryBtns.forEach(btn => {
                 const selecetedCategory = document.querySelector('.selected-category'); 
                 openDeleteConfirmation();
                 confirmDeleteName.innerText = selecetedCategory.children[0].children[1].innerText;
-                deleteBtnWithOptions.dataset.deleteOption = deleteOption;                         
+                deleteBtnWithOptions.dataset.deleteOption = deleteOption;    
+                const deletWrapperBottom = deleteConfirmationWrapper.getBoundingClientRect().bottom;
+                if (deletWrapperBottom < window.innerHeight) {
+                    const scrollDistance = window.innerHeight - deletWrapperBottom;
+                    window.scrollBy(0, -scrollDistance);
+                }                                    
     })        
 });
 
