@@ -636,7 +636,6 @@ createNewCategoryBtns.forEach(btn => {
     btn.addEventListener('click', ()=> {
         newCategoryFormPopup.style.display = 'grid';
     });
-    /* btn.addEventListener('click', hideParent); */
 });
 
 //close create category form
@@ -752,11 +751,15 @@ newCategoryForms.forEach(form => {
         saveAndRenderselectedList();
         // scroll newly created category into view
         const windowHeight = window.innerHeight;
-        const availableHeight = windowHeight - 56;
+        const availableHeight = windowHeight - 113;
         const newItemForm = document.querySelector('.new-task-form');
         const taskFormBottom = newItemForm.getBoundingClientRect().bottom;
         if ((availableHeight - taskFormBottom) < 0) {
-            newItemForm.scrollIntoView(false);
+            if (window.innerWidth < 1024) {
+                window.scrollBy(0, taskFormBottom);
+            } else {
+               newItemForm.scrollIntoView(false); 
+            }
         }
 
         //close pop up form
