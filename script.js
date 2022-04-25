@@ -640,6 +640,11 @@ function hideParent(e) {
 createNewCategoryBtns.forEach(btn => {
     btn.addEventListener('click', ()=> {
         newCategoryFormPopup.style.display = 'grid';
+        const categoryPopupBottom = newCategoryFormPopup.getBoundingClientRect().bottom;
+        if (categoryPopupBottom < window.innerHeight) {
+            const scrollDistance = window.innerHeight - categoryPopupBottom;
+            window.scrollBy(0, -scrollDistance);
+        }
     });
 });
 
