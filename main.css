@@ -24,8 +24,6 @@
 
 html,
 body{
-/*     height: 100%;
-    width: 100%; */
     background: var(--clr-body-bg);
     color: var(--clr-text-dark);
 }
@@ -183,7 +181,6 @@ nav .lang-svg {
     top: 0;
     height: calc(100vh - 3.5rem);
     background: var(--clr-pop-up-wrapper-bg);
-    /* z-index: 10; */
 }
 
 .menu-container {
@@ -219,7 +216,6 @@ nav .lang-svg {
     height: fit-content;
     padding: 0;
     list-style: none;
-    /* overflow: scroll; */
 }
 
 /* .menu-content div, */
@@ -240,7 +236,6 @@ nav .lang-svg {
     background-color: var(--clr-list-title-bg);
     z-index: 50;
     color: var(--clr-text-bright);
-    /* right: 0; */
 }
 
 .menu-nav-list::after {
@@ -320,9 +315,7 @@ nav .lang-svg {
     position: relative;
     top: 0;
     height: 100%;
-    /* height: calc(100% + 0.5rem); */
     background: var(--clr-pop-up-wrapper-bg);
-/*     z-index: 10; */
 }
 
 .edit-dropdown-menu div.spacer {
@@ -336,14 +329,11 @@ nav .lang-svg {
     background-color: var(--clr-border-dark);
     color: var(--clr-category-menu);
     overflow: scroll;
-/*     width: 100%; */
     height: calc(100% - 2rem);
-/*     max-width: 300px; */
 }
 
 .menu-edit-btn {
     color: var(--clr-category-menu);
-    /* margin-bottom: 1rem; */
     width: 80%;
     background-color: transparent;
     border: 2px solid currentColor;
@@ -540,12 +530,6 @@ span[data-spanish-left] {
         overflow: scroll;
         margin-left: -7%;        
     }
-
-/*     .current-list {
-        margin: 0 0 7vh; 
-        padding-bottom: 1px;
-        margin: 0 auto;
-    } */
 
     .new-list-creater form {
         width: 90%;
@@ -848,7 +832,6 @@ input.add-new:focus::placeholder {
     top: -3.5rem;
     z-index: 100;
     width: 100vw;
-    /* height: calc(100vh - 6.4rem); */
     background-color: var(--clr-pop-up-wrapper-bg);
     display: grid;
     place-items: center;
@@ -945,7 +928,8 @@ input.add-new:focus::placeholder {
 .edit-tab {
     position: fixed;
     bottom: -10px;
-    z-index: 8;
+/*     z-index: 8; */
+    z-index: 12;
     width: 100%;
     background-color: var(--clr-list-title-bg);
     border-radius: 5px;   
