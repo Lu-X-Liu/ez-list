@@ -576,6 +576,7 @@ function clearCompleted() {
         category.tasks = category.tasks.filter(task => !task.complete);              
     })
     saveAndRenderAll();
+    enableOrDisableClearCompleted();
 }
 
 //delet list functions
