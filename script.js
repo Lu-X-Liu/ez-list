@@ -528,6 +528,7 @@ categoriesContainer.addEventListener('click', e => {
     if (e.target.classList.contains('menu-category')) {
         const categoryWrapper = e.target.parentElement.parentElement;      
         const currentRadioBtnId = categoryWrapper.firstElementChild.firstElementChild.id;
+        const categoryTitleBottom = e.target.parentElement.getBoundingClientRect().bottom;
         const selectedList = lists.find(list=> list.id === selectedListId);
         selectedList.categories.forEach(category=> {
             if (category.id === currentRadioBtnId) {
@@ -543,10 +544,15 @@ categoriesContainer.addEventListener('click', e => {
             } 
         });
         saveAndRenderselectedList();
+        if (categoryWrapper.children[1].classList.contains('hide')) {
+            const tasksContainerHeight = categoryWrapper.children[1].children.length * 46.5;
+            autoScrollOpenedCategory(categoryTitleBottom, tasksContainerHeight); 
+        }                             
     } 
     else if (e.target.parentNode.classList.contains('menu-category')) {
         const categoryWrapper = e.target.parentElement.parentElement.parentElement;  
         const currentRadioBtnId = categoryWrapper.firstElementChild.firstElementChild.id;
+        const categoryTitleBottom = e.target.parentElement.parentElement.getBoundingClientRect().bottom;
         const selectedList = lists.find(list=> list.id === selectedListId);
         selectedList.categories.forEach(category=> {           
             if (category.id === currentRadioBtnId) {
@@ -562,8 +568,27 @@ categoriesContainer.addEventListener('click', e => {
             } 
         });   
         saveAndRenderselectedList();
+        if (categoryWrapper.children[1].classList.contains('hide')) {
+            const tasksContainerHeight = categoryWrapper.children[1].children.length * 46.5;
+            autoScrollOpenedCategory(categoryTitleBottom, tasksContainerHeight); 
+        }             
     }
 });
+
+function autoScrollOpenedCategory(categoryTitleBottom, tasksContainerHeight) {
+    const availableHeight = window.innerHeight - 169;
+    const scrollDistance = availableHeight/2;
+    const ListHeight = currentListWrapper.scrollHeight;
+    const scrollToPoint = ListHeight - 1.5*tasksContainerHeight;
+    if (categoryTitleBottom >= availableHeight ) {
+        if (tasksContainerHeight > scrollDistance) {
+            window.scroll(0, scrollToPoint);
+        } else if (tasksContainerHeight <= scrollDistance) {
+            window.scrollBy(0, tasksContainerHeight);
+        }
+        
+    } 
+}
 
 //clear completed tasks
 clearCompletedTasksBtns.forEach(btn => {
